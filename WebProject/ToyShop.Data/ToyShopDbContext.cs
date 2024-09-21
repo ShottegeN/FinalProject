@@ -12,11 +12,15 @@ namespace ToyShop.Data
         }
 
         public DbSet<Address> Addresses { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<City> Cities { get; set; } = null!;
         public DbSet<Coupon> Coupons { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
-        public DbSet<User> Users { get; set; } = null!;      
+        public DbSet<Promotion> Promotions { get; set; } = null!;
+        public DbSet<Review> Reviews { get; set; } = null!;
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

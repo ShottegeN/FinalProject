@@ -19,7 +19,12 @@ namespace ToyShop.Data.Models
         [Column(TypeName = "money")]
         public decimal Price { get; set; }
 
-        public ProductCategory Category { get; set; }
+        public GlobalCategory GlobalCategory { get; set; }
+
+        public int CategoryId { get; set; }
+
+        [ForeignKey(nameof(CategoryId))]
+        public Category Category { get; set; } = null!;
 
         [Required]
         [MaxLength(ProductConstraints.ShortDescriptionMaxLength)]
@@ -28,7 +33,13 @@ namespace ToyShop.Data.Models
         [MaxLength(ProductConstraints.DescriptionMaxLength)]
         public string? Description { get; set; }
 
+        public int? PromotionId { get; set; }
+
+        public Promotion? Promotion { get; set; }
+
         public ICollection<UserProduct> UsersProducts { get; set; } = new HashSet<UserProduct>();
+
+        public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
 
         public ICollection<OrderProduct> OrdersProducts { get; set; } = new HashSet<OrderProduct>();
 

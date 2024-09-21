@@ -47,6 +47,9 @@ namespace ToyShop.Data.Models
         
         public ICollection<Order> Orders { get; set; } = new HashSet<Order>();
 
+        public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
+
+
         public ICollection<UserProduct> UsersProducts { get; set; } = new HashSet<UserProduct>();
         
         public bool IsActive { get; set; } = true;

@@ -1,6 +1,6 @@
 ﻿namespace ToyShop.Data.Models.Enumerations
 {
-    public enum ProductCategory
+    public enum GlobalCategory
     {
         Toy = 0,
         Keyholder = 1,

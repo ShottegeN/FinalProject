@@ -20,7 +20,7 @@
         public const byte PhoneNumberMinLength = 6;
         public const byte PhoneNumberMaxLength = 10;
 
-        public const byte EmailMaxLength = 10;
+        public const byte EmailMaxLength = 20;
     }
 
 }
