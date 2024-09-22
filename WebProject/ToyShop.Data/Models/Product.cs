@@ -37,7 +37,7 @@ namespace ToyShop.Data.Models
 
         public Promotion? Promotion { get; set; }
 
-        public ICollection<UserProduct> UsersProducts { get; set; } = new HashSet<UserProduct>();
+        public ICollection<UserProductWhishlist> UsersProducts { get; set; } = new HashSet<UserProductWhishlist>();
 
         public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
 

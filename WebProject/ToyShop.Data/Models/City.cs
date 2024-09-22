@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using ToyShop.Common.EntityConstraints;
 
 namespace ToyShop.Data.Models
@@ -15,6 +16,11 @@ namespace ToyShop.Data.Models
         [Required]
         [MaxLength(CityConstraints.PostCodeMaxLength)]
         public string PostCode { get; set; } = null!;
+
+        public int CountryId { get; set; }
+        
+        [ForeignKey(nameof(CountryId))]
+        public Country Country { get; set; } = null!;
 
         public ICollection<Address> Addresses { get; set; } = new HashSet<Address>();
     }

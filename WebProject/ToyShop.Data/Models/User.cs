@@ -50,7 +50,7 @@ namespace ToyShop.Data.Models
         public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
 
 
-        public ICollection<UserProduct> UsersProducts { get; set; } = new HashSet<UserProduct>();
+        public ICollection<UserProductWhishlist> UsersProducts { get; set; } = new HashSet<UserProductWhishlist>();
         
         public bool IsActive { get; set; } = true;
     }

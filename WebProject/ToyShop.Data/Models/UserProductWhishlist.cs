@@ -2,7 +2,7 @@
 
 namespace ToyShop.Data.Models
 {
-    public class UserProduct
+    public class UserProductWhishlist
     {
         public int UserId { get; set; }
 
