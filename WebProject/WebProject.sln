@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyShop.Web", "ToyShop.Web\ToyShop.Web.csproj", "{D95BC18B-1479-4109-8D1D-4F64B1E4AA2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyShop.Data", "ToyShop.Data\ToyShop.Data.csproj", "{42D021CA-60C3-4BA7-BA48-B8AFD8D7C832}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyShop.Data", "ToyShop.Data\ToyShop.Data.csproj", "{42D021CA-60C3-4BA7-BA48-B8AFD8D7C832}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyShop.Common", "ToyShop.Common\ToyShop.Common.csproj", "{1CB847BA-BE6F-4C5D-89AB-A630E0EE6647}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyShop.Common", "ToyShop.Common\ToyShop.Common.csproj", "{1CB847BA-BE6F-4C5D-89AB-A630E0EE6647}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyShop.Web", "ToyShop.Web\ToyShop.Web.csproj", "{AC44A7F1-A71B-4460-8EB4-2ACEF9120C0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D95BC18B-1479-4109-8D1D-4F64B1E4AA2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D95BC18B-1479-4109-8D1D-4F64B1E4AA2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D95BC18B-1479-4109-8D1D-4F64B1E4AA2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D95BC18B-1479-4109-8D1D-4F64B1E4AA2A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{42D021CA-60C3-4BA7-BA48-B8AFD8D7C832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{42D021CA-60C3-4BA7-BA48-B8AFD8D7C832}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42D021CA-60C3-4BA7-BA48-B8AFD8D7C832}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{1CB847BA-BE6F-4C5D-89AB-A630E0EE6647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CB847BA-BE6F-4C5D-89AB-A630E0EE6647}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CB847BA-BE6F-4C5D-89AB-A630E0EE6647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC44A7F1-A71B-4460-8EB4-2ACEF9120C0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC44A7F1-A71B-4460-8EB4-2ACEF9120C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC44A7F1-A71B-4460-8EB4-2ACEF9120C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC44A7F1-A71B-4460-8EB4-2ACEF9120C0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
