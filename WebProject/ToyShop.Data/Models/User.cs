@@ -1,26 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ToyShop.Common.EntityConstraints;
 using ToyShop.Data.Models.Enumerations;
 
 namespace ToyShop.Data.Models
 {
-    public class User
-    {
-        [Key]
-        [Comment("Primary Key for the User entity")]
-        public int Id { get; set; }
-
-        [Required]
-        [MaxLength(UserConstraints.UsernameMaxLength)]
-        [Comment("Username of the user, required with a maximum length constraint")]
-        public string Username { get; set; } = null!;
-
-        [Required]
-        [MaxLength(UserConstraints.PasswordMaxLength)]
-        [Comment("Password of the user, required with a maximum length constraint")]
-        public string Password { get; set; } = null!;
+    public class User : IdentityUser
+    {        
+        // Id 
+        // Username 
+        // PhoneNumber 
+        // Email 
 
         [Required]
         [MaxLength(UserConstraints.FirstNameMaxLength)]
@@ -36,17 +28,7 @@ namespace ToyShop.Data.Models
         public int Age { get; set; }
 
         [Comment("Gender of the user")]
-        public Gender Gender { get; set; }
-
-        [Required]
-        [MaxLength(UserConstraints.PhoneNumberMaxLength)]
-        [Comment("Phone number of the user, required with a maximum length constraint")]
-        public string PhoneNumber { get; set; } = null!;
-
-        [Required]
-        [MaxLength(UserConstraints.EmailMaxLength)]
-        [Comment("Email address of the user, required with a maximum length constraint")]
-        public string Email { get; set; } = null!;
+        public Gender Gender { get; set; }        
 
         [Comment("Registration date of the user")]
         public DateTime RegistrationDate { get; set; }
@@ -55,7 +37,7 @@ namespace ToyShop.Data.Models
         public int AddressId { get; set; }
 
         [ForeignKey(nameof(AddressId))]
-        // Navigation property for the associated address of the user, not stored directly in the database.
+        [Comment("Navigation property for the associated address of the user, not stored directly in the database.")]
         public Address Address { get; set; } = null!;
 
         // Navigation property for the collection of orders placed by the user.

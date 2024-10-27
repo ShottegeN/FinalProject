@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ToyShop.Data.Models;
 
 namespace ToyShop.Data
 {
-    public class ToyShopDbContext : DbContext
+    public class ToyShopDbContext : IdentityDbContext<User>
     {
         public ToyShopDbContext(DbContextOptions<ToyShopDbContext> options)
             : base(options)
@@ -21,7 +22,6 @@ namespace ToyShop.Data
         public DbSet<Promotion> Promotions { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
         public DbSet<ShoppingCart> ShoppingCarts { get; set; } = null!;
-        public DbSet<User> Users { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,10 +42,6 @@ namespace ToyShop.Data
 
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
-                .IsUnique();
-
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Username)
                 .IsUnique();
 
             modelBuilder.Entity<Country>()

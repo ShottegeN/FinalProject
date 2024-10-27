@@ -47,8 +47,9 @@ namespace ToyShop.Data.Models
         // Navigation property for the associated coupon, not stored directly in the database.
         public Coupon? Coupon { get; set; }
 
+        [Required]
         [Comment("Foreign Key reference to the User entity who placed the order")]
-        public int UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]
         // Navigation property for the user who placed the order, not stored directly in the database.

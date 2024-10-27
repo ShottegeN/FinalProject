@@ -18,8 +18,9 @@ namespace ToyShop.Data.Models
         // Navigation property for the associated product of this review, not stored directly in the database.
         public Product Product { get; set; } = null!;
 
+        [Required]
         [Comment("Foreign Key reference to the User who wrote the review")]
-        public int UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]
         // Navigation property for the associated user of this review, not stored directly in the database.

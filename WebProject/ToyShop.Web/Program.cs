@@ -1,17 +1,27 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ToyShop.Web.Data;
+using ToyShop.Data;
+using ToyShop.Data.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDbContext<ToyShopDbContext>(options =>
+    options.UseSqlServer(connectionString))
+    .AddScoped<IRepository, Repository>()
+    .AddDatabaseDeveloperPageExceptionFilter()
+    .AddDefaultIdentity<IdentityUser>(options =>
+     {
+         options.SignIn.RequireConfirmedAccount = false;
+         options.Password.RequireDigit = false;
+         options.Password.RequireNonAlphanumeric = false;
+         options.Password.RequireUppercase = false;
+     })
+    .AddEntityFrameworkStores<ToyShopDbContext>();
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

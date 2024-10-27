@@ -1,12 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace ToyShop.Data.Models
 {
     public class UserProductWhishlist
     {
+        [Required]
         [Comment("Foreign Key reference to the User who owns the wishlist")]
-        public int UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]
         // Navigation property for the associated user, not stored directly in the database.

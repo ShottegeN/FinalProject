@@ -10,8 +10,9 @@ namespace ToyShop.Data.Models
         [Comment("Primary Key for the ShoppingCart entity")]
         public int Id { get; set; }
 
+        [Required]
         [Comment("Foreign Key reference to the User who owns the shopping cart")]
-        public int UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]
         // Navigation property for the associated user of this shopping cart, not stored directly in the database.

@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ToyShop.Data\ToyShop.Data.csproj" />
+    <ProjectReference Include="..\ToyShop.Core\ToyShop.Core.csproj" />
   </ItemGroup>
 
 </Project>
