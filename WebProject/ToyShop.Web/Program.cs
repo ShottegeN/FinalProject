@@ -22,6 +22,8 @@ builder.Services.AddDbContext<ToyShopDbContext>(options =>
     .AddEntityFrameworkStores<ToyShopDbContext>();
 
 
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -1,0 +1,62 @@
+﻿[
+  {
+    "Id": 1,
+    "Name": "София",
+    "PostCode": "1000",
+    "CountryId": 1
+  },
+  {
+    "Id": 2,
+    "Name": "Пловдив",
+    "PostCode": "4000",
+    "CountryId": 1
+  },
+  {
+    "Id": 3,
+    "Name": "Варна",
+    "PostCode": "9000",
+    "CountryId": 1
+  },
+  {
+    "Id": 4,
+    "Name": "Бургас",
+    "PostCode": "8000",
+    "CountryId": 1
+  },
+  {
+    "Id": 5,
+    "Name": "Русе",
+    "PostCode": "7000",
+    "CountryId": 1
+  },
+  {
+    "Id": 6,
+    "Name": "Стара Загора",
+    "PostCode": "6000",
+    "CountryId": 1
+  },
+  {
+    "Id": 7,
+    "Name": "Плевен",
+    "PostCode": "5800",
+    "CountryId": 1
+  },
+  {
+    "Id": 8,
+    "Name": "Велико Търново",
+    "PostCode": "5000",
+    "CountryId": 1
+  },
+  {
+    "Id": 9,
+    "Name": "Благоевград",
+    "PostCode": "2700",
+    "CountryId": 1
+  },
+  {
+    "Id": 10,
+    "Name": "Шумен",
+    "PostCode": "9700",
+    "CountryId": 1
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "Id": 1,
+    "StreetName": "бул. Витоша",
+    "Number": 12,
+    "BuildingNumber": null,
+    "Entrance": "А",
+    "OtherAddressInformation": "До НДК",
+    "CityId": 1
+  },
+  {
+    "Id": 2,
+    "StreetName": "ул. Цар Иван Асен II",
+    "Number": 45,
+    "BuildingNumber": 2,
+    "Entrance": null,
+    "OtherAddressInformation": "Срещу книжарницата",
+    "CityId": 1
+  },
+  {
+    "Id": 3,
+    "StreetName": "бул. Сливница",
+    "Number": 89,
+    "BuildingNumber": 5,
+    "Entrance": "Б",
+    "OtherAddressInformation": "До аптеката",
+    "CityId": 2
+  },
+  {
+    "Id": 4,
+    "StreetName": "ул. Александровска",
+    "Number": 7,
+    "BuildingNumber": null,
+    "Entrance": "В",
+    "OtherAddressInformation": "Близо до парка",
+    "CityId": 3
+  },
+  {
+    "Id": 5,
+    "StreetName": "ул. Сан Стефано",
+    "Number": 23,
+    "BuildingNumber": 1,
+    "Entrance": null,
+    "OtherAddressInformation": "До стадиона",
+    "CityId": 4
+  },
+  {
+    "Id": 6,
+    "StreetName": "ул. Княз Борис I",
+    "Number": 101,
+    "BuildingNumber": null,
+    "Entrance": "Г",
+    "OtherAddressInformation": "До университета",
+    "CityId": 2
+  },
+  {
+    "Id": 7,
+    "StreetName": "ул. Граф Игнатиев",
+    "Number": 18,
+    "BuildingNumber": 3,
+    "Entrance": null,
+    "OtherAddressInformation": "Близо до пазара",
+    "CityId": 1
+  },
+  {
+    "Id": 8,
+    "StreetName": "ул. Дунав",
+    "Number": 33,
+    "BuildingNumber": null,
+    "Entrance": "Д",
+    "OtherAddressInformation": "Срещу банката",
+    "CityId": 5
+  },
+  {
+    "Id": 9,
+    "StreetName": "бул. Левски",
+    "Number": 50,
+    "BuildingNumber": 4,
+    "Entrance": null,
+    "OtherAddressInformation": "До търговския център",
+    "CityId": 3
+  },
+  {
+    "Id": 10,
+    "StreetName": "ул. Шипка",
+    "Number": 99,
+    "BuildingNumber": null,
+    "Entrance": "Е",
+    "OtherAddressInformation": "Близо до музея",
+    "CityId": 4
+  }
+]

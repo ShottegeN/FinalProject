@@ -1,0 +1,37 @@
+[
+  {
+    "Id": 1,
+    "Name": "Winter Sale",
+    "DiscountPercentage": 25,
+    "StartDate": "2024-12-01T00:00:00",
+    "EndDate": "2024-12-31T23:59:59"
+  },
+  {
+    "Id": 2,
+    "Name": "Black Friday Deal",
+    "DiscountPercentage": 50,
+    "StartDate": "2024-11-25T00:00:00",
+    "EndDate": "2024-11-30T23:59:59"
+  },
+  {
+    "Id": 3,
+    "Name": "Spring Clearance",
+    "DiscountPercentage": 30,
+    "StartDate": "2025-03-01T00:00:00",
+    "EndDate": "2025-03-31T23:59:59"
+  },
+  {
+    "Id": 4,
+    "Name": "Summer Blowout",
+    "DiscountPercentage": 40,
+    "StartDate": "2025-06-01T00:00:00",
+    "EndDate": "2025-06-30T23:59:59"
+  },
+  {
+    "Id": 5,
+    "Name": "Back to School",
+    "DiscountPercentage": 20,
+    "StartDate": "2025-08-15T00:00:00",
+    "EndDate": "2025-09-15T23:59:59"
+  }
+]
