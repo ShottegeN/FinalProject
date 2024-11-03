@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToyShop.Data;
 
@@ -11,9 +12,11 @@ using ToyShop.Data;
 namespace ToyShop.Data.Migrations
 {
     [DbContext(typeof(ToyShopDbContext))]
-    partial class ToyShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241103200240_CategoriesSeed")]
+    partial class CategoriesSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -738,74 +741,6 @@ namespace ToyShop.Data.Migrations
                     b.HasIndex("PromotionId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            Description = "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.",
-                            GlobalCategory = 0,
-                            ImageUrl = "images/products/deer_Ronnie.jpg",
-                            IsAvailable = true,
-                            Name = "Еленче Рони",
-                            Price = 35m,
-                            Quantity = 5,
-                            ShortDescription = "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж."
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 2,
-                            Description = "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ",
-                            GlobalCategory = 0,
-                            ImageUrl = "images/products/bear_Danny.jpg",
-                            IsAvailable = true,
-                            Name = "Мече Дани",
-                            Price = 55m,
-                            PromotionId = 1,
-                            Quantity = 5,
-                            ShortDescription = "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. "
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CategoryId = 3,
-                            Description = "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.",
-                            GlobalCategory = 0,
-                            ImageUrl = "images/products/giraffe_Sammie.jpg",
-                            IsAvailable = true,
-                            Name = "Жирафче Сами",
-                            Price = 45m,
-                            Quantity = 5,
-                            ShortDescription = "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж."
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryId = 4,
-                            Description = "Софи е висока около 24см. Идеална е за игри и гушкане.",
-                            GlobalCategory = 0,
-                            ImageUrl = "images/products/rabbit_Sophie.jpg",
-                            IsAvailable = true,
-                            Name = "Зайче Софи",
-                            Price = 25m,
-                            Quantity = 5,
-                            ShortDescription = "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CategoryId = 5,
-                            Description = "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!",
-                            GlobalCategory = 0,
-                            ImageUrl = "images/products/dog_Bailey.jpg",
-                            IsAvailable = true,
-                            Name = "Кученце Бейли",
-                            Price = 35m,
-                            Quantity = 5,
-                            ShortDescription = "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
-                        });
                 });
 
             modelBuilder.Entity("ToyShop.Data.Models.Promotion", b =>

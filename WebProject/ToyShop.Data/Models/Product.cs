@@ -24,6 +24,9 @@ namespace ToyShop.Data.Models
         [Comment("Price of the product in monetary terms")]
         public decimal Price { get; set; }
 
+        [Comment("Url of the product image")]
+        public string? ImageUrl { get; set; }
+
         [Comment("Global category of the product")]
         public GlobalCategory GlobalCategory { get; set; }
 

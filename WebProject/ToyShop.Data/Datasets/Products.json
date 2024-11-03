@@ -1,0 +1,67 @@
+﻿[
+  {
+    "Id": 1,
+    "Name": "Еленче Рони",
+    "Quantity": 5,
+    "Price": 35,
+    "ImageUrl": "images/products/deer_Ronnie.jpg",
+    "GlobalCategory": 0,
+    "CategoryId": 1,
+    "ShortDescription": "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж.",
+    "Description": "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.",
+    "PromotionId": null,
+    "IsAvailable": true
+  },
+  {
+    "Id": 2,
+    "Name": "Мече Дани",
+    "Quantity": 5,
+    "Price": 55,
+    "ImageUrl": "images/products/bear_Danny.jpg",
+    "GlobalCategory": 0,
+    "CategoryId": 2,
+    "ShortDescription": "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. ",
+    "Description": "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ",
+    "PromotionId": 1,
+    "IsAvailable": true
+  },
+  {
+    "Id": 3,
+    "Name": "Жирафче Сами",
+    "Quantity": 5,
+    "Price": 45,
+    "ImageUrl": "images/products/giraffe_Sammie.jpg",
+    "GlobalCategory": 0,
+    "CategoryId": 3,
+    "ShortDescription": "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж.",
+    "Description": "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.",
+    "PromotionId": null,
+    "IsAvailable": true
+  },
+  {
+    "Id": 4,
+    "Name": "Зайче Софи",
+    "Quantity": 5,
+    "Price": 25,
+    "ImageUrl": "images/products/rabbit_Sophie.jpg",
+    "GlobalCategory": 0,
+    "CategoryId": 4,
+    "ShortDescription": "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички.",
+    "Description": "Софи е висока около 24см. Идеална е за игри и гушкане.",
+    "PromotionId": null,
+    "IsAvailable": true
+  },
+  {
+    "Id": 5,
+    "Name": "Кученце Бейли",
+    "Quantity": 5,
+    "Price": 35,
+    "ImageUrl": "images/products/dog_Bailey.jpg",
+    "GlobalCategory": 0,
+    "CategoryId": 5,
+    "ShortDescription": "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички.",
+    "Description": "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!",
+    "PromotionId": null,
+    "IsAvailable": true
+  }
+]

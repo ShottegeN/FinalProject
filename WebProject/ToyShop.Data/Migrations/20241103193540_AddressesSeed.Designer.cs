@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToyShop.Data;
 
@@ -11,9 +12,11 @@ using ToyShop.Data;
 namespace ToyShop.Data.Migrations
 {
     [DbContext(typeof(ToyShopDbContext))]
-    partial class ToyShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241103193540_AddressesSeed")]
+    partial class AddressesSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,43 +317,6 @@ namespace ToyShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Еленчета"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Мечета"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Жирафчета"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Зайчета"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Кученца"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Цветя"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Торти"
-                        });
                 });
 
             modelBuilder.Entity("ToyShop.Data.Models.City", b =>
@@ -555,44 +521,6 @@ namespace ToyShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Coupons");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "XJ7K2H",
-                            DiscountPercentage = 10,
-                            IsActive = false
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "YF8L3R",
-                            DiscountPercentage = 0,
-                            DiscountValue = 5m,
-                            IsActive = false
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "ZQ4M1T",
-                            DiscountPercentage = 20,
-                            IsActive = false
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Code = "PR9D7J",
-                            DiscountValue = 10m,
-                            IsActive = false
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Code = "BX3W5F",
-                            DiscountPercentage = 50,
-                            IsActive = false
-                        });
                 });
 
             modelBuilder.Entity("ToyShop.Data.Models.Order", b =>
@@ -689,8 +617,8 @@ namespace ToyShop.Data.Migrations
                         .HasComment("Foreign Key reference to the Category entity");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
                         .HasComment("Optional detailed description of the product with a maximum length constraint");
 
                     b.Property<int>("GlobalCategory")
@@ -709,8 +637,8 @@ namespace ToyShop.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
                         .HasComment("Name of the product with a maximum length constraint");
 
                     b.Property<decimal>("Price")
@@ -727,8 +655,8 @@ namespace ToyShop.Data.Migrations
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasComment("Short description of the product with a maximum length constraint");
 
                     b.HasKey("Id");
@@ -738,74 +666,6 @@ namespace ToyShop.Data.Migrations
                     b.HasIndex("PromotionId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            Description = "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.",
-                            GlobalCategory = 0,
-                            ImageUrl = "images/products/deer_Ronnie.jpg",
-                            IsAvailable = true,
-                            Name = "Еленче Рони",
-                            Price = 35m,
-                            Quantity = 5,
-                            ShortDescription = "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж."
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 2,
-                            Description = "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ",
-                            GlobalCategory = 0,
-                            ImageUrl = "images/products/bear_Danny.jpg",
-                            IsAvailable = true,
-                            Name = "Мече Дани",
-                            Price = 55m,
-                            PromotionId = 1,
-                            Quantity = 5,
-                            ShortDescription = "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. "
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CategoryId = 3,
-                            Description = "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.",
-                            GlobalCategory = 0,
-                            ImageUrl = "images/products/giraffe_Sammie.jpg",
-                            IsAvailable = true,
-                            Name = "Жирафче Сами",
-                            Price = 45m,
-                            Quantity = 5,
-                            ShortDescription = "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж."
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryId = 4,
-                            Description = "Софи е висока около 24см. Идеална е за игри и гушкане.",
-                            GlobalCategory = 0,
-                            ImageUrl = "images/products/rabbit_Sophie.jpg",
-                            IsAvailable = true,
-                            Name = "Зайче Софи",
-                            Price = 25m,
-                            Quantity = 5,
-                            ShortDescription = "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CategoryId = 5,
-                            Description = "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!",
-                            GlobalCategory = 0,
-                            ImageUrl = "images/products/dog_Bailey.jpg",
-                            IsAvailable = true,
-                            Name = "Кученце Бейли",
-                            Price = 35m,
-                            Quantity = 5,
-                            ShortDescription = "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
-                        });
                 });
 
             modelBuilder.Entity("ToyShop.Data.Models.Promotion", b =>
@@ -838,48 +698,6 @@ namespace ToyShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Promotions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DiscountPercentage = 25,
-                            EndDate = new DateTime(2024, 12, 31, 23, 59, 59, 0, DateTimeKind.Unspecified),
-                            Name = "Winter Sale",
-                            StartDate = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DiscountPercentage = 50,
-                            EndDate = new DateTime(2024, 11, 30, 23, 59, 59, 0, DateTimeKind.Unspecified),
-                            Name = "Black Friday Deal",
-                            StartDate = new DateTime(2024, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DiscountPercentage = 30,
-                            EndDate = new DateTime(2025, 3, 31, 23, 59, 59, 0, DateTimeKind.Unspecified),
-                            Name = "Spring Clearance",
-                            StartDate = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DiscountPercentage = 40,
-                            EndDate = new DateTime(2025, 6, 30, 23, 59, 59, 0, DateTimeKind.Unspecified),
-                            Name = "Summer Blowout",
-                            StartDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DiscountPercentage = 20,
-                            EndDate = new DateTime(2025, 9, 15, 23, 59, 59, 0, DateTimeKind.Unspecified),
-                            Name = "Back to School",
-                            StartDate = new DateTime(2025, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("ToyShop.Data.Models.Review", b =>

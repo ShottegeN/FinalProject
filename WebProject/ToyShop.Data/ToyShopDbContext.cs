@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ToyShop.Data.Configurations.Extension;
 using ToyShop.Data.Models;
 
 namespace ToyShop.Data
@@ -24,9 +25,7 @@ namespace ToyShop.Data
         public DbSet<ShoppingCart> ShoppingCarts { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
+        {            
             // Default values
             modelBuilder.Entity<Coupon>()
                 .Property(c => c.IsActive)
@@ -77,6 +76,10 @@ namespace ToyShop.Data
                 .WithMany(c => c.Orders)
                 .HasForeignKey(o => o.CouponId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Seed();
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

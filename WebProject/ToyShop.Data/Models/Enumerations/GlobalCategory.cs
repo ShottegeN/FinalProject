@@ -5,6 +5,8 @@
         Toy = 0,
         Keyholder = 1,
         Scrunchie = 2,
-        Other = 3,
+        Decoration = 3,
+        Cake = 4,
+        Other = 5,
     }
 }
