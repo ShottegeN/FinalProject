@@ -12,15 +12,15 @@ using ToyShop.Data;
 namespace ToyShop.Data.Migrations
 {
     [DbContext(typeof(ToyShopDbContext))]
-    [Migration("20241027135402_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241103121642_AddressNullableAdded")]
+    partial class AddressNullableAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -600,11 +600,11 @@ namespace ToyShop.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("AddressId")
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int")
                         .HasComment("Foreign Key reference to the Address of the user");
 
-                    b.Property<int>("Age")
+                    b.Property<int?>("Age")
                         .HasColumnType("int")
                         .HasComment("Age of the user");
 
@@ -620,7 +620,6 @@ namespace ToyShop.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasComment("First name of the user, required with a maximum length constraint");
@@ -636,7 +635,6 @@ namespace ToyShop.Data.Migrations
                         .HasComment("Indicates if the user account is active");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasComment("Last name of the user, required with a maximum length constraint");
@@ -902,9 +900,7 @@ namespace ToyShop.Data.Migrations
                 {
                     b.HasOne("ToyShop.Data.Models.Address", "Address")
                         .WithMany("Users")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
                 });

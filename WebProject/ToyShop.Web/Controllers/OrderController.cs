@@ -1,16 +1,19 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using ToyShop.Data.Common;
 using ToyShop.Web.Models;
 
 namespace ToyShop.Web.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly ILogger<OrderController> _logger;
+        private readonly ILogger<OrderController> logger;
+        private readonly IRepository repo;
 
-        public OrderController(ILogger<OrderController> logger)
+        public OrderController(ILogger<OrderController> _logger, IRepository _repo)
         {
-            _logger = logger;
+            logger = _logger;
+            repo = _repo;
         }
 
         public IActionResult Index()

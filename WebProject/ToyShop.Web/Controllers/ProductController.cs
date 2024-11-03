@@ -1,16 +1,23 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ToyShop.Core.Contracts;
+using ToyShop.Data.Common;
 using ToyShop.Web.Models;
 
 namespace ToyShop.Web.Controllers
 {
+    //[Authorize]
     public class ProductController : Controller
     {
-        private readonly ILogger<ProductController> _logger;
+        private readonly ILogger<ProductController> logger;
+        private readonly IProductService productService;
+        
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(ILogger<ProductController> _logger, IProductService _productService)
         {
-            _logger = logger;
+            logger = _logger;
+            productService = _productService;
         }
 
         public IActionResult Index()
@@ -28,5 +35,6 @@ namespace ToyShop.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        
     }
 }

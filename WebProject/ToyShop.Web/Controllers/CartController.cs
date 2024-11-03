@@ -1,16 +1,19 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using ToyShop.Data.Common;
 using ToyShop.Web.Models;
 
 namespace ToyShop.Web.Controllers
 {
     public class CartController : Controller
     {
-        private readonly ILogger<CartController> _logger;
+        private readonly ILogger<CartController> logger;
+        private readonly IRepository repo;
 
-        public CartController(ILogger<CartController> logger)
+        public CartController(ILogger<CartController> _logger, IRepository _repo)
         {
-            _logger = logger;
+            logger = _logger;
+            repo = _repo;
         }
 
         public IActionResult Index()

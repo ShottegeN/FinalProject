@@ -14,18 +14,16 @@ namespace ToyShop.Data.Models
         // PhoneNumber 
         // Email 
 
-        [Required]
         [MaxLength(UserConstraints.FirstNameMaxLength)]
         [Comment("First name of the user, required with a maximum length constraint")]
-        public string FirstName { get; set; } = null!;
+        public string? FirstName { get; set; }
 
-        [Required]
         [MaxLength(UserConstraints.LastNameMaxLength)]
         [Comment("Last name of the user, required with a maximum length constraint")]
-        public string LastName { get; set; } = null!;
+        public string? LastName { get; set; }
 
         [Comment("Age of the user")]
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         [Comment("Gender of the user")]
         public Gender Gender { get; set; }        
@@ -34,7 +32,7 @@ namespace ToyShop.Data.Models
         public DateTime RegistrationDate { get; set; }
 
         [Comment("Foreign Key reference to the Address of the user")]
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
 
         [ForeignKey(nameof(AddressId))]
         [Comment("Navigation property for the associated address of the user, not stored directly in the database.")]

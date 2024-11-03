@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ToyShop.Data;
 using ToyShop.Data.Common;
+using ToyShop.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddDbContext<ToyShopDbContext>(options =>
     options.UseSqlServer(connectionString))
     .AddScoped<IRepository, Repository>()
     .AddDatabaseDeveloperPageExceptionFilter()
-    .AddDefaultIdentity<IdentityUser>(options =>
+    .AddDefaultIdentity<User>(options =>
      {
          options.SignIn.RequireConfirmedAccount = false;
          options.Password.RequireDigit = false;
@@ -21,8 +22,7 @@ builder.Services.AddDbContext<ToyShopDbContext>(options =>
      })
     .AddEntityFrameworkStores<ToyShopDbContext>();
 
-
-
+//builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ToyShopDbContext>();
 
 builder.Services.AddControllersWithViews();
 

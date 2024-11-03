@@ -192,9 +192,9 @@ namespace ToyShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "First name of the user, required with a maximum length constraint"),
-                    LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Last name of the user, required with a maximum length constraint"),
-                    Age = table.Column<int>(type: "int", nullable: false, comment: "Age of the user"),
+                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, comment: "First name of the user, required with a maximum length constraint"),
+                    LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, comment: "Last name of the user, required with a maximum length constraint"),
+                    Age = table.Column<int>(type: "int", nullable: true, comment: "Age of the user"),
                     Gender = table.Column<int>(type: "int", nullable: false, comment: "Gender of the user"),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Registration date of the user"),
                     AddressId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Address of the user"),
