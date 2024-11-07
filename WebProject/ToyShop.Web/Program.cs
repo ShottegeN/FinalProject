@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ToyShop.Core.Contracts;
+using ToyShop.Core.Services;
 using ToyShop.Data;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
@@ -12,6 +14,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ToyShopDbContext>(options =>
     options.UseSqlServer(connectionString))
     .AddScoped<IRepository, Repository>()
+    .AddScoped<IProductService, ProductService>()
     .AddDatabaseDeveloperPageExceptionFilter()
     .AddDefaultIdentity<User>(options =>
      {

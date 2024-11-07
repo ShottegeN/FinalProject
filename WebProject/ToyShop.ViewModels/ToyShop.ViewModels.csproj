@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToyShop.Common\ToyShop.Common.csproj" />
-    <ProjectReference Include="..\ToyShop.Data\ToyShop.Data.csproj" />
-    <ProjectReference Include="..\ToyShop.ViewModels\ToyShop.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

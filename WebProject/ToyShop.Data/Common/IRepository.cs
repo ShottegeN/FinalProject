@@ -4,7 +4,7 @@
     {
         IQueryable<T> All<T>() where T : class;
 
-        IQueryable<T> AllReadonly<T>() where T : class;
+        IQueryable<T> AllReadonlyAsync<T>() where T : class;
 
         Task<T?> GetByIdAsync<T>(object id) where T : class;
 

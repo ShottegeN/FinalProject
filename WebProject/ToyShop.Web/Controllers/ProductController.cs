@@ -1,9 +1,7 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Core.Contracts;
-using ToyShop.Data.Common;
-using ToyShop.Web.Models;
+using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
 {
@@ -20,13 +18,14 @@ namespace ToyShop.Web.Controllers
             productService = _productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var products = await productService.GetAllProductsAsync();
+            return View(products);
         }
 
-        
-
+        //modelState.Isvalid should be after all other errors, so all of them could be displayed at once! 
+        // use modelState.AddModelError for the different errors!
 
 
 

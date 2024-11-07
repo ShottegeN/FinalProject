@@ -22,6 +22,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToyShop.Core\ToyShop.Core.csproj" />
+    <ProjectReference Include="..\ToyShop.ViewModels\ToyShop.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\css\icons.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

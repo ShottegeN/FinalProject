@@ -33,7 +33,7 @@ namespace ToyShop.Data.Common
             return DbSet<T>();
         }
 
-        public IQueryable<T> AllReadonly<T>() where T : class
+        public IQueryable<T> AllReadonlyAsync<T>() where T : class
         {
             return DbSet<T>()
                 .AsNoTracking();

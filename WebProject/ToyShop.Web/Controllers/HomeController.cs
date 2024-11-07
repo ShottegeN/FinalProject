@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using ToyShop.Web.Models;
+using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
 {

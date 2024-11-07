@@ -1,4 +1,4 @@
-namespace ToyShop.Web.Models
+namespace ToyShop.ViewModels
 {
     public class ErrorViewModel
     {
