@@ -8,6 +8,11 @@ namespace ToyShop.Data
 {
     public class ToyShopDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
+        public ToyShopDbContext()
+        {
+            
+        }
+
         public ToyShopDbContext(DbContextOptions<ToyShopDbContext> options)
             : base(options)
         {
