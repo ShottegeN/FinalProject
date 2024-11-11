@@ -14,7 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyShop.Web", "ToyShop.Web\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyShop.Core", "ToyShop.Core\ToyShop.Core.csproj", "{B57C36A0-2A20-4A46-8419-22BF0AF25F5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyShop.ViewModels", "ToyShop.ViewModels\ToyShop.ViewModels.csproj", "{260D6071-F848-4941-B42B-74B308A2306E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyShop.ViewModels", "ToyShop.ViewModels\ToyShop.ViewModels.csproj", "{260D6071-F848-4941-B42B-74B308A2306E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{F09181A3-8F8E-4846-A5DB-277771012CE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{42D021CA-60C3-4BA7-BA48-B8AFD8D7C832} = {F09181A3-8F8E-4846-A5DB-277771012CE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EBF1D65F-959F-477F-B3B8-0C2714AD676D}
