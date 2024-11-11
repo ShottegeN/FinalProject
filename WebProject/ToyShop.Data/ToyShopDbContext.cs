@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ToyShop.Data.Configurations.Extension;
 using ToyShop.Data.Models;
 
 namespace ToyShop.Data
 {
-    public class ToyShopDbContext : IdentityDbContext<User>
+    public class ToyShopDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public ToyShopDbContext(DbContextOptions<ToyShopDbContext> options)
             : base(options)

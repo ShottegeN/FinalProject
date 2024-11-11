@@ -7,9 +7,13 @@ using ToyShop.Data.Models.Enumerations;
 
 namespace ToyShop.Data.Models
 {
-    public class User : IdentityUser
-    {        
-        // Id 
+    public class User : IdentityUser<Guid>
+    {
+        public User()
+        {
+            Id = Guid.NewGuid();
+        }
+
         // Username 
         // PhoneNumber 
         // Email 

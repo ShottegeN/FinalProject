@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ToyShop.Data.Migrations
 {
     /// <inheritdoc />
@@ -15,7 +17,7 @@ namespace ToyShop.Data.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -95,7 +97,7 @@ namespace ToyShop.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -135,15 +137,15 @@ namespace ToyShop.Data.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key for the Product entity")
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false, comment: "Name of the product with a maximum length constraint"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary Key for the Product entity"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Name of the product with a maximum length constraint"),
                     Quantity = table.Column<int>(type: "int", nullable: false, comment: "Quantity of the product available in stock"),
                     Price = table.Column<decimal>(type: "money", nullable: false, comment: "Price of the product in monetary terms"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Url of the product image"),
                     GlobalCategory = table.Column<int>(type: "int", nullable: false, comment: "Global category of the product"),
                     CategoryId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Category entity"),
-                    ShortDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Short description of the product with a maximum length constraint"),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true, comment: "Optional detailed description of the product with a maximum length constraint"),
+                    ShortDescription = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Short description of the product with a maximum length constraint"),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true, comment: "Optional detailed description of the product with a maximum length constraint"),
                     PromotionId = table.Column<int>(type: "int", nullable: true, comment: "Optional foreign Key reference to the Promotion entity"),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false, defaultValue: true, comment: "Indicates if the product is currently available for purchase")
                 },
@@ -191,13 +193,13 @@ namespace ToyShop.Data.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, comment: "First name of the user, required with a maximum length constraint"),
                     LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, comment: "Last name of the user, required with a maximum length constraint"),
                     Age = table.Column<int>(type: "int", nullable: true, comment: "Age of the user"),
                     Gender = table.Column<int>(type: "int", nullable: false, comment: "Gender of the user"),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Registration date of the user"),
-                    AddressId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Address of the user"),
+                    AddressId = table.Column<int>(type: "int", nullable: true, comment: "Foreign Key reference to the Address of the user"),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true, comment: "Indicates if the user account is active"),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -221,8 +223,7 @@ namespace ToyShop.Data.Migrations
                         name: "FK_AspNetUsers_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -231,7 +232,7 @@ namespace ToyShop.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -253,7 +254,7 @@ namespace ToyShop.Data.Migrations
                     LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -270,8 +271,8 @@ namespace ToyShop.Data.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -294,7 +295,7 @@ namespace ToyShop.Data.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -314,8 +315,7 @@ namespace ToyShop.Data.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key for the Order entity")
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary Key for the Order entity"),
                     Number = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false, comment: "Unique order number with a maximum length constraint"),
                     Price = table.Column<decimal>(type: "money", nullable: false, comment: "Total price of the order in monetary terms"),
                     DeliveryPrice = table.Column<decimal>(type: "money", nullable: false, comment: "Delivery price associated with the order"),
@@ -324,7 +324,7 @@ namespace ToyShop.Data.Migrations
                     Status = table.Column<int>(type: "int", nullable: false, comment: "Current status of the order"),
                     AddressId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Address entity for delivery"),
                     CouponId = table.Column<int>(type: "int", nullable: true, comment: "Optional foreign Key reference to the Coupon entity"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Foreign Key reference to the User entity who placed the order")
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the User entity who placed the order")
                 },
                 constraints: table =>
                 {
@@ -353,10 +353,9 @@ namespace ToyShop.Data.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key for the Review entity")
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Product being reviewed"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Foreign Key reference to the User who wrote the review"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary Key for the Review entity"),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Product being reviewed"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the User who wrote the review"),
                     Comment = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true, comment: "Optional comment made by the user in the review with a maximum length constraint"),
                     Rating = table.Column<int>(type: "int", nullable: false, comment: "Rating given by the user for the product")
                 },
@@ -381,9 +380,8 @@ namespace ToyShop.Data.Migrations
                 name: "ShoppingCarts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key for the ShoppingCart entity")
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Foreign Key reference to the User who owns the shopping cart")
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary Key for the ShoppingCart entity"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the User who owns the shopping cart")
                 },
                 constraints: table =>
                 {
@@ -400,8 +398,8 @@ namespace ToyShop.Data.Migrations
                 name: "UserProductWhishlist",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Foreign Key reference to the User who owns the wishlist"),
-                    ProductId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Product in the wishlist")
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the User who owns the wishlist"),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Product in the wishlist")
                 },
                 constraints: table =>
                 {
@@ -424,8 +422,8 @@ namespace ToyShop.Data.Migrations
                 name: "OrderProduct",
                 columns: table => new
                 {
-                    OrderId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Order entity"),
-                    ProductId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Product entity"),
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Order entity"),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Product entity"),
                     Quantity = table.Column<int>(type: "int", nullable: false, comment: "Quantity of the product in the order")
                 },
                 constraints: table =>
@@ -449,8 +447,8 @@ namespace ToyShop.Data.Migrations
                 name: "ShoppingCartProduct",
                 columns: table => new
                 {
-                    ShoppingCartId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the ShoppingCart"),
-                    ProductId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Product in the shopping cart")
+                    ShoppingCartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the ShoppingCart"),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Product in the shopping cart")
                 },
                 constraints: table =>
                 {
@@ -467,6 +465,95 @@ namespace ToyShop.Data.Migrations
                         principalTable: "ShoppingCarts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Еленчета" },
+                    { 2, "Мечета" },
+                    { 3, "Жирафчета" },
+                    { 4, "Зайчета" },
+                    { 5, "Кученца" },
+                    { 6, "Цветя" },
+                    { 7, "Торти" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Countries",
+                columns: new[] { "Id", "Continent", "Currency", "ISOCode", "IsActive", "Name", "PhoneCode", "Region" },
+                values: new object[] { 1, "Европа", "BGN", "BG", true, "България", "+359", "Източна Европа" });
+
+            migrationBuilder.InsertData(
+                table: "Coupons",
+                columns: new[] { "Id", "Code", "DiscountPercentage", "DiscountValue" },
+                values: new object[,]
+                {
+                    { 1, "XJ7K2H", 10, null },
+                    { 2, "YF8L3R", 0, 5m },
+                    { 3, "ZQ4M1T", 20, null },
+                    { 4, "PR9D7J", null, 10m },
+                    { 5, "BX3W5F", 50, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Promotions",
+                columns: new[] { "Id", "DiscountPercentage", "EndDate", "Name", "StartDate" },
+                values: new object[,]
+                {
+                    { 1, 25, new DateTime(2024, 12, 31, 23, 59, 59, 0, DateTimeKind.Unspecified), "Winter Sale", new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 50, new DateTime(2024, 11, 30, 23, 59, 59, 0, DateTimeKind.Unspecified), "Black Friday Deal", new DateTime(2024, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 30, new DateTime(2025, 3, 31, 23, 59, 59, 0, DateTimeKind.Unspecified), "Spring Clearance", new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 40, new DateTime(2025, 6, 30, 23, 59, 59, 0, DateTimeKind.Unspecified), "Summer Blowout", new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 20, new DateTime(2025, 9, 15, 23, 59, 59, 0, DateTimeKind.Unspecified), "Back to School", new DateTime(2025, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Cities",
+                columns: new[] { "Id", "CountryId", "Name", "PostCode" },
+                values: new object[,]
+                {
+                    { 1, 1, "София", "1000" },
+                    { 2, 1, "Пловдив", "4000" },
+                    { 3, 1, "Варна", "9000" },
+                    { 4, 1, "Бургас", "8000" },
+                    { 5, 1, "Русе", "7000" },
+                    { 6, 1, "Стара Загора", "6000" },
+                    { 7, 1, "Плевен", "5800" },
+                    { 8, 1, "Велико Търново", "5000" },
+                    { 9, 1, "Благоевград", "2700" },
+                    { 10, 1, "Шумен", "9700" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "CategoryId", "Description", "GlobalCategory", "ImageUrl", "IsAvailable", "Name", "Price", "PromotionId", "Quantity", "ShortDescription" },
+                values: new object[,]
+                {
+                    { new Guid("2ea91e27-35e0-4f3b-9fd6-1376b014bb82"), 5, "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!", 0, "images/products/dog_Bailey.jpg", true, "Кученце Бейли", 35m, null, 5, "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички." },
+                    { new Guid("44f48df6-0fe4-4658-96fb-4c7dcf37063a"), 3, "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.", 0, "images/products/giraffe_Sammie.jpg", true, "Жирафче Сами", 45m, null, 5, "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж." },
+                    { new Guid("b64ddb61-43ed-4f22-88da-16e4a9de423e"), 4, "Софи е висока около 24см. Идеална е за игри и гушкане.", 0, "images/products/rabbit_Sophie.jpg", true, "Зайче Софи", 25m, null, 5, "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички." },
+                    { new Guid("ec08b638-3795-4394-b107-8896d7b6619e"), 1, "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.", 0, "images/products/deer_Ronnie.jpg", true, "Еленче Рони", 35m, null, 5, "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж." },
+                    { new Guid("fd3e61e2-bcd3-42f2-ae77-dc31b8fd2794"), 2, "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ", 0, "images/products/bear_Danny.jpg", true, "Мече Дани", 55m, 1, 5, "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. " }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Addresses",
+                columns: new[] { "Id", "BuildingNumber", "CityId", "Entrance", "Number", "OtherAddressInformation", "StreetName" },
+                values: new object[,]
+                {
+                    { 1, null, 1, "А", 12, "До НДК", "бул. Витоша" },
+                    { 2, 2, 1, null, 45, "Срещу книжарницата", "ул. Цар Иван Асен II" },
+                    { 3, 5, 2, "Б", 89, "До аптеката", "бул. Сливница" },
+                    { 4, null, 3, "В", 7, "Близо до парка", "ул. Александровска" },
+                    { 5, 1, 4, null, 23, "До стадиона", "ул. Сан Стефано" },
+                    { 6, null, 2, "Г", 101, "До университета", "ул. Княз Борис I" },
+                    { 7, 3, 1, null, 18, "Близо до пазара", "ул. Граф Игнатиев" },
+                    { 8, null, 5, "Д", 33, "Срещу банката", "ул. Дунав" },
+                    { 9, 4, 3, null, 50, "До търговския център", "бул. Левски" },
+                    { 10, null, 4, "Е", 99, "Близо до музея", "ул. Шипка" }
                 });
 
             migrationBuilder.CreateIndex(

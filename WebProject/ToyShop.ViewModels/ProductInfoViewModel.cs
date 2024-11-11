@@ -2,7 +2,7 @@
 {
     public class ProductInfoViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public required string ProductName { get; set; }
 

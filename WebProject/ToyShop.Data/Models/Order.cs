@@ -8,9 +8,14 @@ namespace ToyShop.Data.Models
 {
     public class Order
     {
+        public Order()
+        {
+            Id = Guid.NewGuid();
+        }
+
         [Key]
         [Comment("Primary Key for the Order entity")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [MaxLength(OrderConstraints.OrderNumberMaxLength)]
@@ -49,7 +54,7 @@ namespace ToyShop.Data.Models
 
         [Required]
         [Comment("Foreign Key reference to the User entity who placed the order")]
-        public string UserId { get; set; } = null!;
+        public Guid UserId { get; set; } 
 
         [ForeignKey(nameof(UserId))]
         // Navigation property for the user who placed the order, not stored directly in the database.

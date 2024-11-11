@@ -22,10 +22,11 @@ namespace ToyShop.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -49,7 +50,7 @@ namespace ToyShop.Data.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,9 +64,8 @@ namespace ToyShop.Data.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -74,7 +74,7 @@ namespace ToyShop.Data.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,9 +88,8 @@ namespace ToyShop.Data.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -99,7 +98,7 @@ namespace ToyShop.Data.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -112,9 +111,8 @@ namespace ToyShop.Data.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -123,13 +121,13 @@ namespace ToyShop.Data.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -138,10 +136,10 @@ namespace ToyShop.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -597,12 +595,10 @@ namespace ToyShop.Data.Migrations
 
             modelBuilder.Entity("ToyShop.Data.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Primary Key for the Order entity");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int")
@@ -638,9 +634,8 @@ namespace ToyShop.Data.Migrations
                         .HasColumnType("int")
                         .HasComment("Current status of the order");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Foreign Key reference to the User entity who placed the order");
 
                     b.HasKey("Id");
@@ -656,12 +651,12 @@ namespace ToyShop.Data.Migrations
 
             modelBuilder.Entity("ToyShop.Data.Models.OrderProduct", b =>
                 {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Foreign Key reference to the Order entity");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Foreign Key reference to the Product entity");
 
                     b.Property<int>("Quantity")
@@ -677,12 +672,10 @@ namespace ToyShop.Data.Migrations
 
             modelBuilder.Entity("ToyShop.Data.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Primary Key for the Product entity");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int")
@@ -742,7 +735,7 @@ namespace ToyShop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("ec08b638-3795-4394-b107-8896d7b6619e"),
                             CategoryId = 1,
                             Description = "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.",
                             GlobalCategory = 0,
@@ -755,7 +748,7 @@ namespace ToyShop.Data.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            Id = new Guid("fd3e61e2-bcd3-42f2-ae77-dc31b8fd2794"),
                             CategoryId = 2,
                             Description = "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ",
                             GlobalCategory = 0,
@@ -769,7 +762,7 @@ namespace ToyShop.Data.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            Id = new Guid("44f48df6-0fe4-4658-96fb-4c7dcf37063a"),
                             CategoryId = 3,
                             Description = "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.",
                             GlobalCategory = 0,
@@ -782,7 +775,7 @@ namespace ToyShop.Data.Migrations
                         },
                         new
                         {
-                            Id = 4,
+                            Id = new Guid("b64ddb61-43ed-4f22-88da-16e4a9de423e"),
                             CategoryId = 4,
                             Description = "Софи е висока около 24см. Идеална е за игри и гушкане.",
                             GlobalCategory = 0,
@@ -795,7 +788,7 @@ namespace ToyShop.Data.Migrations
                         },
                         new
                         {
-                            Id = 5,
+                            Id = new Guid("2ea91e27-35e0-4f3b-9fd6-1376b014bb82"),
                             CategoryId = 5,
                             Description = "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!",
                             GlobalCategory = 0,
@@ -884,29 +877,26 @@ namespace ToyShop.Data.Migrations
 
             modelBuilder.Entity("ToyShop.Data.Models.Review", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Primary Key for the Review entity");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)")
                         .HasComment("Optional comment made by the user in the review with a maximum length constraint");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Foreign Key reference to the Product being reviewed");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int")
                         .HasComment("Rating given by the user for the product");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Foreign Key reference to the User who wrote the review");
 
                     b.HasKey("Id");
@@ -920,16 +910,13 @@ namespace ToyShop.Data.Migrations
 
             modelBuilder.Entity("ToyShop.Data.Models.ShoppingCart", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Primary Key for the ShoppingCart entity");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Foreign Key reference to the User who owns the shopping cart");
 
                     b.HasKey("Id");
@@ -941,12 +928,12 @@ namespace ToyShop.Data.Migrations
 
             modelBuilder.Entity("ToyShop.Data.Models.ShoppingCartProduct", b =>
                 {
-                    b.Property<int>("ShoppingCartId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("ShoppingCartId")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Foreign Key reference to the ShoppingCart");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Foreign Key reference to the Product in the shopping cart");
 
                     b.HasKey("ShoppingCartId", "ProductId");
@@ -958,8 +945,9 @@ namespace ToyShop.Data.Migrations
 
             modelBuilder.Entity("ToyShop.Data.Models.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -1061,12 +1049,12 @@ namespace ToyShop.Data.Migrations
 
             modelBuilder.Entity("ToyShop.Data.Models.UserProductWhishlist", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Foreign Key reference to the User who owns the wishlist");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier")
                         .HasComment("Foreign Key reference to the Product in the wishlist");
 
                     b.HasKey("UserId", "ProductId");
@@ -1076,16 +1064,16 @@ namespace ToyShop.Data.Migrations
                     b.ToTable("UserProductWhishlist");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("ToyShop.Data.Models.User", null)
                         .WithMany()
@@ -1094,7 +1082,7 @@ namespace ToyShop.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("ToyShop.Data.Models.User", null)
                         .WithMany()
@@ -1103,9 +1091,9 @@ namespace ToyShop.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1118,7 +1106,7 @@ namespace ToyShop.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("ToyShop.Data.Models.User", null)
                         .WithMany()

@@ -1,6 +1,5 @@
 ﻿[
   {
-    "Id": 1,
     "Name": "Еленче Рони",
     "Quantity": 5,
     "Price": 35,
@@ -13,7 +12,6 @@
     "IsAvailable": true
   },
   {
-    "Id": 2,
     "Name": "Мече Дани",
     "Quantity": 5,
     "Price": 55,
@@ -26,7 +24,6 @@
     "IsAvailable": true
   },
   {
-    "Id": 3,
     "Name": "Жирафче Сами",
     "Quantity": 5,
     "Price": 45,
@@ -39,7 +36,6 @@
     "IsAvailable": true
   },
   {
-    "Id": 4,
     "Name": "Зайче Софи",
     "Quantity": 5,
     "Price": 25,
@@ -52,7 +48,6 @@
     "IsAvailable": true
   },
   {
-    "Id": 5,
     "Name": "Кученце Бейли",
     "Quantity": 5,
     "Price": 35,

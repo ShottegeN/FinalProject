@@ -9,10 +9,10 @@ namespace ToyShop.Data.Models
     {
         [Key]
         [Comment("Primary Key for the Review entity")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Comment("Foreign Key reference to the Product being reviewed")]
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         [ForeignKey(nameof(ProductId))]
         // Navigation property for the associated product of this review, not stored directly in the database.
@@ -20,7 +20,7 @@ namespace ToyShop.Data.Models
 
         [Required]
         [Comment("Foreign Key reference to the User who wrote the review")]
-        public string UserId { get; set; } = null!;
+        public Guid UserId { get; set; } 
 
         [ForeignKey(nameof(UserId))]
         // Navigation property for the associated user of this review, not stored directly in the database.

@@ -8,9 +8,14 @@ namespace ToyShop.Data.Models
 {
     public class Product
     {
+        public Product()
+        {
+            Id = Guid.NewGuid();
+        }
+
         [Key]
         [Comment("Primary Key for the Product entity")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [MaxLength(ProductConstraints.NameMaxLength)]

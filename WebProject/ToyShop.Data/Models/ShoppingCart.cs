@@ -6,13 +6,18 @@ namespace ToyShop.Data.Models
 {
     public class ShoppingCart
     {
+        public ShoppingCart()
+        {
+            Id = Guid.NewGuid();
+        }
+
         [Key]
         [Comment("Primary Key for the ShoppingCart entity")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [Comment("Foreign Key reference to the User who owns the shopping cart")]
-        public string UserId { get; set; } = null!;
+        public Guid UserId { get; set; } 
 
         [ForeignKey(nameof(UserId))]
         // Navigation property for the associated user of this shopping cart, not stored directly in the database.
