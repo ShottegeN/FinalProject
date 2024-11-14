@@ -12,8 +12,8 @@ using ToyShop.Data;
 namespace ToyShop.Data.Migrations
 {
     [DbContext(typeof(ToyShopDbContext))]
-    [Migration("20241114150146_ProductReleaseDateAdded")]
-    partial class ProductReleaseDateAdded
+    [Migration("20241114150626_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -738,7 +738,7 @@ namespace ToyShop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6c5496af-7192-4447-bdad-8d18553f7939"),
+                            Id = new Guid("2e05928f-3163-4878-bb21-e180a9d0180b"),
                             CategoryId = 1,
                             Description = "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.",
                             GlobalCategory = 0,
@@ -747,12 +747,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Еленче Рони",
                             Price = 35m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReleasedOn = new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6691),
                             ShortDescription = "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж."
                         },
                         new
                         {
-                            Id = new Guid("35392ac5-dca5-426d-a89c-52d05c10e97a"),
+                            Id = new Guid("49829f25-7ab1-441f-a511-d765053165ca"),
                             CategoryId = 2,
                             Description = "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ",
                             GlobalCategory = 0,
@@ -762,12 +762,12 @@ namespace ToyShop.Data.Migrations
                             Price = 55m,
                             PromotionId = 1,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReleasedOn = new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6850),
                             ShortDescription = "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. "
                         },
                         new
                         {
-                            Id = new Guid("1efb6aab-960c-4bb6-9a80-4b705fd79ae9"),
+                            Id = new Guid("e4abd85e-f6d4-41a7-b33e-a7d1fbfaf3fa"),
                             CategoryId = 3,
                             Description = "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.",
                             GlobalCategory = 0,
@@ -776,12 +776,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Жирафче Сами",
                             Price = 45m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReleasedOn = new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6885),
                             ShortDescription = "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж."
                         },
                         new
                         {
-                            Id = new Guid("908157b3-7113-4c12-8de6-d28a9aec255d"),
+                            Id = new Guid("da9efd20-3878-4dc6-a07c-e9ca2bfe941c"),
                             CategoryId = 4,
                             Description = "Софи е висока около 24см. Идеална е за игри и гушкане.",
                             GlobalCategory = 0,
@@ -790,12 +790,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Зайче Софи",
                             Price = 25m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReleasedOn = new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6913),
                             ShortDescription = "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
                         },
                         new
                         {
-                            Id = new Guid("369acafb-4055-4239-88cb-72a3540f855a"),
+                            Id = new Guid("7c7093b0-718a-47f5-9f8e-3513c62506f2"),
                             CategoryId = 5,
                             Description = "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!",
                             GlobalCategory = 0,
@@ -804,7 +804,7 @@ namespace ToyShop.Data.Migrations
                             Name = "Кученце Бейли",
                             Price = 35m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReleasedOn = new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6947),
                             ShortDescription = "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
                         });
                 });

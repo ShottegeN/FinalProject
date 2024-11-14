@@ -11,6 +11,7 @@ namespace ToyShop.Data.Models
         public Product()
         {
             Id = Guid.NewGuid();
+            ReleasedOn = DateTime.Now;
         }
 
         [Key]
