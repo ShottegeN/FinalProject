@@ -90,7 +90,7 @@ static void ConfigureIdentity(WebApplicationBuilder builder, IdentityOptions opt
         builder.Configuration.GetValue<bool>("Identity:User:RequireUniqueEmail");
     options.User.AllowedUserNameCharacters =
         builder.Configuration.GetValue<string>("Identity:User:AllowedUserNameCharacters")!;
-    // Lockout
+    //Lockout
     options.Lockout.DefaultLockoutTimeSpan =
         builder.Configuration.GetValue<TimeSpan>("Identity:Lockout:DefaultLockoutTimeSpan");
     options.Lockout.MaxFailedAccessAttempts =
