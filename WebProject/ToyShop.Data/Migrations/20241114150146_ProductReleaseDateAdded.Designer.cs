@@ -12,8 +12,8 @@ using ToyShop.Data;
 namespace ToyShop.Data.Migrations
 {
     [DbContext(typeof(ToyShopDbContext))]
-    [Migration("20241111134304_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241114150146_ProductReleaseDateAdded")]
+    partial class ProductReleaseDateAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,12 +104,10 @@ namespace ToyShop.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -145,12 +143,10 @@ namespace ToyShop.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -721,6 +717,10 @@ namespace ToyShop.Data.Migrations
                         .HasColumnType("int")
                         .HasComment("Quantity of the product available in stock");
 
+                    b.Property<DateTime>("ReleasedOn")
+                        .HasColumnType("datetime2")
+                        .HasComment("The date when the product was released");
+
                     b.Property<string>("ShortDescription")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -738,68 +738,73 @@ namespace ToyShop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ec08b638-3795-4394-b107-8896d7b6619e"),
+                            Id = new Guid("6c5496af-7192-4447-bdad-8d18553f7939"),
                             CategoryId = 1,
                             Description = "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.",
                             GlobalCategory = 0,
-                            ImageUrl = "images/products/deer_Ronnie.jpg",
+                            ImageUrl = "img/products/deer_Ronnie.jpg",
                             IsAvailable = true,
                             Name = "Еленче Рони",
                             Price = 35m,
                             Quantity = 5,
+                            ReleasedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ShortDescription = "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж."
                         },
                         new
                         {
-                            Id = new Guid("fd3e61e2-bcd3-42f2-ae77-dc31b8fd2794"),
+                            Id = new Guid("35392ac5-dca5-426d-a89c-52d05c10e97a"),
                             CategoryId = 2,
                             Description = "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ",
                             GlobalCategory = 0,
-                            ImageUrl = "images/products/bear_Danny.jpg",
+                            ImageUrl = "img/products/bear_Danny.jpg",
                             IsAvailable = true,
                             Name = "Мече Дани",
                             Price = 55m,
                             PromotionId = 1,
                             Quantity = 5,
+                            ReleasedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ShortDescription = "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. "
                         },
                         new
                         {
-                            Id = new Guid("44f48df6-0fe4-4658-96fb-4c7dcf37063a"),
+                            Id = new Guid("1efb6aab-960c-4bb6-9a80-4b705fd79ae9"),
                             CategoryId = 3,
                             Description = "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.",
                             GlobalCategory = 0,
-                            ImageUrl = "images/products/giraffe_Sammie.jpg",
+                            ImageUrl = "img/products/giraffe_Sammie.jpg",
                             IsAvailable = true,
                             Name = "Жирафче Сами",
                             Price = 45m,
                             Quantity = 5,
+                            ReleasedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ShortDescription = "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж."
                         },
                         new
                         {
-                            Id = new Guid("b64ddb61-43ed-4f22-88da-16e4a9de423e"),
+                            Id = new Guid("908157b3-7113-4c12-8de6-d28a9aec255d"),
                             CategoryId = 4,
                             Description = "Софи е висока около 24см. Идеална е за игри и гушкане.",
                             GlobalCategory = 0,
-                            ImageUrl = "images/products/rabbit_Sophie.jpg",
+                            ImageUrl = "img/products/rabbit_Sophie.jpg",
                             IsAvailable = true,
                             Name = "Зайче Софи",
                             Price = 25m,
                             Quantity = 5,
+                            ReleasedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ShortDescription = "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
                         },
                         new
                         {
-                            Id = new Guid("2ea91e27-35e0-4f3b-9fd6-1376b014bb82"),
+                            Id = new Guid("369acafb-4055-4239-88cb-72a3540f855a"),
                             CategoryId = 5,
                             Description = "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!",
                             GlobalCategory = 0,
-                            ImageUrl = "images/products/dog_Bailey.jpg",
+                            ImageUrl = "img/products/dog_Bailey.jpg",
                             IsAvailable = true,
                             Name = "Кученце Бейли",
                             Price = 35m,
                             Quantity = 5,
+                            ReleasedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ShortDescription = "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
                         });
                 });

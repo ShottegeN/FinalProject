@@ -18,7 +18,12 @@ namespace ToyShop.Web.Controllers
             productService = _productService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {            
+            return View();
+        }
+
+        public async Task<IActionResult> Products()
         {
             var products = await productService.GetAllProductsAsync();
             return View(products);

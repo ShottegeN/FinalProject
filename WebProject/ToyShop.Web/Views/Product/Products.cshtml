@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ProductInfoViewModel>
+@{
+    ViewData["Title"] = "Плетени играчки";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
+    <h2>@ViewData["Title"]</h2>
+    @if (User?.Identity?.IsAuthenticated == true && User?.Claims.FirstOrDefault()?.Value == "e86837d0-db5d-408c-bb5d-d08b54328203")
+    {
+        <a asp-controller="Product" asp-action="Add" class="btn btn-primary"><i class="fas fa-plus"></i>Добави нов продукт</a>
+    }
+</div>
+<hr />
+
+<div class="row text-center">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100" style="width: 100%;">
+                @if (!string.IsNullOrEmpty(product.ImageUrl))
+                {
+                    <div class="card-body">
+                        <img src="@product.ImageUrl" class="card-img-bottom" style="max-height: 150px; object-fit: contain;" alt="@product.ProductName">
+                    </div>
+                }
+                else
+                {
+                    <img src="~/img/no-image-available-02.jpg" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="No Image Available">
+                }
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">@product.ProductName</h5>
+                    <h6 class="card-title">Налични бройки: @product.Quantity</h6>
+                    <p class="card-text">Цена: @product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</p>
+                    <p>@product.ShortDescription</p>
+
+                    <div class="d-flex flex-column justify-content-between mt-auto flex-lg-row">
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-info me-2 w-50">Детайли</a>
+                            <form asp-controller="Product" asp-action="AddToCart" method="post" class="w-50">
+                                <input type="hidden" name="id" value="@product.Id" />
+                                <button type="submit" class="btn btn-success w-100">Купи</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-info w-100">Детайли</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div> 
