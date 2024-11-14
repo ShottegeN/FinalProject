@@ -15,10 +15,12 @@ namespace ToyShop.Core.Services
             repo = _repo;
         }
 
-        public async Task<List<ProductInfoViewModel>> GetAllProductsAsync()
+        public async Task<List<ProductInfoViewModel>> GetNewProductsAsync()
         {
             var products = await repo.AllReadonlyAsync<Product>()
                 .Where(p => p.IsAvailable)
+                .Where(p => p.ReleasedOn >= DateTime.Now.AddDays(-30))
+                .Take(10)
                 .Select(p => new ProductInfoViewModel
                 {
                     Id = p.Id,
@@ -26,7 +28,10 @@ namespace ToyShop.Core.Services
                     ImageUrl = p.ImageUrl,
                     Quantity = p.Quantity,
                     Price = p.Price,
+                    Category = p.Category.Name,
+                    DiscountPercentage = p.Promotion != null ? p.Promotion.DiscountPercentage : null,
                     ShortDescription = p.ShortDescription,
+                    Rating = p.Reviews.Sum(r => r.Rating),
                     Description = p.Description
                 })
                 .ToListAsync();

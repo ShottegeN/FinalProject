@@ -15,5 +15,11 @@
         public string ShortDescription { get; set; } = null!;
 
         public string? Description { get; set; }
+
+        public required string Category { get; set; }
+
+        public int? DiscountPercentage { get; set;}
+
+        public int Rating { get; set; }
     }
 }

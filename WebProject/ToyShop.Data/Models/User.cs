@@ -27,10 +27,7 @@ namespace ToyShop.Data.Models
         public string? LastName { get; set; }
 
         [Comment("Age of the user")]
-        public int? Age { get; set; }
-
-        [Comment("Gender of the user")]
-        public Gender Gender { get; set; }        
+        public int? Age { get; set; }   
 
         [Comment("Registration date of the user")]
         public DateTime RegistrationDate { get; set; }

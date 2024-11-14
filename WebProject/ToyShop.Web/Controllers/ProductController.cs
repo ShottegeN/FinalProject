@@ -25,7 +25,7 @@ namespace ToyShop.Web.Controllers
 
         public async Task<IActionResult> Products()
         {
-            var products = await productService.GetAllProductsAsync();
+            var products = await productService.GetNewProductsAsync();
             return View(products);
         }
 
