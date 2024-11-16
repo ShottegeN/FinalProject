@@ -1,5 +1,5 @@
-﻿@model IEnumerable<ProductInfoViewModel>
-@{
+﻿@model HomeProductsViewModel
+@{     
     ViewData["Title"] = "Начало";
 }
 
@@ -14,10 +14,10 @@
                 <div class="col-md-4 col-xs-6">
                     <div class="shop">
                         <div class="shop-img">
-                            <img src="./img/products/rabbit_Sophie.png" alt="">
+                            <img src="./img/products/rabbit_Sophie.jpg" alt="">
                         </div>
                         <div class="shop-body">
-                            <h3>Колекция<br>Играчки</h3>
+                            <h3>Играчки</h3>
                             <a href="#" class="cta-btn">Преглед <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -27,10 +27,10 @@
                 <div class="col-md-4 col-xs-6">
                     <div class="shop">
                         <div class="shop-img">
-                            <img src="./img/shop03.png" alt="">
+                            <img src="./img/products/decoration_01.jpg" alt="">
                         </div>
                         <div class="shop-body">
-                            <h3>Колекция<br>Торти</h3>
+                            <h3>Декорации</h3>
                             <a class="cta-btn">Преглед <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -40,10 +40,10 @@
                 <div class="col-md-4 col-xs-6">
                     <div class="shop">
                         <div class="shop-img">
-                            <img src="./img/shop02.png" alt="">
+                            <img src="./img/products/blanket_1.jpg" alt="">
                         </div>
                         <div class="shop-body">
-                            <h3>Колекция<br>Аксесоари</h3>
+                            <h3>Аксесоари</h3>
                             <a href="#" class="cta-btn">Преглед <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                             <div id="tab1" class="tab-pane active">
                                 <div class="products-slick" data-nav="#slick-nav-1">
                                     <!-- product -->
-                                    @foreach (var product in Model)
+                                    @foreach (var product in Model.NewProducts)
                                     {
                                         <div class="product">
                                             <div class="product-img">
@@ -166,7 +166,7 @@
                                                 <form asp-controller="Product" asp-action="AddToCart" method="post">
                                                     <input type="hidden" name="id" value="@product.Id" />
                                                     <button type="submit" class="add-to-cart-btn">
-                                                        <i class="fa fa-shopping-cart"></i> add to cart
+                                                        <i class="fa fa-shopping-cart"></i> Купи
                                                     </button>
                                                 </form>
                                             </div>

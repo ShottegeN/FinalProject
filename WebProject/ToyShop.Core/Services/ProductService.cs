@@ -2,7 +2,7 @@
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
-using ToyShop.ViewModels;
+using ToyShop.ViewModels.Product;
 
 namespace ToyShop.Core.Services
 {

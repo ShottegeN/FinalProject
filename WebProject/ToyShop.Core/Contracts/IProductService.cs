@@ -1,5 +1,5 @@
 ﻿using ToyShop.Data.Models;
-using ToyShop.ViewModels;
+using ToyShop.ViewModels.Product;
 
 namespace ToyShop.Core.Contracts
 {

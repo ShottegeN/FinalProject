@@ -21,13 +21,7 @@ namespace ToyShop.Web.Controllers
         public IActionResult Index()
         {            
             return View();
-        }
-
-        public async Task<IActionResult> Products()
-        {
-            var products = await productService.GetNewProductsAsync();
-            return View(products);
-        }
+        }       
 
         //modelState.Isvalid should be after all other errors, so all of them could be displayed at once! 
         // use modelState.AddModelError for the different errors!

@@ -1,8 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Core.Contracts;
-using ToyShop.Core.Services;
-using ToyShop.Data.Common;
 using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
@@ -20,8 +18,12 @@ namespace ToyShop.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await productService.GetNewProductsAsync();
-            return View(products);
+            var newProducts = await productService.GetNewProductsAsync();
+            var homeProducts = new HomeProductsViewModel
+            {
+                NewProducts = newProducts
+            };
+            return View(homeProducts);
         }
 
         public IActionResult Privacy()

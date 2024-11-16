@@ -1,4 +1,4 @@
-﻿namespace ToyShop.ViewModels
+﻿namespace ToyShop.ViewModels.Product
 {
     public class ProductInfoViewModel
     {
@@ -18,7 +18,7 @@
 
         public required string Category { get; set; }
 
-        public int? DiscountPercentage { get; set;}
+        public int? DiscountPercentage { get; set; }
 
         public int Rating { get; set; }
     }
