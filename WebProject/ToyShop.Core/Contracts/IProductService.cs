@@ -5,6 +5,6 @@ namespace ToyShop.Core.Contracts
 {
     public interface IProductService
     {
-        public Task<List<ProductInfoViewModel>> GetNewProductsAsync();
+        public Task<List<ProductInfoViewModel>> GetNewestProductsByGlobalCategoryAsync();
     }
 }

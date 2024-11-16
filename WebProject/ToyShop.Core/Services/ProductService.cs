@@ -15,7 +15,7 @@ namespace ToyShop.Core.Services
             repo = _repo;
         }
 
-        public async Task<List<ProductInfoViewModel>> GetNewProductsAsync()
+        public async Task<List<ProductInfoViewModel>> GetNewestProductsByGlobalCategoryAsync()
         {
             var products = await repo.AllReadonlyAsync<Product>()
                 .Where(p => p.IsAvailable)

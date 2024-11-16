@@ -18,13 +18,22 @@ namespace ToyShop.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var newProducts = await productService.GetNewProductsAsync();
+            var newProducts = await productService.GetNewestProductsByGlobalCategoryAsync();
             var homeProducts = new HomeProductsViewModel
             {
                 NewProducts = newProducts
             };
             return View(homeProducts);
         }
+
+
+
+
+
+
+
+
+
 
         public IActionResult Privacy()
         {

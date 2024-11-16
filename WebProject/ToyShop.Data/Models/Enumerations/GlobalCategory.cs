@@ -2,8 +2,9 @@
 {
     public enum GlobalCategory
     {
-        Yarn = 0,
-        Cardboard = 1,        
-        Other = 4,
+        Toy = 0,
+        Accessory = 1, 
+        Decoration = 2,
+        Other = 3,
     }
 }
