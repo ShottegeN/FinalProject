@@ -33,5 +33,12 @@
     "DiscountPercentage": 20,
     "StartDate": "2025-08-15T00:00:00",
     "EndDate": "2025-09-15T23:59:59"
+  },
+  {
+    "Id": 6,
+    "Name": "Active Promotion",
+    "DiscountPercentage": 20,
+    "StartDate": "2024-08-15T00:00:00",
+    "EndDate": "2025-09-15T23:59:59"
   }
 ]

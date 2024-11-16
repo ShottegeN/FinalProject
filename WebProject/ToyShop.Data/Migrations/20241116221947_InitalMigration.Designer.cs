@@ -12,8 +12,8 @@ using ToyShop.Data;
 namespace ToyShop.Data.Migrations
 {
     [DbContext(typeof(ToyShopDbContext))]
-    [Migration("20241114150626_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241116221947_InitalMigration")]
+    partial class InitalMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -738,7 +738,7 @@ namespace ToyShop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2e05928f-3163-4878-bb21-e180a9d0180b"),
+                            Id = new Guid("b278a107-530b-441e-ae85-7fb4db442fac"),
                             CategoryId = 1,
                             Description = "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.",
                             GlobalCategory = 0,
@@ -747,12 +747,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Еленче Рони",
                             Price = 35m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6691),
+                            ReleasedOn = new DateTime(2024, 11, 17, 0, 19, 46, 921, DateTimeKind.Local).AddTicks(2769),
                             ShortDescription = "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж."
                         },
                         new
                         {
-                            Id = new Guid("49829f25-7ab1-441f-a511-d765053165ca"),
+                            Id = new Guid("16450e25-33a0-4a28-9b03-6d77106f1e75"),
                             CategoryId = 2,
                             Description = "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ",
                             GlobalCategory = 0,
@@ -762,12 +762,12 @@ namespace ToyShop.Data.Migrations
                             Price = 55m,
                             PromotionId = 1,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6850),
+                            ReleasedOn = new DateTime(2024, 11, 17, 0, 19, 46, 921, DateTimeKind.Local).AddTicks(2926),
                             ShortDescription = "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. "
                         },
                         new
                         {
-                            Id = new Guid("e4abd85e-f6d4-41a7-b33e-a7d1fbfaf3fa"),
+                            Id = new Guid("2b16eaa7-ae8e-461d-a9a4-ee1abacbff27"),
                             CategoryId = 3,
                             Description = "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.",
                             GlobalCategory = 0,
@@ -776,12 +776,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Жирафче Сами",
                             Price = 45m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6885),
+                            ReleasedOn = new DateTime(2024, 11, 17, 0, 19, 46, 921, DateTimeKind.Local).AddTicks(2961),
                             ShortDescription = "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж."
                         },
                         new
                         {
-                            Id = new Guid("da9efd20-3878-4dc6-a07c-e9ca2bfe941c"),
+                            Id = new Guid("ee8cac5b-ba55-413c-9f5f-d847a4a949db"),
                             CategoryId = 4,
                             Description = "Софи е висока около 24см. Идеална е за игри и гушкане.",
                             GlobalCategory = 0,
@@ -790,12 +790,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Зайче Софи",
                             Price = 25m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6913),
+                            ReleasedOn = new DateTime(2024, 11, 17, 0, 19, 46, 921, DateTimeKind.Local).AddTicks(2988),
                             ShortDescription = "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
                         },
                         new
                         {
-                            Id = new Guid("7c7093b0-718a-47f5-9f8e-3513c62506f2"),
+                            Id = new Guid("d10b6527-e2a1-4142-a251-56af50597ad0"),
                             CategoryId = 5,
                             Description = "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!",
                             GlobalCategory = 0,
@@ -804,7 +804,7 @@ namespace ToyShop.Data.Migrations
                             Name = "Кученце Бейли",
                             Price = 35m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6947),
+                            ReleasedOn = new DateTime(2024, 11, 17, 0, 19, 46, 921, DateTimeKind.Local).AddTicks(3021),
                             ShortDescription = "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
                         });
                 });
@@ -825,6 +825,10 @@ namespace ToyShop.Data.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2")
                         .HasComment("End date of the promotion");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Imgage Url of the promotion");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -983,10 +987,6 @@ namespace ToyShop.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasComment("First name of the user, required with a maximum length constraint");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int")
-                        .HasComment("Gender of the user");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()

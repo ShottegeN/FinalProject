@@ -187,71 +187,114 @@
         <!-- /container -->
     </div>
     <!-- /SECTION -->
-    <!-- HOT DEAL SECTION -->
-    <div id="hot-deal" class="section">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="hot-deal">
-                        <ul class="hot-deal-countdown">
+
+<!-- HOT DEAL SECTION -->
+<div id="hot-deal" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hot-deal">
+                    @foreach (var promotion in Model.ActivePromotions)
+                    {
+                        <!-- Hot Deal Item for each active promotion -->
+                        <ul class="hot-deal-countdown" id="countdown-@promotion.Id">
+                            <!-- Days countdown -->
                             <li>
                                 <div>
-                                    <h3>02</h3>
-                                    @{
-                                        int days = 2;
-                                        if (days < 2)
-                                        {
-                                            <span>Ден</span>
-                                        }
-                                        else
-                                        {
-                                            <span>Дни</span>
-                                        }
-                                    }
+                                    <h3 id="days-@promotion.Id">@promotion.Duration.Days</h3>
+                                    <span>@(promotion.Duration.Days == 1 ? "Ден" : "Дни")</span>
                                 </div>
                             </li>
+                            <!-- Hours countdown -->
                             <li>
                                 <div>
-                                    <h3>10</h3>
-                                    @{
-                                        int hours = 10;
-                                        if (hours < 2)
-                                        {
-                                            <span>Час</span>
-                                        }
-                                        else
-                                        {
-                                            <span>Часа</span>
-                                        }
-                                    }
+                                    <h3 id="hours-@promotion.Id">@promotion.Duration.Hours</h3>
+                                    <span>@(promotion.Duration.Hours == 1 ? "Час" : "Часа")</span>
                                 </div>
                             </li>
+                            <!-- Minutes countdown -->
                             <li>
                                 <div>
-                                    <h3>34</h3>
-                                    <span>Минути</span>
+                                    <h3 id="minutes-@promotion.Id">@promotion.Duration.Minutes</h3>
+                                    <span>@(promotion.Duration.Minutes == 1 ? "Минута" : "Минути")</span>
                                 </div>
                             </li>
+                            <!-- Seconds countdown -->
                             <li>
                                 <div>
-                                    <h3>60</h3>
-                                    <span>Секунди</span>
+                                    <h3 id="seconds-@promotion.Id">@promotion.Duration.Seconds</h3>
+                                    <span>@(promotion.Duration.Seconds == 1 ? "Секунда" : "Секунди")</span>
                                 </div>
                             </li>
                         </ul>
-                        <h2 class="text-uppercase">hot deal this week</h2>
-                        <p>New Collection Up to 50% OFF</p>
+                        <!-- Hot Deal Title -->
+                        <h2 class="text-uppercase">@promotion.Name</h2>
+                        <!-- Hot Deal Description -->
+                        <p>New Collection Up to @promotion.DiscountPercentage% OFF</p>
+                        <!-- View Offers Button -->
                         <a class="primary-btn cta-btn" asp-area="" asp-controller="Product" asp-action="Index">Виж предложенията</a>
-                    </div>
+                    }
                 </div>
             </div>
-            <!-- /row -->
         </div>
-        <!-- /container -->
     </div>
+</div>
+
+<!-- JavaScript for Dynamic Countdown -->
+<script>
+    // Function to update the countdown for each promotion
+    function updateCountdown(promotionId, endDate) {
+        var countdown = document.getElementById('countdown-' + promotionId);
+        var daysElement = countdown.querySelector('#days-' + promotionId);
+        var hoursElement = countdown.querySelector('#hours-' + promotionId);
+        var minutesElement = countdown.querySelector('#minutes-' + promotionId);
+        var secondsElement = countdown.querySelector('#seconds-' + promotionId);
+
+        function updateTimer() {
+            var now = new Date();
+            var endTime = new Date(endDate);  // Ensure 'endDate' is parsed correctly
+            var remainingTime = endTime - now;
+
+            if (remainingTime <= 0) {
+                // Timer reached zero, reset the countdown
+                daysElement.textContent = "0";
+                hoursElement.textContent = "0";
+                minutesElement.textContent = "0";
+                secondsElement.textContent = "0";
+                return;
+            }
+
+            // Calculate days, hours, minutes, and seconds
+            var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+            // Update elements
+            daysElement.textContent = days;
+            hoursElement.textContent = hours;
+            minutesElement.textContent = minutes;
+            secondsElement.textContent = seconds;
+        }
+
+        // Call updateTimer every second
+        setInterval(updateTimer, 1000);
+    }
+
+    // Initialize countdowns for all active promotions
+    @foreach (var promotion in Model.ActivePromotions)
+    {
+        <text>
+            // Pass the EndDate as a properly formatted string
+            updateCountdown(@promotion.Id, '@promotion.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")');
+        </text>
+    }
+</script>
+
     <!-- /HOT DEAL SECTION -->
+
     <!-- SECTION -->
     <div class="section">
         <!-- container -->

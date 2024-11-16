@@ -16,6 +16,9 @@ namespace ToyShop.Data.Models
         [Comment("Name of the promotion with a maximum length constraint")]
         public string Name { get; set; } = null!;
 
+        [Comment("Imgage Url of the promotion")]
+        public string? ImageUrl { get; set; }
+
         [Comment("Discount percentage offered by the promotion")]
         public int DiscountPercentage { get; set; }
 

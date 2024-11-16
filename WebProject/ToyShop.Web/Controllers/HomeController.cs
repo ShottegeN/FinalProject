@@ -9,37 +9,28 @@ namespace ToyShop.Web.Controllers
     {
         private readonly ILogger<HomeController> logger;
         private readonly IProductService productService;
+        private readonly IPromotionService promotionService;
 
-        public HomeController(ILogger<HomeController> _logger, IProductService _productService)
+        public HomeController(ILogger<HomeController> _logger, IProductService _productService, IPromotionService _promotionService)
         {
             logger = _logger;
             productService = _productService;
+            promotionService = _promotionService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var newProducts = await productService.GetNewestProductsByGlobalCategoryAsync();
+            var newProducts = await productService.GetNewestProductsAsync();
+            var activePromotions = await promotionService.GetActivePromotionsAsync();
+
             var homeProducts = new HomeViewModel
             {
-                NewProducts = newProducts
+                NewProducts = newProducts,
+                ActivePromotions = activePromotions
             };
             return View(homeProducts);
-        }
-            {
-                NewProducts = newProducts
-            };
-            return View(homeProducts);
-        }
-
-
-
-
-
-
-
-
-
+        }       
 
         public IActionResult Privacy()
         {

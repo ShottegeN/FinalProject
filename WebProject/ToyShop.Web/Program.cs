@@ -16,6 +16,7 @@ builder.Services.AddDbContext<ToyShopDbContext>(options =>
 
 builder.Services.AddScoped<IRepository, Repository>()
     .AddScoped<IProductService, ProductService>()
+    .AddScoped<IPromotionService, PromotionService>()
     .AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>

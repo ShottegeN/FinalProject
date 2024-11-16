@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ToyShop.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitalMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -82,6 +82,7 @@ namespace ToyShop.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key for the Promotion entity")
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false, comment: "Name of the promotion with a maximum length constraint"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Imgage Url of the promotion"),
                     DiscountPercentage = table.Column<int>(type: "int", nullable: false, comment: "Discount percentage offered by the promotion"),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Start date of the promotion"),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "End date of the promotion")
@@ -198,7 +199,6 @@ namespace ToyShop.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, comment: "First name of the user, required with a maximum length constraint"),
                     LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, comment: "Last name of the user, required with a maximum length constraint"),
                     Age = table.Column<int>(type: "int", nullable: true, comment: "Age of the user"),
-                    Gender = table.Column<int>(type: "int", nullable: false, comment: "Gender of the user"),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Registration date of the user"),
                     AddressId = table.Column<int>(type: "int", nullable: true, comment: "Foreign Key reference to the Address of the user"),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true, comment: "Indicates if the user account is active"),
@@ -501,14 +501,14 @@ namespace ToyShop.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Promotions",
-                columns: new[] { "Id", "DiscountPercentage", "EndDate", "Name", "StartDate" },
+                columns: new[] { "Id", "DiscountPercentage", "EndDate", "ImageUrl", "Name", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, 25, new DateTime(2024, 12, 31, 23, 59, 59, 0, DateTimeKind.Unspecified), "Winter Sale", new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 50, new DateTime(2024, 11, 30, 23, 59, 59, 0, DateTimeKind.Unspecified), "Black Friday Deal", new DateTime(2024, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 30, new DateTime(2025, 3, 31, 23, 59, 59, 0, DateTimeKind.Unspecified), "Spring Clearance", new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, 40, new DateTime(2025, 6, 30, 23, 59, 59, 0, DateTimeKind.Unspecified), "Summer Blowout", new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, 20, new DateTime(2025, 9, 15, 23, 59, 59, 0, DateTimeKind.Unspecified), "Back to School", new DateTime(2025, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 25, new DateTime(2024, 12, 31, 23, 59, 59, 0, DateTimeKind.Unspecified), null, "Winter Sale", new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 50, new DateTime(2024, 11, 30, 23, 59, 59, 0, DateTimeKind.Unspecified), null, "Black Friday Deal", new DateTime(2024, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 30, new DateTime(2025, 3, 31, 23, 59, 59, 0, DateTimeKind.Unspecified), null, "Spring Clearance", new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 40, new DateTime(2025, 6, 30, 23, 59, 59, 0, DateTimeKind.Unspecified), null, "Summer Blowout", new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 20, new DateTime(2025, 9, 15, 23, 59, 59, 0, DateTimeKind.Unspecified), null, "Back to School", new DateTime(2025, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -533,11 +533,11 @@ namespace ToyShop.Data.Migrations
                 columns: new[] { "Id", "CategoryId", "Description", "GlobalCategory", "ImageUrl", "IsAvailable", "Name", "Price", "PromotionId", "Quantity", "ReleasedOn", "ShortDescription" },
                 values: new object[,]
                 {
-                    { new Guid("2e05928f-3163-4878-bb21-e180a9d0180b"), 1, "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.", 0, "img/products/deer_Ronnie.jpg", true, "Еленче Рони", 35m, null, 5, new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6691), "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж." },
-                    { new Guid("49829f25-7ab1-441f-a511-d765053165ca"), 2, "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ", 0, "img/products/bear_Danny.jpg", true, "Мече Дани", 55m, 1, 5, new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6850), "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. " },
-                    { new Guid("7c7093b0-718a-47f5-9f8e-3513c62506f2"), 5, "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!", 0, "img/products/dog_Bailey.jpg", true, "Кученце Бейли", 35m, null, 5, new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6947), "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички." },
-                    { new Guid("da9efd20-3878-4dc6-a07c-e9ca2bfe941c"), 4, "Софи е висока около 24см. Идеална е за игри и гушкане.", 0, "img/products/rabbit_Sophie.jpg", true, "Зайче Софи", 25m, null, 5, new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6913), "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички." },
-                    { new Guid("e4abd85e-f6d4-41a7-b33e-a7d1fbfaf3fa"), 3, "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.", 0, "img/products/giraffe_Sammie.jpg", true, "Жирафче Сами", 45m, null, 5, new DateTime(2024, 11, 14, 17, 6, 25, 740, DateTimeKind.Local).AddTicks(6885), "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж." }
+                    { new Guid("16450e25-33a0-4a28-9b03-6d77106f1e75"), 2, "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ", 0, "img/products/bear_Danny.jpg", true, "Мече Дани", 55m, 1, 5, new DateTime(2024, 11, 17, 0, 19, 46, 921, DateTimeKind.Local).AddTicks(2926), "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. " },
+                    { new Guid("2b16eaa7-ae8e-461d-a9a4-ee1abacbff27"), 3, "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.", 0, "img/products/giraffe_Sammie.jpg", true, "Жирафче Сами", 45m, null, 5, new DateTime(2024, 11, 17, 0, 19, 46, 921, DateTimeKind.Local).AddTicks(2961), "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж." },
+                    { new Guid("b278a107-530b-441e-ae85-7fb4db442fac"), 1, "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.", 0, "img/products/deer_Ronnie.jpg", true, "Еленче Рони", 35m, null, 5, new DateTime(2024, 11, 17, 0, 19, 46, 921, DateTimeKind.Local).AddTicks(2769), "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж." },
+                    { new Guid("d10b6527-e2a1-4142-a251-56af50597ad0"), 5, "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!", 0, "img/products/dog_Bailey.jpg", true, "Кученце Бейли", 35m, null, 5, new DateTime(2024, 11, 17, 0, 19, 46, 921, DateTimeKind.Local).AddTicks(3021), "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички." },
+                    { new Guid("ee8cac5b-ba55-413c-9f5f-d847a4a949db"), 4, "Софи е висока около 24см. Идеална е за игри и гушкане.", 0, "img/products/rabbit_Sophie.jpg", true, "Зайче Софи", 25m, null, 5, new DateTime(2024, 11, 17, 0, 19, 46, 921, DateTimeKind.Local).AddTicks(2988), "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички." }
                 });
 
             migrationBuilder.InsertData(

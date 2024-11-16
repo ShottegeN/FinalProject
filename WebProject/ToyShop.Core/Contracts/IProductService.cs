@@ -1,10 +1,9 @@
-﻿using ToyShop.Data.Models;
-using ToyShop.ViewModels.Product;
+﻿using ToyShop.ViewModels;
 
 namespace ToyShop.Core.Contracts
 {
     public interface IProductService
     {
-        public Task<List<ProductInfoViewModel>> GetNewestProductsByGlobalCategoryAsync();
+        public Task<IEnumerable<ProductInfoViewModel>> GetNewestProductsAsync();
     }
 }

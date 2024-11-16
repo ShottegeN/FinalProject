@@ -1,4 +1,4 @@
-﻿namespace ToyShop.ViewModels.Product
+﻿namespace ToyShop.ViewModels
 {
     public class ProductInfoViewModel
     {

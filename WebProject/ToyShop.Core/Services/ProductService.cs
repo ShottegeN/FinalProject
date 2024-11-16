@@ -2,7 +2,7 @@
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
-using ToyShop.ViewModels.Product;
+using ToyShop.ViewModels;
 
 namespace ToyShop.Core.Services
 {
@@ -15,7 +15,7 @@ namespace ToyShop.Core.Services
             repo = _repo;
         }
 
-        public async Task<List<ProductInfoViewModel>> GetNewestProductsByGlobalCategoryAsync()
+        public async Task<IEnumerable<ProductInfoViewModel>> GetNewestProductsAsync()
         {
             var products = await repo.AllReadonlyAsync<Product>()
                 .Where(p => p.IsAvailable)
