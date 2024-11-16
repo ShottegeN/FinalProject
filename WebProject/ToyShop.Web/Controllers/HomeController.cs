@@ -16,10 +16,16 @@ namespace ToyShop.Web.Controllers
             productService = _productService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var newProducts = await productService.GetNewestProductsByGlobalCategoryAsync();
-            var homeProducts = new HomeProductsViewModel
+            var homeProducts = new HomeViewModel
+            {
+                NewProducts = newProducts
+            };
+            return View(homeProducts);
+        }
             {
                 NewProducts = newProducts
             };

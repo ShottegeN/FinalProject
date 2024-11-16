@@ -2,7 +2,7 @@
 
 namespace ToyShop.ViewModels
 {
-    public class HomeProductsViewModel
+    public class HomeViewModel
     {
         public IEnumerable<ProductInfoViewModel> NewProducts { get; set; } = null!;
     }
