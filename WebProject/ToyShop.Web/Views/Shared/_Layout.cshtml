@@ -19,7 +19,7 @@
 
     <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="~/css/slick.css" />
-    <link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
+    <link type="text/css" rel="stylesheet" href="~/css/slick-theme.css" />
 
     <!-- nouislider -->
     <link type="text/css" rel="stylesheet" href="~/css/nouislider.min.css" />
@@ -30,8 +30,9 @@
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="~/css/style.css" />
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
-    <title>@ViewData["Title"]</title>    
+    <title>@ViewData["Title"]</title>
 </head>
+
 <body>
     <!-- HEADER -->
     <header>
@@ -68,7 +69,7 @@
                     <div class="col-md-6">
                         <div class="header-search">
                             <form>
-                                <select class="input-select">                                                                                                                                                      
+                                <select class="input-select">
                                     <option>Всички</option>
                                     <option value="0">Играчки</option>
                                     <option value="1">Аксесоари</option>
@@ -309,6 +310,7 @@
         <!-- /bottom footer -->
     </footer>
     <!-- /FOOTER -->
+
     <!-- jQuery Plugins -->
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
@@ -321,7 +323,22 @@
     <!-- Your custom scripts -->
     <script src="~/js/main.js"></script>
     <script src="~/js/site.js"></script>
+    <script src="~/js/updateCountdown.js"></script>
+
+    <!-- Countdown Script -->
+    <script>
+        // Initialize countdowns for all active promotions
+        @foreach (var promotion in Model.ActivePromotions)
+        {
+            <text>
+                    updateCountdown(@promotion.Id, '@promotion.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")');
+            </text>
+        }
+    </script>
+
+    <!-- Section for additional scripts -->
     @await RenderSectionAsync("Scripts", required: false)
+
 
 </body>
 </html>
