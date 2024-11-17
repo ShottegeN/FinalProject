@@ -38,3 +38,4 @@ function updateCountdown(promotionId, endDate) {
     // Call updateTimer every second
     setInterval(updateTimer, 1000);
 }
+

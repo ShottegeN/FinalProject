@@ -1,32 +1,35 @@
 ﻿@model ToyShop.ViewModels.PromotionViewModel
 
 <!-- Hot Deal Item for each active promotion -->
-<ul class="hot-deal-countdown" id="countdown-@Model.Id">
-    <li>
-        <div>
-            <h3 id="days-@Model.Id">@Model.Duration.Days</h3>
-            <span>@(Model.Duration.Days == 1 ? "Ден" : "Дни")</span>
-        </div>
-    </li>
-    <li>
-        <div>
-            <h3 id="hours-@Model.Id">@Model.Duration.Hours</h3>
-            <span>@(Model.Duration.Hours == 1 ? "Час" : "Часа")</span>
-        </div>
-    </li>
-    <li>
-        <div>
-            <h3 id="minutes-@Model.Id">@Model.Duration.Minutes</h3>
-            <span>@(Model.Duration.Minutes == 1 ? "Минута" : "Минути")</span>
-        </div>
-    </li>
-    <li>
-        <div>
-            <h3 id="seconds-@Model.Id">@Model.Duration.Seconds</h3>
-            <span>@(Model.Duration.Seconds == 1 ? "Секунда" : "Секунди")</span>
-        </div>
-    </li>
-</ul>
-<h2 class="text-uppercase">@Model.Name</h2>
-<p>Предложения с отстъпка до @Model.DiscountPercentage%</p>
-<a class="primary-btn cta-btn" asp-area="" asp-controller="Product" asp-action="Index">Виж предложенията</a>
+<div class="promotion-item">
+    <ul class="hot-deal-countdown" id="countdown-@Model.Id">
+        <li>
+            <div>
+                <h3 id="days-@Model.Id">@Model.Duration.Days</h3>
+                <span>@(Model.Duration.Days == 1 ? "Ден" : "Дни")</span>
+            </div>
+        </li>
+        <li>
+            <div>
+                <h3 id="hours-@Model.Id">@Model.Duration.Hours</h3>
+                <span>@(Model.Duration.Hours == 1 ? "Час" : "Часа")</span>
+            </div>
+        </li>
+        <li>
+            <div>
+                <h3 id="minutes-@Model.Id">@Model.Duration.Minutes</h3>
+                <span>@(Model.Duration.Minutes == 1 ? "Минута" : "Минути")</span>
+            </div>
+        </li>
+        <li>
+            <div>
+                <h3 id="seconds-@Model.Id">@Model.Duration.Seconds</h3>
+                <span>@(Model.Duration.Seconds == 1 ? "Секунда" : "Секунди")</span>
+            </div>
+        </li>
+    </ul>
+    <h2 class="text-uppercase">@Model.Name</h2>
+    <p>Предложения с отстъпка до @Model.DiscountPercentage%</p>
+    <a class="primary-btn cta-btn" asp-area="" asp-controller="Product" asp-action="Index">Виж предложенията</a>
+</div>
+

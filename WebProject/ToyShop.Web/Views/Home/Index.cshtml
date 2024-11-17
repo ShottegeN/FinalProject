@@ -205,6 +205,7 @@
             </div>
         </div>
     </div>
+
     <!-- /HOT DEAL SECTION -->
     <!-- SECTION -->
     <div class="section">
@@ -488,3 +489,17 @@
     </div>
     <!-- /SECTION -->
 </div>
+
+@section Scripts {
+    <script src="~/js/updateCountdown.js"></script>
+
+    <script>
+        // Initialize countdowns for all active promotions
+        @foreach (var promotion in Model.ActivePromotions)
+        {
+            <text>
+                    updateCountdown(@promotion.Id, '@promotion.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")');
+            </text>
+        }
+    </script>
+}

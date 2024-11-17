@@ -29,6 +29,7 @@
 
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="~/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="~/css/site.css" />
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
     <title>@ViewData["Title"]</title>
 </head>
@@ -312,33 +313,16 @@
     <!-- /FOOTER -->
 
     <!-- jQuery Plugins -->
-    <script src="~/js/jquery.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-
-    <!-- Other plugins -->
-    <script src="~/js/slick.min.js"></script>
-    <script src="~/js/nouislider.min.js"></script>
-    <script src="~/js/jquery.zoom.min.js"></script>
-
+    <script src="~/js/jquery.min.js"></script>  <!-- jQuery must come first -->
+    <script src="~/js/bootstrap.min.js"></script> <!-- Bootstrap -->
+    <script src="~/js/slick.min.js"></script> <!-- Slick slider -->
+    <script src="~/js/nouislider.min.js"></script> <!-- noUiSlider -->
+    <script src="~/js/jquery.zoom.min.js"></script> <!-- Zoom plugin -->
     <!-- Your custom scripts -->
     <script src="~/js/main.js"></script>
-    <script src="~/js/site.js"></script>
-    <script src="~/js/updateCountdown.js"></script>
-
-    <!-- Countdown Script -->
-    <script>
-        // Initialize countdowns for all active promotions
-        @foreach (var promotion in Model.ActivePromotions)
-        {
-            <text>
-                    updateCountdown(@promotion.Id, '@promotion.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")');
-            </text>
-        }
-    </script>
-
+    <script src="~/js/site.js"></script> <!-- Ensure your site.js is loaded after jQuery and plugins -->
+    <!-- Optional: Countdown Script if you want to render countdowns on the page -->
     <!-- Section for additional scripts -->
     @await RenderSectionAsync("Scripts", required: false)
-
-
 </body>
 </html>
