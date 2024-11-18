@@ -1,4 +1,4 @@
-﻿@using static ToyShop.Common.FooterCalculations
+﻿@using static ToyShop.Common.LayoutData
 
 
 <!DOCTYPE html>
@@ -41,9 +41,9 @@
         <div id="top-header">
             <div class="container">
                 <ul class="header-links pull-left">
-                    <li><a href="#"><i class="fa fa-phone"></i> +359-876-678-407</a></li>
-                    <li><a href="#"><i class="fa fa-envelope-o"></i> real&magic@email.com</a></li>
-                    <li><a href="#"><i class="fa fa-map-marker"></i> 8000 Burgas</a></li>
+                    <li><a href="#"><i class="fa fa-phone"></i> @GetPhoneNumber()</a></li>
+                    <li><a href="#"><i class="fa fa-envelope-o"></i> @GetEmail()</a></li>
+                    <li><a href="#"><i class="fa fa-map-marker"></i> @GetAddress()</a></li>
                 </ul>
                 <ul class="header-links pull-right">
                     <partial name="_LoginPartial"></partial>
@@ -236,12 +236,12 @@
                 <div class="row">
                     <div class="col-md-3 col-xs-6">
                         <div class="footer">
-                            <h3 class="footer-title">About Us</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+                            <h3 class="footer-title">За нас</h3>
+                            <p>@GetAboutUs()</p>
                             <ul class="footer-links">
-                                <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-                                <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-                                <li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+                                <li><a href="#"><i class="fa fa-map-marker"></i>@GetAddress()</a></li>
+                                <li><a href="#"><i class="fa fa-phone"></i>@GetPhoneNumber()</a></li>
+                                <li><a href="#"><i class="fa fa-envelope-o"></i>@GetEmail()</a></li>
                             </ul>
                         </div>
                     </div>
