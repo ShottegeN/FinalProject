@@ -43,18 +43,26 @@ body {
     }
 }
 
-#hot-deal.section {
-    background-color: #E4E7ED;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
-    border-color: lightgray;
-}
 
 .slick-prev:focus, .slick-next:focus {
-    background-color: white;
-    border-color: transparent;
+    background-color: white; /* Maintain background */
+    border-color: transparent; /* Keep border transparent */
 }
 
     .slick-prev:focus:before, .slick-next:focus:before {
-        color: #2B2D42; /* Replace this with your desired default arrow color */
+        color: #2B2D42; /* Default color */
     }
+
+/* Add hover effect to override focus state */
+.slick-prev:hover:before, .slick-next:hover:before {
+    color: #FFF; /* Replace with the color for hover */
+}
+
+.slick-prev:hover, .slick-next:hover {
+    background-color: #D10024; /* Replace with your hover background color */
+    border-color: #D10024; /* Replace with your hover border color */
+}
+
+#newsletter.section {
+    border: none;
+}
