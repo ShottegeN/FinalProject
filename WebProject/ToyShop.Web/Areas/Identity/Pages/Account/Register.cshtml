@@ -5,64 +5,54 @@
 }
 
 <!-- SECTION -->
-<div class="section">
+<div class="section py-5">
     <!-- container -->
     <div class="container">
-        <h1>@ViewData["Title"]</h1>
+        <h1 class="mb-4 text-left">@ViewData["Title"]</h1>
 
-        <div class="row">
-            <div class="col-md-4">
-                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <h2>Създай профил.</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-5 mb-5">
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="p-4 border rounded shadow-sm">
+                    <h2 class="mb-4">Създай профил.</h2>
                     <hr />
-                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                    <div class="form-floating mb-3">
-                        <label asp-for="Input.Email">Имейл</label>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+                    <div class="form-floating mb-4" style="margin-top: 1em;">
+                        <label asp-for="Input.Email" class="form-label">Имейл</label>
                         <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>                   
-                    <div class="form-floating mb-3">
-                        <label asp-for="Input.Password">Парола</label>
+                    </div>
+                    <div class="form-floating mb-4" style="margin-top: 1em;">
+                        <label asp-for="Input.Password" class="form-label">Парола</label>
                         <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3">
-                        <label asp-for="Input.ConfirmPassword">Потвърди парола</label>
+                    <div class="form-floating mb-4" style="margin-top: 1em;">
+                        <label asp-for="Input.ConfirmPassword" class="form-label">Потвърди парола</label>
                         <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
-                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Регистрация</button>
+                    <button id="registerSubmit" type="submit" class="w-100 btn btn-primary" style="margin-top: 1em;"> Регистрация</button>
                 </form>
             </div>
-            <div class="col-md-6 col-md-offset-2">
-                <section>
-                    <h3>Use another service to register.</h3>
-                    <hr />
-                    @{
-                        if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                        {
-                            <div>
-                                <p>
-                                    There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
-                                        article
-                                        about setting up this ASP.NET application to support logging in via external services
-                                    </a>.
-                                </p>
-                            </div>
-                        }
-                        else
-                        {
-                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                                <div>
-                                    <p>
-                                        @foreach (var provider in Model.ExternalLogins!)
-                                        {
-                                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                        }
-                                    </p>
-                                </div>
-                            </form>
-                        }
+            <div class="col-md-6 offset-md-1">
+                <section class="p-4 border rounded shadow-sm">
+                    <h3 class="mb-4">Използвайте друга услуга за регистрация.</h3>
+                    @if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
+                        <div class="alert alert-warning">
+                            <p>
+                                Няма конфигурирани външни услуги за удостоверяване. Вижте тази <a href="https://go.microsoft.com/fwlink/?LinkID=532715">статия</a> за това как да настроите това ASP.NET приложение за поддръжка на влизане чрез външни услуги.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="d-grid gap-3">
+                            @foreach (var provider in Model.ExternalLogins!)
+                            {
+                                <button type="submit" class="btn btn-outline-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                            }
+                        </form>
                     }
                 </section>
             </div>

@@ -66,3 +66,10 @@ body {
 #newsletter.section {
     border: none;
 }
+ul .loginLi {
+    padding-bottom: 0.5em ;
+}
+
+loginBtn {
+    padding-bottom: 0.5em;
+}
