@@ -735,7 +735,7 @@ namespace ToyShop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4440bef2-9cfb-46ca-bbf6-43ca48e015b2"),
+                            Id = new Guid("71df7d5b-c5c8-418e-8789-e56fef577816"),
                             CategoryId = 1,
                             Description = "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.",
                             GlobalCategory = 0,
@@ -744,12 +744,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Еленче Рони",
                             Price = 35m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 18, 15, 9, 52, 336, DateTimeKind.Local).AddTicks(2799),
+                            ReleasedOn = new DateTime(2024, 11, 18, 22, 52, 6, 248, DateTimeKind.Local).AddTicks(3913),
                             ShortDescription = "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж."
                         },
                         new
                         {
-                            Id = new Guid("7a568f58-0015-415c-b3c1-68db05fd9a11"),
+                            Id = new Guid("4c036494-b0fe-4d18-8b98-d6725d02ff34"),
                             CategoryId = 2,
                             Description = "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ",
                             GlobalCategory = 0,
@@ -759,12 +759,12 @@ namespace ToyShop.Data.Migrations
                             Price = 55m,
                             PromotionId = 1,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 18, 15, 9, 52, 336, DateTimeKind.Local).AddTicks(2957),
+                            ReleasedOn = new DateTime(2024, 11, 18, 22, 52, 6, 248, DateTimeKind.Local).AddTicks(4095),
                             ShortDescription = "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. "
                         },
                         new
                         {
-                            Id = new Guid("8a7db35b-bfcc-4473-bd93-c4091660702b"),
+                            Id = new Guid("792195dd-517c-4c83-9de1-edb6a5453f37"),
                             CategoryId = 3,
                             Description = "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.",
                             GlobalCategory = 0,
@@ -773,12 +773,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Жирафче Сами",
                             Price = 45m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 18, 15, 9, 52, 336, DateTimeKind.Local).AddTicks(2993),
+                            ReleasedOn = new DateTime(2024, 11, 18, 22, 52, 6, 248, DateTimeKind.Local).AddTicks(4141),
                             ShortDescription = "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж."
                         },
                         new
                         {
-                            Id = new Guid("4b479c27-a8ec-4f0b-830d-af142315f774"),
+                            Id = new Guid("e51d3177-b698-49ce-b0bf-771d65ba800e"),
                             CategoryId = 4,
                             Description = "Софи е висока около 24см. Идеална е за игри и гушкане.",
                             GlobalCategory = 0,
@@ -787,12 +787,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Зайче Софи",
                             Price = 25m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 18, 15, 9, 52, 336, DateTimeKind.Local).AddTicks(3022),
+                            ReleasedOn = new DateTime(2024, 11, 18, 22, 52, 6, 248, DateTimeKind.Local).AddTicks(4176),
                             ShortDescription = "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
                         },
                         new
                         {
-                            Id = new Guid("cc766d02-ca9f-4e45-96b0-7fd26c8afad6"),
+                            Id = new Guid("c4ebf7d7-22cf-4fc6-99fb-dbb9c5f28288"),
                             CategoryId = 5,
                             Description = "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!",
                             GlobalCategory = 0,
@@ -801,7 +801,7 @@ namespace ToyShop.Data.Migrations
                             Name = "Кученце Бейли",
                             Price = 35m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 18, 15, 9, 52, 336, DateTimeKind.Local).AddTicks(3047),
+                            ReleasedOn = new DateTime(2024, 11, 18, 22, 52, 6, 248, DateTimeKind.Local).AddTicks(4206),
                             ShortDescription = "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
                         });
                 });
@@ -846,15 +846,17 @@ namespace ToyShop.Data.Migrations
                         {
                             Id = 1,
                             DiscountPercentage = 20,
-                            EndDate = new DateTime(2024, 2, 29, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "img/promotions/winter-promotion.png",
                             Name = "Зимна Разпродажба",
-                            StartDate = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             DiscountPercentage = 30,
                             EndDate = new DateTime(2025, 5, 31, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "img/promotions/example.png",
                             Name = "Пролетна Разпродажба",
                             StartDate = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -863,6 +865,7 @@ namespace ToyShop.Data.Migrations
                             Id = 3,
                             DiscountPercentage = 20,
                             EndDate = new DateTime(2025, 8, 31, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "img/promotions/example.png",
                             Name = "Лятна Разпродажба",
                             StartDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -871,6 +874,7 @@ namespace ToyShop.Data.Migrations
                             Id = 4,
                             DiscountPercentage = 30,
                             EndDate = new DateTime(2025, 11, 30, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "img/promotions/example.png",
                             Name = "Есенна Разпродажба",
                             StartDate = new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -879,7 +883,8 @@ namespace ToyShop.Data.Migrations
                             Id = 5,
                             DiscountPercentage = 10,
                             EndDate = new DateTime(2024, 12, 31, 23, 59, 59, 0, DateTimeKind.Unspecified),
-                            Name = "Разпродажба 2024",
+                            ImageUrl = "img/promotions/year-promotion.png",
+                            Name = "Годишна разпродажба",
                             StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });

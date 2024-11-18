@@ -3,9 +3,9 @@
     "Id": 1,
     "Name": "Зимна Разпродажба",
     "DiscountPercentage": 20,
-    "StartDate": "2024-12-01T00:00:00",
-    "EndDate": "2024-02-29T23:59:59",
-    "ImgUrl": "img/promotions/example.png"
+    "StartDate": "2024-11-01T00:00:00",
+    "EndDate": "2025-03-01T00:00:00",
+    "ImageUrl": "img/promotions/winter-promotion.png"
   },
   {
     "Id": 2,
@@ -13,7 +13,7 @@
     "DiscountPercentage": 30,
     "StartDate": "2025-03-01T00:00:00",
     "EndDate": "2025-05-31T23:59:59",
-    "ImgUrl": "img/promotions/example.png"
+    "ImageUrl": "img/promotions/example.png"
   },
   {
     "Id": 3,
@@ -21,7 +21,7 @@
     "DiscountPercentage": 20,
     "StartDate": "2025-06-01T00:00:00",
     "EndDate": "2025-08-31T23:59:59",
-    "ImgUrl": "img/promotions/example.png"
+    "ImageUrl": "img/promotions/example.png"
   },
   {
     "Id": 4,
@@ -29,14 +29,14 @@
     "DiscountPercentage": 30,
     "StartDate": "2025-09-01T00:00:00",
     "EndDate": "2025-11-30T23:59:59",
-    "ImgUrl": "img/promotions/example.png"
+    "ImageUrl": "img/promotions/example.png"
   },
   {
     "Id": 5,
-    "Name": "Разпродажба 2024",
+    "Name": "Годишна разпродажба",
     "DiscountPercentage": 10,
     "StartDate": "2024-01-01T00:00:00",
     "EndDate": "2024-12-31T23:59:59",
-    "ImgUrl": "img/promotions/example.png"
+    "ImageUrl": "img/promotions/year-promotion.png"
   }
 ]

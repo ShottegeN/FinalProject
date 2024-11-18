@@ -105,7 +105,7 @@
     </div>
     <!-- /SECTION -->
     <!-- HOT DEAL SECTION -->
-    <div id="hot-deal" class="section">
+    <div id="hot-deal" class="section" style="background-image: url('/img/promotions/default-promotion.png')">
         <!-- container -->
         <div class="container">
             <!-- row -->
@@ -115,7 +115,9 @@
                         @foreach (var promotion in Model.ActivePromotions)
                         {
                             <!-- Hot Deal Partial Item for each active promotion -->
-                            <partial name="_PromotionPartial" model="promotion" />
+                            <div class="slick-slide" data-promotion-image="@promotion.ImageUrl">
+                                <partial name="_PromotionPartial" model="promotion" />
+                            </div>
                         }
                     </div>
                 </div>

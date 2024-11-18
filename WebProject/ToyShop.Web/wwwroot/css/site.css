@@ -1,22 +1,60 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
+
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
+.slick-prev, .slick-next {
+    top: 107%;
+}
+
+.slick-prev {
+    left: 30%;
+}
+
+.slick-next {
+    right: 30%;
+}
+
+@media (max-width: 1400px) {
+    #hot-deal.section {
+        background-image: none !important; /* Remove background image on smaller screens */
+        background-color: #E4E7ED;
+    }
+}
+
+#hot-deal.section {
+    background-color: #E4E7ED;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: lightgray;
+}
+
+.slick-prev:focus, .slick-next:focus {
+    background-color: white;
+    border-color: transparent;
+}
+
+    .slick-prev:focus:before, .slick-next:focus:before {
+        color: #2B2D42; /* Replace this with your desired default arrow color */
+    }
