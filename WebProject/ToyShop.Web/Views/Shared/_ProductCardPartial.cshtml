@@ -14,7 +14,7 @@
 
         <div class="product-label">
             <!-- Show promotion label if available -->
-            @if (Model.DiscountPercentage.HasValue)
+            @if (Model.DiscountPercentage > 0)
             {
                 <span class="sale">@Model.DiscountPercentage%</span>
             }

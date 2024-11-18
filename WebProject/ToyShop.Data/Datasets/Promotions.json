@@ -1,44 +1,42 @@
 [
   {
     "Id": 1,
-    "Name": "Winter Sale",
-    "DiscountPercentage": 25,
+    "Name": "Зимна Разпродажба",
+    "DiscountPercentage": 20,
     "StartDate": "2024-12-01T00:00:00",
-    "EndDate": "2024-12-31T23:59:59"
+    "EndDate": "2024-02-29T23:59:59",
+    "ImgUrl": "img/promotions/example.png"
   },
   {
     "Id": 2,
-    "Name": "Black Friday Deal",
-    "DiscountPercentage": 50,
-    "StartDate": "2024-11-25T00:00:00",
-    "EndDate": "2024-11-30T23:59:59"
+    "Name": "Пролетна Разпродажба",
+    "DiscountPercentage": 30,
+    "StartDate": "2025-03-01T00:00:00",
+    "EndDate": "2025-05-31T23:59:59",
+    "ImgUrl": "img/promotions/example.png"
   },
   {
     "Id": 3,
-    "Name": "Spring Clearance",
-    "DiscountPercentage": 30,
-    "StartDate": "2025-03-01T00:00:00",
-    "EndDate": "2025-03-31T23:59:59"
+    "Name": "Лятна Разпродажба",
+    "DiscountPercentage": 20,
+    "StartDate": "2025-06-01T00:00:00",
+    "EndDate": "2025-08-31T23:59:59",
+    "ImgUrl": "img/promotions/example.png"
   },
   {
     "Id": 4,
-    "Name": "Summer Blowout",
-    "DiscountPercentage": 40,
-    "StartDate": "2025-06-01T00:00:00",
-    "EndDate": "2025-06-30T23:59:59"
+    "Name": "Есенна Разпродажба",
+    "DiscountPercentage": 30,
+    "StartDate": "2025-09-01T00:00:00",
+    "EndDate": "2025-11-30T23:59:59",
+    "ImgUrl": "img/promotions/example.png"
   },
   {
     "Id": 5,
-    "Name": "Back to School",
-    "DiscountPercentage": 20,
-    "StartDate": "2025-08-15T00:00:00",
-    "EndDate": "2025-09-15T23:59:59"
-  },
-  {
-    "Id": 6,
-    "Name": "Active Promotion",
-    "DiscountPercentage": 20,
-    "StartDate": "2024-08-15T00:00:00",
-    "EndDate": "2025-09-15T23:59:59"
+    "Name": "Разпродажба 2024",
+    "DiscountPercentage": 10,
+    "StartDate": "2024-01-01T00:00:00",
+    "EndDate": "2024-12-31T23:59:59",
+    "ImgUrl": "img/promotions/example.png"
   }
 ]

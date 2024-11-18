@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToyShop.Data;
 
@@ -11,9 +12,11 @@ using ToyShop.Data;
 namespace ToyShop.Data.Migrations
 {
     [DbContext(typeof(ToyShopDbContext))]
-    partial class ToyShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118130407_PromotionsDatasetChanges")]
+    partial class PromotionsDatasetChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -735,7 +738,7 @@ namespace ToyShop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4440bef2-9cfb-46ca-bbf6-43ca48e015b2"),
+                            Id = new Guid("c67cdf1a-d030-409c-b1f3-e74557607ef9"),
                             CategoryId = 1,
                             Description = "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.",
                             GlobalCategory = 0,
@@ -744,12 +747,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Еленче Рони",
                             Price = 35m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 18, 15, 9, 52, 336, DateTimeKind.Local).AddTicks(2799),
+                            ReleasedOn = new DateTime(2024, 11, 18, 15, 4, 7, 299, DateTimeKind.Local).AddTicks(3720),
                             ShortDescription = "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж."
                         },
                         new
                         {
-                            Id = new Guid("7a568f58-0015-415c-b3c1-68db05fd9a11"),
+                            Id = new Guid("1aaf33ee-9480-49a9-b220-2bb7ee50ef0d"),
                             CategoryId = 2,
                             Description = "Височината е около 35см, без шапчицата. Това сладко мече Дани вече се радва на много гушкане и игри и не е налично, но може да бъде изработено по поръчка. ",
                             GlobalCategory = 0,
@@ -759,12 +762,12 @@ namespace ToyShop.Data.Migrations
                             Price = 55m,
                             PromotionId = 1,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 18, 15, 9, 52, 336, DateTimeKind.Local).AddTicks(2957),
+                            ReleasedOn = new DateTime(2024, 11, 18, 15, 4, 7, 299, DateTimeKind.Local).AddTicks(3904),
                             ShortDescription = "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. "
                         },
                         new
                         {
-                            Id = new Guid("8a7db35b-bfcc-4473-bd93-c4091660702b"),
+                            Id = new Guid("71bca37c-065b-487a-ae7f-29a0f8941851"),
                             CategoryId = 3,
                             Description = "Висок е малко над 35см. Емблемата е бродирана и се заплаща допълнително спрямо размерите.",
                             GlobalCategory = 0,
@@ -773,12 +776,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Жирафче Сами",
                             Price = 45m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 18, 15, 9, 52, 336, DateTimeKind.Local).AddTicks(2993),
+                            ReleasedOn = new DateTime(2024, 11, 18, 15, 4, 7, 299, DateTimeKind.Local).AddTicks(3949),
                             ShortDescription = "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж."
                         },
                         new
                         {
-                            Id = new Guid("4b479c27-a8ec-4f0b-830d-af142315f774"),
+                            Id = new Guid("e273dde8-526c-48b3-a0e3-b092b5b19cfe"),
                             CategoryId = 4,
                             Description = "Софи е висока около 24см. Идеална е за игри и гушкане.",
                             GlobalCategory = 0,
@@ -787,12 +790,12 @@ namespace ToyShop.Data.Migrations
                             Name = "Зайче Софи",
                             Price = 25m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 18, 15, 9, 52, 336, DateTimeKind.Local).AddTicks(3022),
+                            ReleasedOn = new DateTime(2024, 11, 18, 15, 4, 7, 299, DateTimeKind.Local).AddTicks(3986),
                             ShortDescription = "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
                         },
                         new
                         {
-                            Id = new Guid("cc766d02-ca9f-4e45-96b0-7fd26c8afad6"),
+                            Id = new Guid("727f2a9a-7f24-4496-bb0f-1d0cbc29df7e"),
                             CategoryId = 5,
                             Description = "Височината му е около 30см. Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!",
                             GlobalCategory = 0,
@@ -801,7 +804,7 @@ namespace ToyShop.Data.Migrations
                             Name = "Кученце Бейли",
                             Price = 35m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 18, 15, 9, 52, 336, DateTimeKind.Local).AddTicks(3047),
+                            ReleasedOn = new DateTime(2024, 11, 18, 15, 4, 7, 299, DateTimeKind.Local).AddTicks(4017),
                             ShortDescription = "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички."
                         });
                 });
@@ -845,39 +848,47 @@ namespace ToyShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DiscountPercentage = 20,
-                            EndDate = new DateTime(2024, 2, 29, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            DiscountPercentage = 25,
+                            EndDate = new DateTime(2025, 2, 28, 23, 59, 59, 0, DateTimeKind.Unspecified),
                             Name = "Зимна Разпродажба",
-                            StartDate = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
+                            DiscountPercentage = 50,
+                            EndDate = new DateTime(2024, 11, 30, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            Name = "Черна Петък Оферти",
+                            StartDate = new DateTime(2024, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
                             DiscountPercentage = 30,
-                            EndDate = new DateTime(2025, 5, 31, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2025, 3, 31, 23, 59, 59, 0, DateTimeKind.Unspecified),
                             Name = "Пролетна Разпродажба",
                             StartDate = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = 3,
-                            DiscountPercentage = 20,
-                            EndDate = new DateTime(2025, 8, 31, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            Id = 4,
+                            DiscountPercentage = 40,
+                            EndDate = new DateTime(2025, 6, 30, 23, 59, 59, 0, DateTimeKind.Unspecified),
                             Name = "Лятна Разпродажба",
                             StartDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = 4,
-                            DiscountPercentage = 30,
-                            EndDate = new DateTime(2025, 11, 30, 23, 59, 59, 0, DateTimeKind.Unspecified),
-                            Name = "Есенна Разпродажба",
-                            StartDate = new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Id = 5,
+                            DiscountPercentage = 20,
+                            EndDate = new DateTime(2025, 9, 15, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            Name = "Обратно в Училище",
+                            StartDate = new DateTime(2025, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = 5,
-                            DiscountPercentage = 10,
+                            Id = 6,
+                            DiscountPercentage = 20,
                             EndDate = new DateTime(2024, 12, 31, 23, 59, 59, 0, DateTimeKind.Unspecified),
                             Name = "Разпродажба 2024",
                             StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)

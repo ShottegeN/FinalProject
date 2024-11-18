@@ -20,6 +20,7 @@ namespace ToyShop.Core.Services
             var products = await repo.AllReadonlyAsync<Product>()
                 .Where(p => p.IsAvailable)
                 .Where(p => p.ReleasedOn >= DateTime.Now.AddDays(-30))
+                .OrderByDescending(p => p.ReleasedOn)
                 .Take(10)
                 .Select(p => new ProductInfoViewModel
                 {
@@ -29,7 +30,7 @@ namespace ToyShop.Core.Services
                     Quantity = p.Quantity,
                     Price = p.Price,
                     Category = p.Category.Name,
-                    DiscountPercentage = p.Promotion != null ? p.Promotion.DiscountPercentage : null,
+                    DiscountPercentage = p.Promotion != null ? p.Promotion.DiscountPercentage : 0,
                     ShortDescription = p.ShortDescription,
                     Rating = p.Reviews.Sum(r => r.Rating),
                     Description = p.Description
