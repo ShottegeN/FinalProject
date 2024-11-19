@@ -28,7 +28,7 @@ namespace ToyShop.Data.Models
 
         [Column(TypeName = "money")]
         [Comment("Price of the product in monetary terms")]
-        public decimal Price { get; set; }
+        public decimal Price { get; set; }        
 
         [Required]
         [MaxLength(ProductConstraints.SizeMaxLength)]

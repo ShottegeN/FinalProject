@@ -1,7 +1,7 @@
 ﻿namespace ToyShop.ViewModels
 {
     public class ProductInfoViewModel
-    {
+    {      
         public Guid Id { get; set; }
 
         public required string ProductName { get; set; }
@@ -18,8 +18,10 @@
 
         public required string Category { get; set; }
 
-        public int? DiscountPercentage { get; set; }
+        public int DiscountPercentage { get; set; }
 
         public int Rating { get; set; }
+
+        public decimal PromotionalPrice {  get; set; }
     }
 }

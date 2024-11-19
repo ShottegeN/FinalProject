@@ -20,17 +20,17 @@ namespace ToyShop.Web.Controllers
 
         public async Task<IActionResult> Index(string sortBy = "rating", int pageNumber = 1, int pageSize = 9)
         {
-            var products = await productService.GetAllProductsAsync(sortBy, true, pageNumber, pageSize);
+            var products = await productService.GetAllProductsAsync(sortBy, pageNumber, pageSize);
 
             // Handle pagination (calculate total pages, etc.)
-            var totalProducts = await productService.GetAllProductsCountAsync();
-            var totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
+            var productsCount = await productService.GetAllProductsCountAsync();
+            var totalPages = (int)Math.Ceiling(productsCount / (double)pageSize);
 
             // Pass the products and pagination data to the vieww
             ViewData["TotalPages"] = totalPages;
             ViewData["CurrentPage"] = pageNumber;
-            ViewData["SortBy"] = sortBy; // Pass selected sorting option
-            ViewData["PageSize"] = pageSize; // Pass selected page size
+            ViewData["SortBy"] = sortBy; 
+            ViewData["PageSize"] = pageSize;
 
             return View(products);
         }

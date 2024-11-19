@@ -1,4 +1,5 @@
 ﻿@model ToyShop.ViewModels.ProductInfoViewModel;
+
 <div class="col-md-4 col-xs-6">
     <div class="product">
         <div class="product-img">
@@ -11,6 +12,14 @@
             {
                 <img src="~/img/no-image-available-02.jpg" alt="No Image Available">
             }
+
+            <div class="product-label">
+                <!-- Show promotion label if available -->
+                @if (Model.DiscountPercentage > 0)
+                {
+                    <span class="sale">- @Model.DiscountPercentage%</span>
+                }
+            </div>
         </div>
         <div class="product-body">
             <p class="product-category">@Model.Category</p>
@@ -19,11 +28,11 @@
             <!-- Product Price -->
             @if (Model.DiscountPercentage > 0)
             {
-                var discountedPrice = Model.Price - (Model.Price * Model.DiscountPercentage / 100m);
+                @*  var discountedPrice = Model.Price - (Model.Price * Model.DiscountPercentage / 100m); *@
                 var cultureInfo = System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG");
 
                 <h4 class="product-price">
-                    @String.Format(cultureInfo, "{0:C}", discountedPrice)
+                    @String.Format(cultureInfo, "{0:C}", Model.PromotionalPrice)
                     <del class="product-old-price">
                         @String.Format(cultureInfo, "{0:C}", Model.Price)
                     </del>

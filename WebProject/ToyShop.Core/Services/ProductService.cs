@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
@@ -15,46 +16,59 @@ namespace ToyShop.Core.Services
             repo = _repo;
         }
 
-        public async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsAsync(
-             string sortBy = "rating", // Default sort by name
-             bool ascending = true,  // Default sort direction ascending
-             int pageNumber = 1,     // Default to first page
-             int pageSize = 9)      // Default page size of 9
+        public async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsAsync(string sortBy, int pageNumber = 1, int pageSize = 9)
         {
-            // Determine the sorting expression
-            IQueryable<Product> query = repo.AllReadonlyAsync<Product>()
-                .Where(p => p.IsAvailable);  // Only include available products
-
-            // Apply sorting
-            query = sortBy.ToLower() switch
+            var productsQuery = await repo.AllReadonlyAsync<Product>()
+                .Where(p => p.IsAvailable)
+                .Select(p => new ProductInfoViewModel
+                {
+                    Id = p.Id,
+                    ProductName = p.Name,
+                    ImageUrl = p.ImageUrl,
+                    Quantity = p.Quantity,
+                    Price = p.Price,
+                    DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
+                    Category = p.Category.Name,
+                    ShortDescription = p.ShortDescription,
+                    Rating = p.Reviews.Sum(r => r.Rating),
+                    Description = p.Description
+                })
+                .ToListAsync();
+            
+            foreach (var p in productsQuery)
             {
-                "price" => ascending ? query.OrderBy(p => p.Price) : query.OrderByDescending(p => p.Price),
-                "rating" => ascending ? query.OrderBy(p => p.Reviews.Sum(r => r.Rating)) : query.OrderByDescending(p => p.Reviews.Sum(r => r.Rating)),
-                "name" => ascending ? query.OrderBy(p => p.Name) : query.OrderByDescending(p => p.Name),
-                _ => query.OrderBy(p => p.Name),  // Default to sorting by Name if invalid option
-            };
+                p.PromotionalPrice = p.Price - p.Price * p.DiscountPercentage / 100;
+            }
 
-            // Apply pagination
-            query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-            // Fetch the products and map to the view model
-            var products = await query.Select(p => new ProductInfoViewModel
+            switch (sortBy.ToLower())
             {
-                Id = p.Id,
-                ProductName = p.Name,
-                ImageUrl = p.ImageUrl,
-                Quantity = p.Quantity,
-                Price = p.Price,
-                Category = p.Category.Name,
-                DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
-                ShortDescription = p.ShortDescription,
-                Rating = p.Reviews.Sum(r => r.Rating),
-                Description = p.Description
-            }).ToListAsync();
+                case "price_asc":
+                    productsQuery = productsQuery.OrderBy(p => p.PromotionalPrice).ToList();
+                    break;
 
-            return products;
+                case "price_desc":
+                    productsQuery = productsQuery.OrderByDescending(p => p.PromotionalPrice).ToList();
+                    break;
+
+                case "name_asc":
+                    productsQuery = productsQuery.OrderBy(p => p.ProductName).ToList();
+                    break;
+
+                case "name_desc":
+                    productsQuery = productsQuery.OrderByDescending(p => p.ProductName).ToList();
+                    break;
+
+                default:
+                    productsQuery = productsQuery.OrderBy(p => p.Rating).ToList();
+                    break;
+            }
+
+
+            productsQuery = productsQuery.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            return productsQuery;
         }
-
 
         public async Task<IEnumerable<ProductInfoViewModel>> GetNewestProductsAsync()
         {
@@ -70,7 +84,7 @@ namespace ToyShop.Core.Services
                     ImageUrl = p.ImageUrl,
                     Quantity = p.Quantity,
                     Price = p.Price,
-                    Category = p.Category.Name,                    
+                    Category = p.Category.Name,
                     DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
                     ShortDescription = p.ShortDescription,
                     Rating = p.Reviews.Sum(r => r.Rating),

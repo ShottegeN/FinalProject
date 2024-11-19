@@ -195,42 +195,27 @@
                         <div class="store-sort">
                             <label>
                                 Подреди по:
-                                <select class="input-select" id="sortBy" onchange="updateFilter()">
-                                    <option value="rating" selected>Rating</option> <!-- Default sort by Rating -->
-                                    <option value="price">Price</option>
-                                    <option value="name">Name</option>
+                                <select class="input-select" id="sortBy" data-sort-by="@ViewData["SortBy"]" onchange="updateFilter()">
+                                    <option value="rating">Рейтинг</option> <!-- Default: Sort by Rating -->
+                                    <option value="price_asc">Цена ↑</option> <!-- Sort by Price Ascending -->
+                                    <option value="price_desc">Цена ↓</option> <!-- Sort by Price Descending -->
+                                    <option value="name_asc">Име ↑</option> <!-- Sort by Name Ascending -->
+                                    <option value="name_desc">Име ↓</option> <!-- Sort by Name Descending -->
                                 </select>
                             </label>
 
                             <label>
                                 Покажи:
-                                <select class="input-select" id="pageSize" onchange="updateFilter()">
-                                    <option value="9" selected>9</option> <!-- Default items per page -->
+                                <select class="input-select" id="pageSize" data-page-size="@ViewData["PageSize"]" onchange="updateFilter()">
+                                    <option value="9">9</option>
                                     <option value="18">18</option>
                                     <option value="27">27</option>
                                 </select>
                             </label>
                         </div>
-                        <ul class="store-grid">
-                            <li class="active"><i class="fa fa-th"></i></li>
-                            <li><a href="#"><i class="fa fa-th-list"></i></a></li>
-                        </ul>
                     </div>
+
                     <!-- /store top filter -->
-
-                    <script>
-                        function updateFilter() {
-                            // Get the selected values for sorting and page size
-                            var sortBy = document.getElementById("sortBy").value;
-                            var pageSize = document.getElementById("pageSize").value;
-
-                            // Redirect to the same page with updated query parameters
-                            var url = new URL(window.location.href);
-                            url.searchParams.set('sortBy', sortBy);
-                            url.searchParams.set('pageSize', pageSize);
-                            window.location.href = url.toString(); // Navigate to the updated URL
-                        }
-                    </script>
 
                     <!-- store products -->
                     <div class="row">
@@ -263,3 +248,5 @@
     </div>
     <!-- /SECTION -->
 </div>
+
+<script src="~/js/store-filter.js"></script>
