@@ -1,6 +1,6 @@
 ﻿namespace ToyShop.Common
 {
-    public static class LayoutData
+    public static class SiteData
     {
         private const int ReleaseYear = 2024;
         private const string Address = "8000 Бургас";

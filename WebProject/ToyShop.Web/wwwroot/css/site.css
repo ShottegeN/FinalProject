@@ -2,6 +2,10 @@ html {
     font-size: 14px;
 }
 
+#header {
+    background-color: #E4E7ED;
+}
+
 @media (max-width: 768px) {
     .footer-menu {
         flex-direction: column !important;
@@ -83,3 +87,8 @@ loginBtn {
     display: flex;
     justify-content: center;
 }
+
+.input-select {
+    border-radius: 0.7em;
+}
+

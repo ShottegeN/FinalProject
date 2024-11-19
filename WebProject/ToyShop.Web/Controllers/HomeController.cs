@@ -24,12 +24,12 @@ namespace ToyShop.Web.Controllers
             var newProducts = await productService.GetNewestProductsAsync();
             var activePromotions = await promotionService.GetActivePromotionsAsync();
 
-            var homeProducts = new HomeViewModel
+            var homeViewModel = new HomeViewModel
             {
                 NewProducts = newProducts,
                 ActivePromotions = activePromotions
             };
-            return View(homeProducts);
+            return View(homeViewModel);
         }       
 
         public IActionResult Privacy()

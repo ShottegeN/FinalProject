@@ -6,21 +6,29 @@ using ToyShop.ViewModels;
 namespace ToyShop.Web.Controllers
 {
     //[Authorize]
-    public class ProductController : Controller
+    public class StoreController : Controller
     {
-        private readonly ILogger<ProductController> logger;
+        private readonly ILogger<StoreController> logger;
         private readonly IProductService productService;
-        
+        private readonly ICategoryService categoryService;
 
-        public ProductController(ILogger<ProductController> _logger, IProductService _productService)
+        public StoreController(ILogger<StoreController> _logger, IProductService _productService, ICategoryService _categoryService)
         {
             logger = _logger;
             productService = _productService;
+            categoryService = _categoryService;
         }
 
         public async Task<IActionResult> Index(string sortBy = "rating", int pageNumber = 1, int pageSize = 9)
         {
             var products = await productService.GetAllProductsAsync(sortBy, pageNumber, pageSize);
+            var categories = await categoryService.GetAllCategoriesAsync();
+
+            var storeViewModel = new StoreViewModel
+            {
+                AllProducts = products,
+                AllCategories = categories
+            };
 
             // Handle pagination (calculate total pages, etc.)
             var productsCount = await productService.GetAllProductsCountAsync();
@@ -32,7 +40,7 @@ namespace ToyShop.Web.Controllers
             ViewData["SortBy"] = sortBy; 
             ViewData["PageSize"] = pageSize;
 
-            return View(products);
+            return View(storeViewModel);
         }
 
 
