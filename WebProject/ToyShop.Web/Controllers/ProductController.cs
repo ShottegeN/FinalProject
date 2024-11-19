@@ -18,10 +18,30 @@ namespace ToyShop.Web.Controllers
             productService = _productService;
         }
 
-        public IActionResult Index()
-        {            
-            return View();
-        }       
+        public async Task<IActionResult> Index(string sortBy = "rating", int pageNumber = 1, int pageSize = 9)
+        {
+            var products = await productService.GetAllProductsAsync(sortBy, true, pageNumber, pageSize);
+
+            // Handle pagination (calculate total pages, etc.)
+            var totalProducts = await productService.GetAllProductsCountAsync();
+            var totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
+
+            // Pass the products and pagination data to the view
+            ViewData["TotalPages"] = totalPages;
+            ViewData["CurrentPage"] = pageNumber;
+            ViewData["SortBy"] = sortBy; // Pass selected sorting option
+            ViewData["PageSize"] = pageSize; // Pass selected page size
+
+            return View(products);
+        }
+
+
+
+
+
+
+
+
 
         //modelState.Isvalid should be after all other errors, so all of them could be displayed at once! 
         // use modelState.AddModelError for the different errors!

@@ -30,6 +30,11 @@ namespace ToyShop.Data.Models
         [Comment("Price of the product in monetary terms")]
         public decimal Price { get; set; }
 
+        [Required]
+        [MaxLength(ProductConstraints.SizeMaxLength)]
+        [Comment("Size of the product with a maximum length constraint")]
+        public string Size { get; set; } = null!;
+
         [Comment("The date when the product was released")]
         public DateTime ReleasedOn { get; set; }
 
