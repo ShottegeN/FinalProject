@@ -4,6 +4,6 @@ namespace ToyShop.Core.Contracts
 {
     public interface IPromotionService
     {
-        public Task<List<PromotionViewModel>> GetActivePromotionsAsync();
+        public Task<IEnumerable<PromotionViewModel>> GetActivePromotionsAsync();
     }
 }

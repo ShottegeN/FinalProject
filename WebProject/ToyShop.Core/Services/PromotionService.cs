@@ -20,7 +20,7 @@ namespace ToyShop.Core.Services
             repo = _repo;
         }
 
-        public async Task<List<PromotionViewModel>> GetActivePromotionsAsync()
+        public async Task<IEnumerable<PromotionViewModel>> GetActivePromotionsAsync()
         {
             var activePromotions = await repo.AllReadonlyAsync<Promotion>()
                 .Where(p => p.StartDate < DateTime.Now && p.EndDate > DateTime.Now)                
