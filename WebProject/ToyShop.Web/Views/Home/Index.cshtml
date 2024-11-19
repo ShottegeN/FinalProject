@@ -64,16 +64,8 @@
 
                 <!-- section title -->
                 <div class="col-md-12">
-                    <div class="section-title">
-                        <h3 class="title">Нови предложения</h3>
-                        <div class="section-nav">
-                            <ul class="section-tab-nav tab-nav">
-                                <li class="active"><a data-toggle="tab" asp-controller="Home" asp-action="Index">Играчки</a></li>
-                                <li><a data-toggle="tab" href="#tab1">Аксесоари</a></li>
-                                <li><a data-toggle="tab" href="#tab1">Декорации</a></li>
-                                <li><a data-toggle="tab" href="#tab1">Други</a></li>
-                            </ul>
-                        </div>
+                    <div class="section-title text-center">
+                        <h2 class="title">Нови предложения</h2>                        
                     </div>
                 </div>
                 <!-- /section title -->
@@ -87,7 +79,7 @@
                                     @foreach (var product in Model.NewProducts)
                                     {
                                         <!-- product -->
-                                        <partial name="_ProductCardPartial" model="product" />
+                                        <partial name="_HomeProductCardPartial" model="product" />
                                         <!-- /product -->
                                     }
                                 </div>

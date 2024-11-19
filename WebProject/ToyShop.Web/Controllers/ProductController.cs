@@ -26,7 +26,7 @@ namespace ToyShop.Web.Controllers
             var totalProducts = await productService.GetAllProductsCountAsync();
             var totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
 
-            // Pass the products and pagination data to the view
+            // Pass the products and pagination data to the vieww
             ViewData["TotalPages"] = totalPages;
             ViewData["CurrentPage"] = pageNumber;
             ViewData["SortBy"] = sortBy; // Pass selected sorting option
