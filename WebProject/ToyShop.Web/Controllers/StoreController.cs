@@ -23,25 +23,22 @@ namespace ToyShop.Web.Controllers
         {
             var products = await productService.GetAllProductsAsync(sortBy, pageNumber, pageSize);
             var categories = await categoryService.GetAllCategoriesAsync();
+            var productsCount = await productService.GetAllProductsCountAsync();
+            var totalPages = (int)Math.Ceiling(productsCount / (double)pageSize);
 
             var storeViewModel = new StoreViewModel
             {
                 AllProducts = products,
-                AllCategories = categories
+                AllCategories = categories,
+                CurrentPage = pageNumber,
+                TotalPages = totalPages,
+                SortBy = sortBy,
+                PageSize = pageSize
             };
-
-            // Handle pagination (calculate total pages, etc.)
-            var productsCount = await productService.GetAllProductsCountAsync();
-            var totalPages = (int)Math.Ceiling(productsCount / (double)pageSize);
-
-            // Pass the products and pagination data to the vieww
-            ViewData["TotalPages"] = totalPages;
-            ViewData["CurrentPage"] = pageNumber;
-            ViewData["SortBy"] = sortBy; 
-            ViewData["PageSize"] = pageSize;
 
             return View(storeViewModel);
         }
+
 
 
 

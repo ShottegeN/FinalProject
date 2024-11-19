@@ -21,14 +21,12 @@ namespace ToyShop.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var newProducts = await productService.GetNewestProductsAsync();
-            var activePromotions = await promotionService.GetActivePromotionsAsync();
-
             var homeViewModel = new HomeViewModel
             {
-                NewProducts = newProducts,
-                ActivePromotions = activePromotions
+                NewProducts = await productService.GetNewestProductsAsync(),
+                ActivePromotions = await promotionService.GetActivePromotionsAsync()
             };
+
             return View(homeViewModel);
         }       
 
