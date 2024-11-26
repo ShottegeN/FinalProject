@@ -16,7 +16,7 @@ namespace ToyShop.Core.Services
             repo = _repo;
         }
 
-        public async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsAsync(string sortBy, int pageNumber = 1, int pageSize = 9, int? categoryId = null)
+        public async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsAsyncWithFilterSorted(string sortBy, int pageNumber = 1, int pageSize = 9, int? categoryId = null)
         {            
             var productsQuery = repo.AllReadonlyAsync<Product>().Where(p => p.IsAvailable);
 

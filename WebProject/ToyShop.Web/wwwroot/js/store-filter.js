@@ -35,13 +35,13 @@ window.addEventListener('load', function () {
 
     // Ensure checkboxes are correctly checked based on the query string
     const urlParams = new URLSearchParams(window.location.search);
-    const categoryId = urlParams.get('categoryId'); // Get the categoryId from the query string
 
+    const categoryId = urlParams.get('categoryId'); // Get the categoryId from the query string   
     // Check all checkboxes with the name 'categoryId' and compare their value with the categoryId in the URL
     const checkboxes = document.querySelectorAll('input[type="checkbox"][name="categoryId"]');
     checkboxes.forEach(function (checkbox) {
         if (checkbox.value === categoryId) {
             checkbox.checked = true; // Check the checkbox if the values match
         }
-    });
+    });    
 });
