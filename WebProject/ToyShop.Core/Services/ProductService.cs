@@ -20,13 +20,13 @@ namespace ToyShop.Core.Services
 
         public async Task<StoreViewModel> GetStoreViewModel(string sortBy, int pageNumber = 1, int pageSize = 9, string filter = "")
         {
-            var totalProductsQuery = TotalProductsAfterCategoryFilter(filter);
+            var allProductsQuery = TotalProductsAfterCategoryFilter(filter);
 
-            var totalProductsCount = await totalProductsQuery.CountAsync();
+            var totalProductsCount = await allProductsQuery.CountAsync();
 
             var totalPages = (int)Math.Ceiling(totalProductsCount / (double)pageSize);
 
-            var paginatedProducts = await GetAllProductsWithFilterSorted(totalProductsQuery, sortBy, pageNumber, pageSize);
+            var paginatedProducts = await GetAllProductsWithFilterSorted(allProductsQuery, sortBy, pageNumber, pageSize);
 
             return new StoreViewModel
             {
@@ -36,6 +36,7 @@ namespace ToyShop.Core.Services
                 CurrentPage = pageNumber,
                 PageSize = pageSize,
                 SortBy = sortBy,
+                Filter = filter
             };
         }
 
@@ -69,9 +70,7 @@ namespace ToyShop.Core.Services
         //private
         private async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsWithFilterSorted(IQueryable<Product> productsQuery, string sortBy, int pageNumber = 1, int pageSize = 9)
         {
-            var products = await productsQuery
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
+            var products = await productsQuery               
                 .Select(p => new ProductInfoViewModel
                 {
                     Id = p.Id,
@@ -91,14 +90,16 @@ namespace ToyShop.Core.Services
 
             products = sortBy.ToLower() switch
             {
-                "price_asc" => [.. products.OrderBy(p => p.Price)],
-                "price_desc" => [.. products.OrderByDescending(p => p.Price)],
+                "price_asc" => [.. products.OrderBy(p => p.PromotionalPrice)],
+                "price_desc" => [.. products.OrderByDescending(p => p.PromotionalPrice)],
                 "name_asc" => [.. products.OrderBy(p => p.ProductName)],
                 "name_desc" => [.. products.OrderByDescending(p => p.ProductName)],
                 _ => [.. products.OrderByDescending(p => p.Rating)] // Default: by rating
             };
 
-            return products;
+            return products
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
         }
 
         private static void CalculatePromotionalPrice(List<ProductInfoViewModel> products)
@@ -134,6 +135,10 @@ namespace ToyShop.Core.Services
                 }
 
                 productsQuery = productsQuery.Where(p => p.PromotionId == int.Parse(filteringValue));
+            }
+            else if(filteringType == "globalCategory")
+            {
+                productsQuery = productsQuery.Where(p => (int)p.GlobalCategory == int.Parse(filteringValue));
             }
 
             return productsQuery;

@@ -11,5 +11,7 @@
         public int CurrentPage { get; set; }
         public string SortBy { get; set; } = "rating";
         public int PageSize { get; set; } = 9;
+
+        public string Filter { get; set; } = "";
     }
 }

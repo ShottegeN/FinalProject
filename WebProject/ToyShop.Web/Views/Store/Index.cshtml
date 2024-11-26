@@ -60,7 +60,6 @@
                                     <option value="price_desc">Цена &#x25BC;</option> <!-- Sort by Price Descending -->
                                     <option value="name_asc">Име &#x25B2;</option> <!-- Sort by Name Ascending -->
                                     <option value="name_desc">Име &#x25BC;</option> <!-- Sort by Name Descending -->
-
                                 </select>
                             </label>
 
@@ -72,13 +71,18 @@
                                     <option value="27">27</option>
                                 </select>
                             </label>
+
+                            <!-- Hidden input for the filter value (needed for the filter query string) -->
+                            <input type="hidden" id="filter" value="@Model.Filter" />
+
                             <!-- Display the count of products on the current page -->
                             <span class="store-qty">
                                 Показани @Model.AllProducts.Count() от @Model.TotalProductsCount артикула
                             </span>
                         </div>
                     </div>
-                    <!-- store products filter -->
+
+                    <!-- store pages filter -->
                     <div class="store-filter clearfix">                        
 
                         <!-- Pagination -->
@@ -86,23 +90,28 @@
                             <!-- Previous page link -->
                             @if (Model.CurrentPage > 1)
                             {
-                                <li><a href="?sortBy=@Model.SortBy&pageNumber=@(Model.CurrentPage - 1)&pageSize=@Model.PageSize">«</a></li>
+                                <li>
+                                    <a href="?sortBy=@Model.SortBy&pageNumber=@(Model.CurrentPage - 1)&pageSize=@Model.PageSize&filter=@Model.Filter">«</a>
+                                </li>
                             }
 
                             <!-- Loop to create page number links -->
                             @for (int i = 1; i <= Model.TotalPages; i++)
                             {
                                 <li class="@(i == Model.CurrentPage ? "active" : "")">
-                                    <a href="?sortBy=@Model.SortBy&pageNumber=@i&pageSize=@Model.PageSize">@i</a>
+                                    <a href="?sortBy=@Model.SortBy&pageNumber=@i&pageSize=@Model.PageSize&filter=@Model.Filter">@i</a>
                                 </li>
                             }
 
                             <!-- Next page link -->
                             @if (Model.CurrentPage < Model.TotalPages)
                             {
-                                <li><a href="?sortBy=@Model.SortBy&pageNumber=@(Model.CurrentPage + 1)&pageSize=@Model.PageSize">»</a></li>
+                                <li>
+                                    <a href="?sortBy=@Model.SortBy&pageNumber=@(Model.CurrentPage + 1)&pageSize=@Model.PageSize&filter=@Model.Filter">»</a>
+                                </li>
                             }
                         </ul>
+
                     </div>
                     <!-- /store pages filter -->
                     <!-- /store top filter -->
@@ -116,35 +125,36 @@
                         <!-- /product -->
                     </div>
                     <!-- /store products -->
-                    <!-- store products filter -->
+                    <!-- store pages filter -->
                     <div class="store-filter clearfix">
-                        <!-- Display the count of products on the current page -->
-                        <span class="store-qty">
-                            Показани @Model.AllProducts.Count() от @Model.TotalProductsCount артикула
-                        </span>
 
                         <!-- Pagination -->
                         <ul class="store-pagination">
                             <!-- Previous page link -->
                             @if (Model.CurrentPage > 1)
                             {
-                                <li><a href="?sortBy=@Model.SortBy&pageNumber=@(Model.CurrentPage - 1)&pageSize=@Model.PageSize">«</a></li>
+                                <li>
+                                    <a href="?sortBy=@Model.SortBy&pageNumber=@(Model.CurrentPage - 1)&pageSize=@Model.PageSize&filter=@Model.Filter">«</a>
+                                </li>
                             }
 
                             <!-- Loop to create page number links -->
                             @for (int i = 1; i <= Model.TotalPages; i++)
                             {
                                 <li class="@(i == Model.CurrentPage ? "active" : "")">
-                                    <a href="?sortBy=@Model.SortBy&pageNumber=@i&pageSize=@Model.PageSize">@i</a>
+                                    <a href="?sortBy=@Model.SortBy&pageNumber=@i&pageSize=@Model.PageSize&filter=@Model.Filter">@i</a>
                                 </li>
                             }
 
                             <!-- Next page link -->
                             @if (Model.CurrentPage < Model.TotalPages)
                             {
-                                <li><a href="?sortBy=@Model.SortBy&pageNumber=@(Model.CurrentPage + 1)&pageSize=@Model.PageSize">»</a></li>
+                                <li>
+                                    <a href="?sortBy=@Model.SortBy&pageNumber=@(Model.CurrentPage + 1)&pageSize=@Model.PageSize&filter=@Model.Filter">»</a>
+                                </li>
                             }
                         </ul>
+
                     </div>
                     <!-- /store pages filter -->
 
