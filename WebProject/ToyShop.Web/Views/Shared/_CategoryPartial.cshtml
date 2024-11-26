@@ -2,7 +2,7 @@
 
 <form method="get" asp-controller="Store" asp-action="Index">
     <div class="input-checkbox">
-        <input type="checkbox" id="@Model.Id" name="categoryId" value="@Model.Id" onchange="this.form.submit();">
+        <input type="checkbox" id="@Model.Id" name="filter" value="category-@Model.Id" onchange="this.form.submit();">
         <label for="@Model.Id">
             <span></span>
             @Model.Name

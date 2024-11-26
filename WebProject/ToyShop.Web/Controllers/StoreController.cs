@@ -19,36 +19,17 @@ namespace ToyShop.Web.Controllers
             categoryService = _categoryService;
         }
 
-        public async Task<IActionResult> Index(string sortBy = "rating", int pageNumber = 1, int pageSize = 9, int? categoryId = null)
+        public async Task<IActionResult> Index(string sortBy = "rating", int pageNumber = 1, int pageSize = 9, string filter = "")
         {           
-            var storeViewModel = await productService.GetStoreViewModel(sortBy, pageNumber, pageSize, categoryId);
-            storeViewModel.AllCategories = await categoryService.GetAllCategoriesAsync();
-
-            
-
-            //ViewData["TotalPages"] = storeViewModel.TotalPages;
-            //ViewData["CurrentPage"] = storeViewModel.CurrentPage;
-            //ViewData["SortBy"] = storeViewModel.SortBy;
-            //ViewData["PageSize"] = storeViewModel.PageSize;
+            var storeViewModel = await productService.GetStoreViewModel(sortBy, pageNumber, pageSize, filter);
+            storeViewModel.AllCategories = await categoryService.GetAllCategoriesAsync();           
 
             return View(storeViewModel);
         }
 
 
-
-
-
-
-
-
-
-
-
         //modelState.Isvalid should be after all other errors, so all of them could be displayed at once! 
         // use modelState.AddModelError for the different errors!
-
-
-
 
 
 

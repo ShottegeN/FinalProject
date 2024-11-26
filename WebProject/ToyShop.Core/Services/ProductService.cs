@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.EntityFrameworkCore;
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
@@ -17,27 +18,26 @@ namespace ToyShop.Core.Services
         }
 
 
-        public async Task<StoreViewModel> GetStoreViewModel(string sortBy, int pageNumber = 1, int pageSize = 9, int? categoryId = null)
+        public async Task<StoreViewModel> GetStoreViewModel(string sortBy, int pageNumber = 1, int pageSize = 9, string filter = "")
         {
+            var totalProductsQuery = TotalProductsAfterCategoryFilter(filter);
 
-            var totalProductsQuery = TotalProductsAfterCategoryFilter(categoryId);
             var totalProductsCount = await totalProductsQuery.CountAsync();
 
             var totalPages = (int)Math.Ceiling(totalProductsCount / (double)pageSize);
 
-            var paginatedProducts = await GetAllProductsWithFilterSorted(sortBy, pageNumber, pageSize, categoryId);
+            var paginatedProducts = await GetAllProductsWithFilterSorted(totalProductsQuery, sortBy, pageNumber, pageSize);
 
             return new StoreViewModel
             {
-                AllProducts = await GetAllProductsWithFilterSorted(sortBy, pageNumber, pageSize, categoryId),
+                AllProducts = paginatedProducts,
                 TotalPages = totalPages,
                 TotalProductsCount = totalProductsCount,
                 CurrentPage = pageNumber,
                 PageSize = pageSize,
                 SortBy = sortBy,
-
             };
-        }        
+        }
 
 
         public async Task<IEnumerable<ProductInfoViewModel>> GetNewest10ProductsAsync()
@@ -67,12 +67,8 @@ namespace ToyShop.Core.Services
 
 
         //private
-        private async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsWithFilterSorted(string sortBy, int pageNumber = 1, int pageSize = 9, int? categoryId = null)
+        private async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsWithFilterSorted(IQueryable<Product> productsQuery, string sortBy, int pageNumber = 1, int pageSize = 9)
         {
-            // Base query
-            IQueryable<Product> productsQuery = TotalProductsAfterCategoryFilter(categoryId);
-
-            // Paginate and project
             var products = await productsQuery
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -105,24 +101,44 @@ namespace ToyShop.Core.Services
             return products;
         }
 
-        private IQueryable<Product> TotalProductsAfterCategoryFilter(int? categoryId)
-        {
-            var productsQuery = repo.AllReadonlyAsync<Product>().Where(p => p.IsAvailable);
-
-            if (categoryId.HasValue)
-            {
-                productsQuery = productsQuery.Where(p => p.CategoryId == categoryId.Value);
-            }
-
-            return productsQuery;
-        }
-
         private static void CalculatePromotionalPrice(List<ProductInfoViewModel> products)
         {
             foreach (var p in products)
             {
                 p.PromotionalPrice = p.Price - p.Price * p.DiscountPercentage / 100;
             }
-        }        
+        }
+
+        private IQueryable<Product> TotalProductsAfterCategoryFilter(string filter)
+        {
+            var productsQuery = repo.AllReadonlyAsync<Product>().Where(p => p.IsAvailable);
+
+            if (filter == "")
+            {
+                return productsQuery;
+            }
+            var filterArray = filter.Split('-').ToArray();
+
+            var filteringType = filterArray[0];
+            var filteringValue = filterArray[1];
+
+            if (filteringType == "category")
+            {
+                productsQuery = productsQuery.Where(p => p.CategoryId == int.Parse(filteringValue));
+            }
+            else if (filteringType == "promotion")
+            {
+                if(filteringValue == "all")
+                {
+                    return productsQuery.Where(p => p.PromotionId > 0);
+                }
+
+                productsQuery = productsQuery.Where(p => p.PromotionId == int.Parse(filteringValue));
+            }
+
+            return productsQuery;
+        }
+
+
     }
 }

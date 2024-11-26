@@ -167,7 +167,9 @@
                     <li><a asp-area="" asp-controller="Store" asp-action="Index">Продукти</a></li>
                     <li><a href="#">Контакти</a></li>
                     <li><a href="#">Категории</a></li>
-                    <li><a href="#">Промоции</a></li>
+                    <li>
+                        <a href="@Url.Action("Index", "Store", new { filter = "promotion-all" })">Промоции</a>
+                    </li>
                 </ul>
                 <!-- /NAV -->
             </div>

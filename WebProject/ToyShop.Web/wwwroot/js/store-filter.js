@@ -36,12 +36,14 @@ window.addEventListener('load', function () {
     // Ensure checkboxes are correctly checked based on the query string
     const urlParams = new URLSearchParams(window.location.search);
 
-    const categoryId = urlParams.get('categoryId'); // Get the categoryId from the query string   
-    // Check all checkboxes with the name 'categoryId' and compare their value with the categoryId in the URL
-    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="categoryId"]');
+    // Get the filter (checkbox value) from the query string (it's now named 'filter')
+    const selectedFilter = urlParams.get('filter'); // Get the selected filter from the query string 
+
+    // Check all checkboxes with the name 'filter' and compare their value with the selected filter in the URL
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="filter"]');
     checkboxes.forEach(function (checkbox) {
-        if (checkbox.value === categoryId) {
-            checkbox.checked = true; // Check the checkbox if the values match
+        if (checkbox.value === selectedFilter) {
+            checkbox.checked = true; // Check the checkbox if its value matches the selected filter
         }
-    });    
+    });
 });
