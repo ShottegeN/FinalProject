@@ -1,10 +1,13 @@
 ﻿@model CategoryViewModel
 
-<div class="input-checkbox">
-    <input type="checkbox" id="brand-@Model.Id">
-    <label for="brand-@Model.Id">
-        <span></span>
-        @Model.Name
-        <small>(@Model.ProductCount)</small>
-    </label>
-</div>
+<form method="get" asp-controller="Store" asp-action="Index">
+    <div class="input-checkbox">
+        <input type="checkbox" id="@Model.Id" name="categoryId" value="@Model.Id" onchange="this.form.submit();">
+        <label for="@Model.Id">
+            <span></span>
+            @Model.Name
+            <small>(@Model.ProductCount)</small>
+        </label>
+    </div>
+</form>
+

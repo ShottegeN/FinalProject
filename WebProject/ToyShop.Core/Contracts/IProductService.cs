@@ -4,11 +4,11 @@ namespace ToyShop.Core.Contracts
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductInfoViewModel>> GetAllProductsAsync(string sortBy, int pageNumber, int pageSize);
+        Task<IEnumerable<ProductInfoViewModel>> GetAllProductsAsync(string sortBy, int pageNumber, int pageSize, int? categoryId);
 
         public Task<int> GetAllProductsCountAsync();
 
-        public Task<IEnumerable<ProductInfoViewModel>> GetNewestProductsAsync();
+        public Task<IEnumerable<ProductInfoViewModel>> GetNewest10ProductsAsync();
 
     }
 }

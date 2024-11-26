@@ -23,7 +23,7 @@ namespace ToyShop.Web.Controllers
         {
             var homeViewModel = new HomeViewModel
             {
-                NewProducts = await productService.GetNewestProductsAsync(),
+                NewProducts = await productService.GetNewest10ProductsAsync(),
                 ActivePromotions = await promotionService.GetActivePromotionsAsync()
             };
 

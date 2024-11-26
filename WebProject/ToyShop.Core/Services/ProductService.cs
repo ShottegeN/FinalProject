@@ -16,10 +16,16 @@ namespace ToyShop.Core.Services
             repo = _repo;
         }
 
-        public async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsAsync(string sortBy, int pageNumber = 1, int pageSize = 9)
-        {
-            var productsQuery = await repo.AllReadonlyAsync<Product>()
-                .Where(p => p.IsAvailable)
+        public async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsAsync(string sortBy, int pageNumber = 1, int pageSize = 9, int? categoryId = null)
+        {            
+            var productsQuery = repo.AllReadonlyAsync<Product>().Where(p => p.IsAvailable);
+
+            if (categoryId.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            var products = await productsQuery
                 .Select(p => new ProductInfoViewModel
                 {
                     Id = p.Id,
@@ -27,50 +33,49 @@ namespace ToyShop.Core.Services
                     ImageUrl = p.ImageUrl,
                     Quantity = p.Quantity,
                     Price = p.Price,
-                    DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
                     Category = p.Category.Name,
+                    DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
                     ShortDescription = p.ShortDescription,
                     Rating = p.Reviews.Sum(r => r.Rating),
                     Description = p.Description
                 })
                 .ToListAsync();
-            
-            foreach (var p in productsQuery)
-            {
-                p.PromotionalPrice = p.Price - p.Price * p.DiscountPercentage / 100;
-            }
 
+            CalculatePromotionalPrice(products);
 
             switch (sortBy.ToLower())
             {
                 case "price_asc":
-                    productsQuery = productsQuery.OrderBy(p => p.PromotionalPrice).ToList();
+                    products = products.OrderBy(p => p.PromotionalPrice).ToList();
                     break;
 
                 case "price_desc":
-                    productsQuery = productsQuery.OrderByDescending(p => p.PromotionalPrice).ToList();
+                    products = products.OrderByDescending(p => p.PromotionalPrice).ToList();
                     break;
 
                 case "name_asc":
-                    productsQuery = productsQuery.OrderBy(p => p.ProductName).ToList();
+                    products = products.OrderBy(p => p.ProductName).ToList();
                     break;
 
                 case "name_desc":
-                    productsQuery = productsQuery.OrderByDescending(p => p.ProductName).ToList();
+                    products = products.OrderByDescending(p => p.ProductName).ToList();
                     break;
 
                 default:
-                    productsQuery = productsQuery.OrderBy(p => p.Rating).ToList();
+                    products = products.OrderBy(p => p.Rating).ToList();
                     break;
             }
 
+            products = products.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
-            productsQuery = productsQuery.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
-            return productsQuery;
+            return products;
         }
 
-        public async Task<IEnumerable<ProductInfoViewModel>> GetNewestProductsAsync()
+
+
+
+
+        public async Task<IEnumerable<ProductInfoViewModel>> GetNewest10ProductsAsync()
         {
             var products = await repo.AllReadonlyAsync<Product>()
                 .Where(p => p.IsAvailable)
@@ -98,6 +103,18 @@ namespace ToyShop.Core.Services
         public async Task<int> GetAllProductsCountAsync()
         {
             return await repo.AllReadonlyAsync<Product>().CountAsync();
+        }
+
+
+
+
+        //private
+        private static void CalculatePromotionalPrice(List<ProductInfoViewModel> products)
+        {
+            foreach (var p in products)
+            {
+                p.PromotionalPrice = p.Price - p.Price * p.DiscountPercentage / 100;
+            }
         }
     }
 }

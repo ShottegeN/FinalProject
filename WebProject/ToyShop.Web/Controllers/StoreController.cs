@@ -19,18 +19,18 @@ namespace ToyShop.Web.Controllers
             categoryService = _categoryService;
         }
 
-        public async Task<IActionResult> Index(string sortBy = "rating", int pageNumber = 1, int pageSize = 9)
+        public async Task<IActionResult> Index(string sortBy = "rating", int pageNumber = 1, int pageSize = 9, int? categoryId = null)
         {
             var storeViewModel = new StoreViewModel
             {
-                AllProducts = await productService.GetAllProductsAsync(sortBy, pageNumber, pageSize),
+                AllProducts = await productService.GetAllProductsAsync(sortBy, pageNumber, pageSize, categoryId),
                 AllCategories = await categoryService.GetAllCategoriesAsync()
             };
 
+            // Count total products for pagination calculation
             var productsCount = await productService.GetAllProductsCountAsync();
             var totalPages = (int)Math.Ceiling(productsCount / (double)pageSize);
 
-            // Pass the products and pagination data to the vieww
             ViewData["TotalPages"] = totalPages;
             ViewData["CurrentPage"] = pageNumber;
             ViewData["SortBy"] = sortBy;
@@ -38,6 +38,7 @@ namespace ToyShop.Web.Controllers
 
             return View(storeViewModel);
         }
+
 
 
 
