@@ -89,69 +89,33 @@
                                 <button class="search-btn fa fa-search" type="submit"></button>
                             </form>
                         </div>
-                    </div>                    
+                    </div>
 
                     <!-- /SEARCH BAR -->
                     <!-- ACCOUNT -->
                     <div class="col-md-3 clearfix">
                         <div class="header-ctn">
-                            <!-- Wishlist (only visible for logged-in users) -->
                             @if (User!.Identity!.IsAuthenticated)
                             {
+                                <!-- Wishlist (only visible for logged-in users) -->
                                 <div>
                                     <a href="#">
-                                        <i class="fa fa-heart-o"></i>
-                                        <span>Любими</span>
+                                        <i class="fa fa-heart" style="color: black;"></i>
+                                        <span style="color: black;">Любими</span>
                                         <div class="qty">2</div>
                                     </a>
                                 </div>
-                            }
-                            <!-- /Wishlist -->
-                            <!-- Cart (only visible for logged-in users) -->
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                        <i class="fa fa-shopping-cart"></i>
-                                        <span>Количка</span>
+                                <!-- /Wishlist -->
+                                <!-- Cart (only visible for logged-in users) -->
+                                <div>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                        <i class="fa fa-shopping-cart" style="color: black;"></i>
+                                        <span style="color: black;">Количка</span>
                                         <div class="qty">3</div>
                                     </a>
-                                    <div class="cart-dropdown">
-                                        <div class="cart-list">
-                                            <div class="product-widget">
-                                                <div class="product-img">
-                                                    <img src="./img/product01.png" alt="">
-                                                </div>
-                                                <div class="product-body">
-                                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                    <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                                </div>
-                                                <button class="delete"><i class="fa fa-close"></i></button>
-                                            </div>
-
-                                            <div class="product-widget">
-                                                <div class="product-img">
-                                                    <img src="./img/product02.png" alt="">
-                                                </div>
-                                                <div class="product-body">
-                                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                    <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                                </div>
-                                                <button class="delete"><i class="fa fa-close"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="cart-summary">
-                                            <small>3 Item(s) selected</small>
-                                            <h5>SUBTOTAL: $2940.00</h5>
-                                        </div>
-                                        <div class="cart-btns">
-                                            <a href="#">View Cart</a>
-                                            <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
-                                        </div>
-                                    </div>
                                 </div>
+                                <!-- /Cart -->
                             }
-                            <!-- /Cart -->                            
                         </div>
                     </div>
                     <!-- /ACCOUNT -->
@@ -187,13 +151,11 @@
         <!-- /container -->
     </nav>
     <!-- /NAVIGATION -->
-
     <!-- RENDERBODY -->
     <div>
         @RenderBody()
     </div>
     <!-- /RENDERBODY -->
-
     <!-- NEWSLETTER -->
     <div id="newsletter" class="section">
         <!-- container -->
@@ -247,7 +209,7 @@
                                 <li><a href="#"><i class="fa fa-envelope-o"></i>@GetEmail()</a></li>
                             </ul>
                         </div>
-                    </div>                    
+                    </div>
 
                     <div class="clearfix visible-xs"></div>
 
@@ -310,7 +272,6 @@
         <!-- /bottom footer -->
     </footer>
     <!-- /FOOTER -->
-
     <!-- jQuery Plugins -->
     <script src="~/js/jquery.min.js"></script>  <!-- jQuery must come first -->
     <script src="~/js/bootstrap.min.js"></script> <!-- Bootstrap -->
