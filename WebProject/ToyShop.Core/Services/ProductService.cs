@@ -26,6 +26,8 @@ namespace ToyShop.Core.Services
 
             var totalPages = (int)Math.Ceiling(totalProductsCount / (double)pageSize);
 
+            pageNumber = pageNumber > totalPages ? totalPages : pageNumber;
+
             var paginatedProducts = await GetAllProductsWithFilterSorted(allProductsQuery, sortBy, pageNumber, pageSize);
 
             return new StoreViewModel
@@ -136,9 +138,21 @@ namespace ToyShop.Core.Services
 
                 productsQuery = productsQuery.Where(p => p.PromotionId == int.Parse(filteringValue));
             }
-            else if(filteringType == "globalCategory")
+            else if (filteringType == "globalCategory")
             {
-                productsQuery = productsQuery.Where(p => (int)p.GlobalCategory == int.Parse(filteringValue));
+                if (filterArray.Length > 2 && !string.IsNullOrEmpty(filterArray[2]))
+                {
+                    var searchQuery = filterArray[2];
+
+                    productsQuery = productsQuery
+                        .Where(p =>
+                        (int)p.GlobalCategory == int.Parse(filteringValue) &&
+                        EF.Functions.Like(p.Name, "%" + searchQuery + "%")); 
+                }
+                else
+                {
+                    productsQuery = productsQuery.Where(p => (int)p.GlobalCategory == int.Parse(filteringValue));
+                }
             }
 
             return productsQuery;

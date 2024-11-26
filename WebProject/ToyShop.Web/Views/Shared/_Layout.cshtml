@@ -69,19 +69,28 @@
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form>
-                                <select class="input-select">
-                                    <option>Всички</option>
+                            <form method="get" action="@Url.Action("Index", "Store")">
+                                <!-- Category Select -->
+                                <select class="input-select" name="globalCategory">
+                                    <option value="">Всички</option>
                                     <option value="0">Играчки</option>
                                     <option value="1">Аксесоари</option>
-                                    <option value="1">Декорации</option>
-                                    <option value="2">Други</option>
+                                    <option value="2">Декорации</option>
+                                    <option value="3">Други</option>
                                 </select>
-                                <input class="input" placeholder="Търсене">
-                                <button class="search-btn fa fa-search"></button>
+
+                                <!-- Search Bar -->
+                                <input class="input" placeholder="Търсене" name="query" type="text">
+
+                                <!-- Hidden Filter -->
+                                <input type="hidden" name="filter" id="filter">
+
+                                <!-- Submit Button -->
+                                <button class="search-btn fa fa-search" type="submit"></button>
                             </form>
                         </div>
-                    </div>
+                    </div>                    
+
                     <!-- /SEARCH BAR -->
                     <!-- ACCOUNT -->
                     <div class="col-md-3 clearfix">
@@ -311,6 +320,7 @@
     <!-- Your custom scripts -->
     <script src="~/js/main.js"></script>
     <script src="~/js/site.js"></script> <!-- Ensure your site.js is loaded after jQuery and plugins -->
+    <script src="~/js/searchBar.js"></script>
     <!-- Optional: Countdown Script if you want to render countdowns on the page -->
     <!-- Section for additional scripts -->
     @await RenderSectionAsync("Scripts", required: false)
