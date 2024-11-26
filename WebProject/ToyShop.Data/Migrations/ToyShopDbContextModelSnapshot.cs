@@ -771,7 +771,7 @@ namespace ToyShop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5b59dd12-efa5-4715-9ec3-f035af2a933a"),
+                            Id = new Guid("48b9ac44-2023-427b-aa40-25e5de7eff90"),
                             CategoryId = 1,
                             Description = "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.",
                             GlobalCategory = 0,
@@ -781,13 +781,13 @@ namespace ToyShop.Data.Migrations
                             Price = 35m,
                             PromotionId = 1,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3363),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(4677),
                             ShortDescription = "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж.",
                             Size = "Височината е около 35см."
                         },
                         new
                         {
-                            Id = new Guid("902fc633-3dd8-42c2-9a5b-f278bb326a72"),
+                            Id = new Guid("63332657-ae31-44b1-be76-9ecf2738e326"),
                             CategoryId = 2,
                             Description = "Това сладко мече Дани вече се радва на много гушкане и игри.",
                             GlobalCategory = 0,
@@ -797,13 +797,13 @@ namespace ToyShop.Data.Migrations
                             Price = 55m,
                             PromotionId = 1,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3533),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(4844),
                             ShortDescription = "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. ",
                             Size = "Височината е около 35см, без шапчицата."
                         },
                         new
                         {
-                            Id = new Guid("af9842f0-50c2-42e1-b51c-0a20e2a19d75"),
+                            Id = new Guid("8efe6f34-d176-4581-aa82-7d298273e37c"),
                             CategoryId = 3,
                             Description = "Емблемата е бродирана и се заплаща допълнително спрямо размерите.",
                             GlobalCategory = 0,
@@ -812,13 +812,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Жирафче Сами",
                             Price = 45m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3568),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(4880),
                             ShortDescription = "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж.",
                             Size = "Висок е малко над 35см."
                         },
                         new
                         {
-                            Id = new Guid("d6794080-840b-4043-b640-91ab876dbe5e"),
+                            Id = new Guid("b4b28f4a-1791-4fda-a265-495785f05c0c"),
                             CategoryId = 4,
                             Description = "Идеална е за игри и гушкане.",
                             GlobalCategory = 0,
@@ -827,13 +827,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Зайче Софи",
                             Price = 25m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3598),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(4912),
                             ShortDescription = "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички.",
                             Size = "Софи е висока около 24см."
                         },
                         new
                         {
-                            Id = new Guid("887f5b32-b3cc-4354-a584-fa695bc1bab6"),
+                            Id = new Guid("72552ffa-84c4-4ce3-9600-f43265d84362"),
                             CategoryId = 5,
                             Description = "Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!",
                             GlobalCategory = 0,
@@ -842,14 +842,14 @@ namespace ToyShop.Data.Migrations
                             Name = "Кученце Бейли",
                             Price = 35m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3625),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(4949),
                             ShortDescription = "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички.",
                             Size = "Височината му е около 30см."
                         },
                         new
                         {
-                            Id = new Guid("d4b2f658-1c11-445a-a1e0-64fe013d4ea6"),
-                            CategoryId = 11,
+                            Id = new Guid("91a394ce-f26a-4f25-9926-63afb1ec4a95"),
+                            CategoryId = 12,
                             Description = "Времето навън все по-често ни напомня, че наближава зима, ❄️а какво по-хубаво от това през студените дни да се завиеш с пухкаво, меко и топло одеалце, а защо не и да подариш едно такова на малко сладурче?",
                             GlobalCategory = 1,
                             ImageUrl = "img/products/blanket_01.jpg",
@@ -858,13 +858,13 @@ namespace ToyShop.Data.Migrations
                             Price = 30m,
                             PromotionId = 1,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3660),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(4985),
                             ShortDescription = "Одеалцето е изработено от пухкава плюшена прежда.",
                             Size = "Размер 90х90."
                         },
                         new
                         {
-                            Id = new Guid("6ccda01a-a699-4dba-ad8c-7807f9254d0d"),
+                            Id = new Guid("4587d7dc-1959-49d6-8719-5d1f3cda3736"),
                             CategoryId = 2,
                             Description = "Тези сладки мечета вече се радват на много гушкане и игри.",
                             GlobalCategory = 0,
@@ -873,13 +873,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Мече Ема",
                             Price = 50m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3694),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5021),
                             ShortDescription = "Това е мечето Ема, готово за предстоящите хладни дни.",
                             Size = "Височината е около 35см"
                         },
                         new
                         {
-                            Id = new Guid("befb66fa-1b95-446c-a01e-c4b39d80f740"),
+                            Id = new Guid("0a8bfcb9-cd1f-43a8-afa8-03c4b92e98fc"),
                             CategoryId = 2,
                             Description = "Мечето Теди е изработено от плюшена прежда, обезапасени очички, носле и гранулиран пълнеж.",
                             GlobalCategory = 0,
@@ -888,13 +888,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Мече Теди",
                             Price = 30m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3722),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5050),
                             ShortDescription = "Толкова е сладък, че ти идва да не спираш да го гушкаш.",
                             Size = "Височината е около 25см"
                         },
                         new
                         {
-                            Id = new Guid("3bd0bed3-ee33-4f66-8de8-cc1abfd4ea1b"),
+                            Id = new Guid("8e073ec9-a338-4379-a1af-39b4171e4699"),
                             CategoryId = 6,
                             Description = "Изработена е от плюшена хипоалергенна прежда, има си обезопасени очички и пълнеж на гранули.",
                             GlobalCategory = 0,
@@ -903,13 +903,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Еднорог Поли",
                             Price = 45m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3787),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5118),
                             ShortDescription = "Поли е сладък, шарен еднорог готов за игри и много гушкане!",
                             Size = "Височината е около 35см"
                         },
                         new
                         {
-                            Id = new Guid("2772b492-5913-4e3f-8c15-ae7d3bfeeeea"),
+                            Id = new Guid("80785468-b2f1-471c-955d-baaee34338b7"),
                             CategoryId = 4,
                             Description = "Лоли е ръчноизработена, като рокличката, обувчиците и лентата се свалят. Изработена е от плюшена прежда и пълна със силиконов гранулиран пух.",
                             GlobalCategory = 0,
@@ -918,13 +918,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Зайче Лоли",
                             Price = 40m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3816),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5150),
                             ShortDescription = "Ето я и сладката Лоли, която е готова за щури игри.",
                             Size = "Лоли е висока около 35см."
                         },
                         new
                         {
-                            Id = new Guid("5c24f8a9-818c-4ac7-a389-b7644887f371"),
+                            Id = new Guid("55a00f7d-26dc-4be1-a831-a9a9aea39ab1"),
                             CategoryId = 7,
                             Description = "Всеки от тях е изключително сладък, пухкав и гушлив. Изработени са от плюшена прежда и са пълни със силиконов гранулиран пух.",
                             GlobalCategory = 0,
@@ -933,13 +933,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Мишле Джери",
                             Price = 35m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3845),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5183),
                             ShortDescription = "Това са малките мишоци, които изработваме съвсем отскоро.",
                             Size = "Височината им е около 25см"
                         },
                         new
                         {
-                            Id = new Guid("8d2ce8be-667b-45e3-83f6-aa246481eece"),
+                            Id = new Guid("f4ad81ed-d7bb-45c9-bed4-adc6f6f6124b"),
                             CategoryId = 13,
                             Description = "Изработено е от плюшена прежда и е пълно със силиконов гранулиран пух.",
                             GlobalCategory = 0,
@@ -948,13 +948,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Плюшено Авокадо",
                             Price = 20m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3874),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5213),
                             ShortDescription = "Малко, симпатично авокадо.",
                             Size = "Височината е около 15см"
                         },
                         new
                         {
-                            Id = new Guid("146bfc20-a3d2-4128-ad26-dddf337e0085"),
+                            Id = new Guid("681684a9-573c-4136-a604-879f72b0b9c4"),
                             CategoryId = 4,
                             Description = "Цялата декорация е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички. Вклюва ръчно изработено панерче, седем сладки яйчица и естествено едно пухкаво зайче.",
                             GlobalCategory = 0,
@@ -963,13 +963,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Великденски Заек",
                             Price = 25m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3898),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5242),
                             ShortDescription = "Ето една сладка идея за подарък изненада за ваш близък, а защо не и за самите вас.",
                             Size = "Височината на цялата декорация е около 18см."
                         },
                         new
                         {
-                            Id = new Guid("96a79148-a48c-4976-a47e-4d8886ab6347"),
+                            Id = new Guid("da0f0c59-8762-439b-89ed-0e2793460286"),
                             CategoryId = 10,
                             Description = "Всяка торта се изработва изцяло по желание на малкия рожденик и може да бъде използвана като част от празника в детската градина.",
                             GlobalCategory = 3,
@@ -978,13 +978,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Торта Хари Потър",
                             Price = 15m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3931),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5278),
                             ShortDescription = "Само за истински, малки фенове на Хари Потър! Минималният брой парчета е 15.",
                             Size = "Размерът зависи от броят на парчетата."
                         },
                         new
                         {
-                            Id = new Guid("7b8bc6bf-2cdb-4d24-b686-0cc387b98a90"),
+                            Id = new Guid("6a378c17-082d-4091-b5a4-8a67198f7d2f"),
                             CategoryId = 10,
                             Description = "Всяка торта се изработва изцяло по желание на малкия рожденик и може да бъде използвана като част от празника в детската градина.",
                             GlobalCategory = 3,
@@ -993,13 +993,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Торта Сафари",
                             Price = 15m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3963),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5312),
                             ShortDescription = "Тортата за всяко дете, любител на животни. Минималният брой парчета е 15.",
                             Size = "Размерът зависи от броят на парчетата."
                         },
                         new
                         {
-                            Id = new Guid("4b01d7ee-ef2b-418b-8346-75bfbd8469ab"),
+                            Id = new Guid("a0f2f8bd-c9ed-4ea4-a993-ace4aee9073d"),
                             CategoryId = 10,
                             Description = "Всяка торта се изработва изцяло по желание на малкия рожденик и може да бъде използвана като част от празника в детската градина.",
                             GlobalCategory = 3,
@@ -1008,13 +1008,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Торта Фроузън",
                             Price = 15m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(3989),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5340),
                             ShortDescription = "Тортата за малките госпожици, които харесват Елза и Анна . Минималният брой парчета е 15.",
                             Size = "Размерът зависи от броят на парчетата."
                         },
                         new
                         {
-                            Id = new Guid("b91a58f8-3f81-4a83-b7b9-cdeb44e691a0"),
+                            Id = new Guid("7bd97354-cb18-416c-a556-652b0dd39cae"),
                             CategoryId = 11,
                             Description = "Всяка кошница се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.",
                             GlobalCategory = 2,
@@ -1023,13 +1023,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Малка кошница",
                             Price = 25m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(4046),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5396),
                             ShortDescription = "Красив и стилен подарък, дори с ограничен бюджет.",
                             Size = "Размерът e около 20см в диаметър."
                         },
                         new
                         {
-                            Id = new Guid("c1e5c9e3-1f56-4467-8ca5-5d380048166f"),
+                            Id = new Guid("15fafc30-32b3-4ee8-9c47-88ff18e8e745"),
                             CategoryId = 11,
                             Description = "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.",
                             GlobalCategory = 2,
@@ -1038,13 +1038,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Малка кошница",
                             Price = 25m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(4076),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5426),
                             ShortDescription = "Красив и стилен подарък, дори с ограничен бюджет.",
                             Size = "Размерът e около 20см в диаметър."
                         },
                         new
                         {
-                            Id = new Guid("15187cc4-28f5-472f-8309-60c282a1dce6"),
+                            Id = new Guid("0015779e-7eb5-4a2b-a807-9c5f5c0896a4"),
                             CategoryId = 11,
                             Description = "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.",
                             GlobalCategory = 2,
@@ -1053,13 +1053,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Малко панерче",
                             Price = 30m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(4101),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5451),
                             ShortDescription = "Красив и стилен подарък, дори с ограничен бюджет.",
                             Size = "Размерът e около 18см в диаметър."
                         },
                         new
                         {
-                            Id = new Guid("027acb6a-4715-432f-ae9e-e054a342c180"),
+                            Id = new Guid("d843d724-7729-4ee1-b3d8-4f2dfbed038a"),
                             CategoryId = 11,
                             Description = "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.",
                             GlobalCategory = 2,
@@ -1068,13 +1068,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Средна кошница ",
                             Price = 40m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(4126),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5474),
                             ShortDescription = "Красив и стилен подарък, дори с ограничен бюджет.",
                             Size = "Размерът e около 30см в диаметър."
                         },
                         new
                         {
-                            Id = new Guid("109e1f32-9f3f-44f3-ad72-11abd8770e0f"),
+                            Id = new Guid("e7edafb3-6a9a-411a-86ab-a69efd4f763b"),
                             CategoryId = 11,
                             Description = "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.",
                             GlobalCategory = 2,
@@ -1083,13 +1083,13 @@ namespace ToyShop.Data.Migrations
                             Name = "Средна кошница ",
                             Price = 40m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(4151),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5500),
                             ShortDescription = "Красив и стилен подарък, дори с ограничен бюджет.",
                             Size = "Размерът e около 30см в диаметър."
                         },
                         new
                         {
-                            Id = new Guid("f8f2a041-3fbe-4419-921c-074757e7460e"),
+                            Id = new Guid("9cb020f6-b32f-4012-b1b2-6e942ba5b736"),
                             CategoryId = 11,
                             Description = "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.",
                             GlobalCategory = 2,
@@ -1098,7 +1098,7 @@ namespace ToyShop.Data.Migrations
                             Name = "Малко панерче",
                             Price = 20m,
                             Quantity = 5,
-                            ReleasedOn = new DateTime(2024, 11, 19, 20, 30, 27, 637, DateTimeKind.Local).AddTicks(4174),
+                            ReleasedOn = new DateTime(2024, 11, 26, 11, 39, 1, 716, DateTimeKind.Local).AddTicks(5524),
                             ShortDescription = "Красив и стилен подарък, дори с ограничен бюджет.",
                             Size = "Размерът e около 18см в диаметър."
                         });
