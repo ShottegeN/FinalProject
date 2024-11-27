@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Core.Contracts;
-using ToyShop.Data.Common;
+using ToyShop.Core.Services;
 using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
@@ -17,19 +17,29 @@ namespace ToyShop.Web.Controllers
             productService = _productService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Details(Guid productId)
         {
-            var product = await productService.GetProductByIdAsync(productId);
+            try
+            {
+                var product = await productService.GetProductForDetails(productId);
 
-            return View(product);
+                return View(product);
+            }
+            catch (ArgumentNullException)
+            {
+                TempData["ErrorMessage"] = "Продуктът с дадения идентификатор не беше намерен.";
+                return RedirectToAction("Error", "Home");
+            }
         }
 
 
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid productId)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var product = await productService.GetProductForDetails(productId);
+
+            return View(product);
         }
     }
 }

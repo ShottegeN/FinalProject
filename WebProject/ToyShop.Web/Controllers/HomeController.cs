@@ -1,5 +1,5 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using ToyShop.Common;
 using ToyShop.Core.Contracts;
 using ToyShop.ViewModels;
 
@@ -35,10 +35,20 @@ namespace ToyShop.Web.Controllers
             return View();
         }
 
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var model = new ErrorViewModel
+            {
+                Title = "Упс! Възникна грешка.",
+                Message = TempData["ErrorMessage"]?.ToString() ?? "Не успяхме да обработим вашата заявка. Моля, опитайте отново по-късно.",
+                SupportContact = SiteData.GetEmail()
+            };
+
+            return View(model);
         }
+
+
     }
 }

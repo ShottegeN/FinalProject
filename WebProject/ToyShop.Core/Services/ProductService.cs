@@ -70,7 +70,7 @@ namespace ToyShop.Core.Services
             return products;
         }
 
-        public async Task<ProductInfoViewModel> GetProductByIdAsync(Guid id)
+        public async Task<ProductInfoViewModel> GetProductForDetails(Guid id)
         {
             var p = await repo.AllReadonlyAsync<Product>()
                 .Where(p => p.Id == id)
@@ -80,30 +80,30 @@ namespace ToyShop.Core.Services
                 .FirstOrDefaultAsync();
 
 
-            if (p != null)
+            if (p == null)
             {
-                var product = new ProductInfoViewModel
-                {
-                    Id = p.Id,
-                    ProductName = p.Name,
-                    ImageUrl = p.ImageUrl,
-                    Quantity = p.Quantity,
-                    Price = p.Price,
-                    ReleasedOn = p.ReleasedOn.ToString("dd.MM.yyyy"),
-                    Category = p.Category.Name,
-                    GlobalCategory = p.GlobalCategory.ToString(),
-                    DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
-                    ShortDescription = p.ShortDescription,
-                    Rating = p.Reviews.Sum(r => r.Rating),
-                    Description = p.Description
-                };
-
-                CalculateSingleProductPromotionalPrice(product);
-
-                return product;
+                throw new ArgumentNullException();
             }
 
-            throw new NotImplementedException();
+            var product = new ProductInfoViewModel
+            {
+                Id = p.Id,
+                ProductName = p.Name,
+                ImageUrl = p.ImageUrl,
+                Quantity = p.Quantity,
+                Price = p.Price,
+                ReleasedOn = p.ReleasedOn.ToString("dd.MM.yyyy"),
+                Category = p.Category.Name,
+                GlobalCategory = p.GlobalCategory.ToString(),
+                DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
+                ShortDescription = p.ShortDescription,
+                Rating = p.Reviews.Sum(r => r.Rating),
+                Description = p.Description
+            };
+
+            CalculateSingleProductPromotionalPrice(product);
+
+            return product;
         }
 
 

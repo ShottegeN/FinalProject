@@ -30,15 +30,5 @@ namespace ToyShop.Web.Controllers
 
         //modelState.Isvalid should be after all other errors, so all of them could be displayed at once! 
         // use modelState.AddModelError for the different errors!
-
-
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-        
     }
 }

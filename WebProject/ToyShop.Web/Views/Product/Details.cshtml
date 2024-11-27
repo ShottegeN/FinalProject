@@ -41,7 +41,7 @@
                                 @String.Format(cultureInfo, "{0:C}", Model.Price)
                             </del>
                             @String.Format(cultureInfo, "{0:C}", Model.PromotionalPrice)
-                            
+
                         </h6>
                     }
                     else
@@ -63,7 +63,7 @@
                         <a href="javascript:window.history.back();" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Назад</a>
 
                         @if (User?.Identity?.IsAuthenticated == true)
-                        {                            
+                        {
                             <a asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-success d-flex justify-content-center align-items-center flex-fill mx-1">Купи</a>
                         }
                         @if (!User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)

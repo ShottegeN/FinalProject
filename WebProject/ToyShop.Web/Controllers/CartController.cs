@@ -29,7 +29,15 @@ namespace ToyShop.Web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var model = new ErrorViewModel
+            {
+                Title = "Упс! Възникна грешка.",
+                Message = "Не успяхме да обработим вашата заявка. Моля, опитайте отново по-късно.",
+                SupportContact = "support@toyshop.com" // Примерен имейл за контакт
+            };
+
+            return View(model);
         }
+
     }
 }
