@@ -2,9 +2,9 @@
 {
     public enum GlobalCategory
     {
-        Toy = 0,
-        Accessory = 1, 
-        Decoration = 2,
-        Other = 3,
+        Играчки = 0,
+        Аксесоари = 1, 
+        Декорации = 2,
+        Други = 3,
     }
 }

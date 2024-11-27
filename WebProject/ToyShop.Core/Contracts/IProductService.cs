@@ -8,5 +8,7 @@ namespace ToyShop.Core.Contracts
 
         public Task<IEnumerable<ProductInfoViewModel>> GetNewest10ProductsAsync();
 
+        public Task<ProductInfoViewModel> GetProductByIdAsync(Guid id);
+
     }
 }

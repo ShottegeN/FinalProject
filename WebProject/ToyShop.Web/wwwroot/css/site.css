@@ -92,3 +92,66 @@ loginBtn {
     border-radius: 0.7em;
 }
 
+/* Style for the buttons to be smaller with padding between them */
+.product-btns button {
+    background: none;
+    border: none;    
+    font-size: 18px; /* Adjust icon size to make buttons smaller */
+    color: #000; /* Icon color */
+    cursor: pointer;
+    margin-right: 10px; /* Space between buttons */
+    position: relative; /* Set position relative for tooltip positioning */
+    transition: transform 0.2s, color 0.2s, background-color 0.2s; /* Smooth hover effect */
+    border-radius: 50%; /* Circle shape */
+}
+
+/* Hover effect for buttons */
+.product-btns button:hover {
+    transform: scale(1.1); /* Slightly enlarge the button */
+    background-color: lightgray; /* Light gray background when hovering */
+    color: red; /* Change icon color to red on hover */
+}
+
+/* Style for tooltips */
+.tooltipp {
+    visibility: hidden;
+    width: 90px; /* Adjust width of tooltip */
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px; /* Adjust padding */
+    position: absolute;
+    z-index: 10;
+    bottom: 125%; /* Place the tooltip above the button */
+    left: 50%;
+    margin-left: -45px; /* Center the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    font-size: 12px; /* Smaller font size for tooltip */
+}
+
+/* Tooltip arrow */
+.tooltipp::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* Position the arrow at the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px; /* Center the arrow */
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent; /* Arrow color */
+}
+
+/* Make tooltip visible when hovering the button */
+.product-btns button:hover .tooltipp {
+    visibility: visible;
+    opacity: 1; /* Fade-in effect */
+}
+
+/* Ensure tooltips are not obstructed by other content */
+.product-btns {
+    position: relative; /* Ensure tooltip is correctly positioned within this container */
+    z-index: 9999; /* Ensure it's on top of other content */
+}
+

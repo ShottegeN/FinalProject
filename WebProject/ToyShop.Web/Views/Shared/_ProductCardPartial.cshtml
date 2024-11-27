@@ -27,8 +27,7 @@
 
             <!-- Product Price -->
             @if (Model.DiscountPercentage > 0)
-            {
-                @*  var discountedPrice = Model.Price - (Model.Price * Model.DiscountPercentage / 100m); *@
+            {               
                 var cultureInfo = System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG");
 
                 <h4 class="product-price">
@@ -62,21 +61,44 @@
             </div>
 
             <!-- Product Buttons -->
-            <div class="product-btns">
-                <button class="add-to-wishlist">
-                    <i class="fa fa-heart-o"></i><span class="tooltipp">добави в любими</span>
-                </button>
-                <button class="add-to-compare">
-                    <i class="fa fa-exchange"></i><span class="tooltipp">сравни</span>
-                </button>
-                <button class="quick-view">
-                    <i class="fa fa-eye"></i><span class="tooltipp">преглед</span>
-                </button>
-                @if (User.IsInRole("Administrator") || User.IsInRole("Moderator"))
-                {
-                    <button class="fa-edit">
-                        <i class="fa fa-edit"></i><span class="tooltipp">редактирай</span>
+            <div class="product-btns" data-product-id="@Model.Id">
+                <!-- Add to Wishlist Form -->
+                <form asp-action="AddToWishlist" method="post" style="display:inline;">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <button type="submit" class="btn-icon" aria-label="Add to Wishlist">
+                        <i class="fa fa-heart-o"></i>
+                        <span class="tooltipp">добави в любими</span> <!-- Tooltip text -->
                     </button>
+                </form>
+
+                <!-- Compare Form -->
+                <form asp-action="Compare" method="post" style="display:inline;">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <button type="submit" class="btn-icon" aria-label="Compare">
+                        <i class="fa fa-exchange"></i>
+                        <span class="tooltipp">сравни</span> <!-- Tooltip text -->
+                    </button>
+                </form>
+
+                <!-- Product Details Form -->
+                <form asp-action="Details" asp-controller="Product" method="get" style="display:inline;">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <button type="submit" class="btn-icon" aria-label="View Details">
+                        <i class="fa fa-eye"></i>
+                        <span class="tooltipp">преглед</span> <!-- Tooltip text -->
+                    </button>
+                </form>
+
+                @if (User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
+                {
+                    <!-- Edit Product Form -->
+                    <form asp-action="Edit" method="get" style="display:inline;">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <button type="submit" class="btn-icon" aria-label="Edit Product">
+                            <i class="fa fa-edit"></i>
+                            <span class="tooltipp">редактирай</span> <!-- Tooltip text -->
+                        </button>
+                    </form>
                 }
             </div>
         </div>

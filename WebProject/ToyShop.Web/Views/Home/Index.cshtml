@@ -79,7 +79,7 @@
                                     @foreach (var product in Model.NewProducts)
                                     {
                                         <!-- product -->
-                                        <partial name="_HomeProductCardPartial" model="product" />
+                                        <partial name="_ProductCardPartial" model="product" />
                                         <!-- /product -->
                                     }
                                 </div>
@@ -119,6 +119,7 @@
     <!-- /HOT DEAL SECTION -->    
 </div>
 
+
 @section Scripts {
     <script src="~/js/updateCountdown.js"></script>
 
@@ -131,4 +132,6 @@
             </text>
         }
     </script>
+
+
 }

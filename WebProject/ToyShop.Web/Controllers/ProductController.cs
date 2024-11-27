@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.ViewModels;
 
@@ -8,17 +9,19 @@ namespace ToyShop.Web.Controllers
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> logger;
-        private readonly IRepository repo;
+        private readonly IProductService productService;
 
-        public ProductController(ILogger<ProductController> _logger, IRepository _repo)
+        public ProductController(ILogger<ProductController> _logger, IProductService _productService)
         {
             logger = _logger;
-            repo = _repo;
+            productService = _productService;
         }
 
-        public IActionResult Details()
+        public async Task<IActionResult> Details(Guid productId)
         {
-            return View();
+            var product = await productService.GetProductByIdAsync(productId);
+
+            return View(product);
         }
 
 

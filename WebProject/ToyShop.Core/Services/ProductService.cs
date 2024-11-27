@@ -65,14 +65,53 @@ namespace ToyShop.Core.Services
                 })
                 .ToListAsync();
 
+            CalculatePromotionalPrice(products);
+
             return products;
         }
+
+        public async Task<ProductInfoViewModel> GetProductByIdAsync(Guid id)
+        {
+            var p = await repo.AllReadonlyAsync<Product>()
+                .Where(p => p.Id == id)
+                .Include(p => p.Category)
+                .Include(p => p.Reviews)
+                .Include(p => p.Promotion)
+                .FirstOrDefaultAsync();
+
+
+            if (p != null)
+            {
+                var product = new ProductInfoViewModel
+                {
+                    Id = p.Id,
+                    ProductName = p.Name,
+                    ImageUrl = p.ImageUrl,
+                    Quantity = p.Quantity,
+                    Price = p.Price,
+                    ReleasedOn = p.ReleasedOn.ToString("dd.MM.yyyy"),
+                    Category = p.Category.Name,
+                    GlobalCategory = p.GlobalCategory.ToString(),
+                    DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
+                    ShortDescription = p.ShortDescription,
+                    Rating = p.Reviews.Sum(r => r.Rating),
+                    Description = p.Description
+                };
+
+                CalculateSingleProductPromotionalPrice(product);
+
+                return product;
+            }
+
+            throw new NotImplementedException();
+        }
+
 
 
         //private
         private async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsWithFilterSorted(IQueryable<Product> productsQuery, string sortBy, int pageNumber = 1, int pageSize = 9)
         {
-            var products = await productsQuery               
+            var products = await productsQuery
                 .Select(p => new ProductInfoViewModel
                 {
                     Id = p.Id,
@@ -108,8 +147,13 @@ namespace ToyShop.Core.Services
         {
             foreach (var p in products)
             {
-                p.PromotionalPrice = p.Price - p.Price * p.DiscountPercentage / 100;
+                CalculateSingleProductPromotionalPrice(p);
             }
+        }
+
+        private static void CalculateSingleProductPromotionalPrice(ProductInfoViewModel p)
+        {
+            p.PromotionalPrice = p.Price - p.Price * p.DiscountPercentage / 100;
         }
 
         private IQueryable<Product> TotalProductsAfterCategoryFilter(string filter)
@@ -131,7 +175,7 @@ namespace ToyShop.Core.Services
             }
             else if (filteringType == "promotion")
             {
-                if(filteringValue == "all")
+                if (filteringValue == "all")
                 {
                     return productsQuery.Where(p => p.PromotionId > 0);
                 }
@@ -147,7 +191,7 @@ namespace ToyShop.Core.Services
                     productsQuery = productsQuery
                         .Where(p =>
                         (int)p.GlobalCategory == int.Parse(filteringValue) &&
-                        EF.Functions.Like(p.Name, "%" + searchQuery + "%")); 
+                        EF.Functions.Like(p.Name, "%" + searchQuery + "%"));
                 }
                 else
                 {

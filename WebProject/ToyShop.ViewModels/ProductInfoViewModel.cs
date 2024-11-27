@@ -12,7 +12,11 @@
 
         public decimal Price { get; set; }
 
+        public string GlobalCategory { get; set; } = null!;
+
         public string ShortDescription { get; set; } = null!;
+
+        public string ReleasedOn { get; set; } = null!;
 
         public string? Description { get; set; }
 
