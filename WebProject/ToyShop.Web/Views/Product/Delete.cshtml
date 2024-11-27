@@ -1,7 +1,6 @@
 ﻿@model ProductInfoViewModel
 @{
     ViewData["Title"] = "Изтриване";
-    var today = DateTime.Now.ToString("dd-MM-yyyy");
 }
 
 <!-- SECTION -->
@@ -18,15 +17,17 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title text-center">@Model.ProductName</h3>
-                        <p class="text-danger mt-3">Are you sure you want to delete @(Model.ProductName)?</p>
+                        <h3 class="card-title" style="text-align: left;">@Model.ProductName</h3> <!-- Left-align product name -->
+                        <p class="text-muted" style="text-align: left;">Добавено на: <strong>@Model.ReleasedOn</strong></p>
+                        <p class="text-muted" style="text-align: left;">Категория: <strong>@Model.GlobalCategory</strong></p>
+                        <p class="text-danger mt-3" style="text-align: left;">Сигурни ли сте, че искате да изтриете @(Model.ProductName)?</p>
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer" style="padding-top: 1em">
                         <form asp-controller="Product" asp-action="Delete" method="post">
                             <input type="hidden" name="id" value="@Model.Id" />
                             <input type="hidden" name="productName" value="@Model.ProductName" />
-                            <button type="submit" class="btn btn-danger">Confirm Delete</button>
-                            <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-warning">Cancel</a>
+                            <button type="submit" class="btn btn-danger">Потвърди изтриването</button>
+                            <a href="javascript:window.history.back();" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Отказ</a>
                         </form>
                     </div>
                 </div>

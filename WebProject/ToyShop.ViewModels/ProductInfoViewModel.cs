@@ -20,7 +20,7 @@
 
         public string? Description { get; set; }
 
-        public required string Category { get; set; }
+        public string Category { get; set; } = null!;
 
         public int DiscountPercentage { get; set; }
 

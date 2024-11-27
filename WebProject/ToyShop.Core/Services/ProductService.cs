@@ -106,7 +106,41 @@ namespace ToyShop.Core.Services
             return product;
         }
 
+        public async Task<ProductInfoViewModel> GetproductForDelete(Guid id)
+        {
+            var p = await repo.GetByIdAsync<Product>(id);
 
+            if (p == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var product = new ProductInfoViewModel
+            {
+                Id = p.Id,
+                ProductName = p.Name,
+                ReleasedOn = p.ReleasedOn.ToString("dd.MM.yyyy"),
+                GlobalCategory = p.GlobalCategory.ToString(),
+            };
+
+            return product;
+        }
+
+        public async Task<bool> DeleteProductAsync(Guid id)
+        {
+            var product = await repo.GetByIdAsync<Product>(id);
+
+            if (product == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            product.IsAvailable = false;
+
+            await repo.SaveChangesAsync();
+
+            return true;
+        }
 
         //private
         private async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsWithFilterSorted(IQueryable<Product> productsQuery, string sortBy, int pageNumber = 1, int pageSize = 9)

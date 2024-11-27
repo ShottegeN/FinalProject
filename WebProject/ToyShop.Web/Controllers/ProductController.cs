@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Core.Contracts;
 using ToyShop.Core.Services;
@@ -6,6 +7,7 @@ using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
 {
+    //[Authorize(Roles = "Administrator, Moderator")]
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> logger;
@@ -17,6 +19,7 @@ namespace ToyShop.Web.Controllers
             productService = _productService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Details(Guid productId)
         {
@@ -28,18 +31,35 @@ namespace ToyShop.Web.Controllers
             }
             catch (ArgumentNullException)
             {
-                TempData["ErrorMessage"] = "Продуктът с дадения идентификатор не беше намерен.";
+                TempData["ErrorMessage"] = "Ресурсът не е намерен!.";
                 return RedirectToAction("Error", "Home");
             }
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> Delete(Guid productId)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var product = await productService.GetProductForDetails(productId);
+            try
+            {
+                var product = await productService.GetproductForDelete(id);
 
-            return View(product);
+                return View(product);
+
+            }
+            catch (ArgumentNullException)
+            {
+                TempData["ErrorMessage"] = "Невалидна операция!";
+                return RedirectToAction("Error", "Home");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(ProductInfoViewModel product)
+        {
+            var result = await productService.DeleteProductAsync(product.Id);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

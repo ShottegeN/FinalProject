@@ -10,5 +10,9 @@ namespace ToyShop.Core.Contracts
 
         public Task<ProductInfoViewModel> GetProductForDetails(Guid id);
 
+        public Task<ProductInfoViewModel> GetproductForDelete(Guid id);
+
+        public Task<bool> DeleteProductAsync(Guid id);
+
     }
 }
