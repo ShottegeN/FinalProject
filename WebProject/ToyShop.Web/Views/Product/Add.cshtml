@@ -1,0 +1,91 @@
+﻿@model ProductInfoViewModel
+@{
+    ViewData["Title"] = "Добави продукт";
+}
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container py-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <hr />
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-sm-12">
+                <form asp-action="Add" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <!-- Product Name -->
+                        <div class="col-sm-12 mb-3">
+                            <label asp-for="@Model.ProductName" class="form-label">Име на продукта</label>
+                            <input asp-for="@Model.ProductName" class="form-control" aria-required="true" placeholder="Въведете името на продукта" />
+                            <span asp-validation-for="@Model.ProductName" class="text-danger"></span>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="col-sm-6 mb-3" style="padding-top: 1em">
+                            <label asp-for="@Model.Price" class="form-label">Цена</label>
+                            <div class="input-group">
+                                <span class="input-group-text">лв</span>
+                                <input asp-for="Price" class="form-control" aria-required="true" type="number" step="0.01" min="0" placeholder="Въведете цена" />
+                            </div>
+                            <span asp-validation-for="@Model.Price" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Short Description -->
+                    <div class="mb-3" style="padding-top: 1em">
+                        <label asp-for="@Model.ShortDescription" class="form-label">Кратко описание</label>
+                        <input asp-for="@Model.ShortDescription" class="form-control" aria-required="true" placeholder="Добавете кратко описание" />
+                        <span asp-validation-for="@Model.ShortDescription" class="text-danger"></span>
+                    </div>
+
+                    <!-- Full Description -->
+                    <div class="mb-3" style="padding-top: 1em">
+                        <label asp-for="@Model.Description" class="form-label">Описание</label>
+                        <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="4" placeholder="Добавете подробно описание на продукта"></textarea>
+                        <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                    </div>
+
+                    <!-- Image URL -->
+                    <div class="mb-3" style="padding-top: 1em">
+                        <label asp-for="@Model.ImageUrl" class="form-label">URL на изображението</label>
+                        <input asp-for="@Model.ImageUrl" class="form-control" aria-required="false" placeholder="Въведете URL на изображението (по избор)" />
+                        <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <!-- Global Category -->
+                        <div class="col-sm-6 mb-3" style="padding-top: 1em">
+                            <label asp-for="@Model.GlobalCategory" class="form-label">Изберете категория</label>
+                            <select asp-for="@Model.GlobalCategory" class="form-control" aria-required="true">
+                                <option value="">Изберете категория...</option>
+                                <!-- Replace with dynamically generated categories -->
+                            </select>
+                            <span asp-validation-for="@Model.GlobalCategory" class="text-danger"></span>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="col-sm-6 mb-3" style="padding-top: 1em">
+                            <label asp-for="@Model.Category" class="form-label">Изберете вид</label>
+                            <select asp-for="@Model.Category" class="form-control" aria-required="true">
+                                <option value="">Изберете вид...</option>
+                                <!-- Replace with dynamically generated categories -->
+                            </select>
+                            <span asp-validation-for="@Model.Category" class="text-danger"></span>
+                        </div>
+                    </div>                                                            
+
+                    <!-- Submit Button -->
+                    <div class="mb-4" style="padding-top: 1em">
+                        <input class="btn btn-warning w-100 py-2 fw-bold rounded" type="submit" value="Запази" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- container -->
+</div>
+<!-- SECTION -->

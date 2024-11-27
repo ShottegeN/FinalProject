@@ -4,7 +4,7 @@
     {      
         public Guid Id { get; set; }
 
-        public required string ProductName { get; set; }
+        public string ProductName { get; set; } = null!;
 
         public string? ImageUrl { get; set; }
 

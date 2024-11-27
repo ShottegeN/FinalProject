@@ -19,6 +19,14 @@ namespace ToyShop.Web.Controllers
             productService = _productService;
         }
 
+        [HttpGet]
+        public IActionResult Add()
+        {
+            var product = new ProductInfoViewModel();
+
+            return View(product);
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Details(Guid productId)
