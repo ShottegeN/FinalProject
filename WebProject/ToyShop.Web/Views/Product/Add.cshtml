@@ -62,6 +62,10 @@
                             <label asp-for="@Model.GlobalCategory" class="form-label">Изберете категория</label>
                             <select asp-for="@Model.GlobalCategory" class="form-control" aria-required="true">
                                 <option value="">Изберете категория...</option>
+                                <option value="0">Играчки</option>
+                                <option value="1">Аксесоари</option>
+                                <option value="2">Декорации</option>
+                                <option value="3">Други</option>
                                 <!-- Replace with dynamically generated categories -->
                             </select>
                             <span asp-validation-for="@Model.GlobalCategory" class="text-danger"></span>

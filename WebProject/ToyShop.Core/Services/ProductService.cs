@@ -227,7 +227,7 @@ namespace ToyShop.Core.Services
                         (int)p.GlobalCategory == int.Parse(filteringValue) &&
                         EF.Functions.Like(p.Name, "%" + searchQuery + "%"));
                 }
-                else
+                else if (!string.IsNullOrEmpty(filterArray[2]))
                 {
                     productsQuery = productsQuery.Where(p => (int)p.GlobalCategory == int.Parse(filteringValue));
                 }

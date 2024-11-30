@@ -23,6 +23,7 @@
 
     <!-- nouislider -->
     <link type="text/css" rel="stylesheet" href="~/css/nouislider.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="~/css/font-awesome.min.css">
@@ -129,28 +130,38 @@
     </header>
     <!-- /HEADER -->
     <!-- NAVIGATION -->
-    <nav id="navigation">
-        <!-- container -->
-        <div class="container">
-            <!-- responsive-nav -->
-            <div id="responsive-nav">
-                <!-- NAV -->
-                <ul class="main-nav nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
-                    <li><a asp-area="" asp-controller="Store" asp-action="Index">Продукти</a></li>
-                    <li><a href="#">Контакти</a></li>
-                    <li><a href="#">Категории</a></li>
-                    <li>
-                        <a href="@Url.Action("Index", "Store", new { filter = "promotion-all" })">Промоции</a>
-                    </li>
-                </ul>
-                <!-- /NAV -->
-            </div>
-            <!-- /responsive-nav -->
-        </div>
-        <!-- /container -->
-    </nav>
-    <!-- /NAVIGATION -->
+<nav id="navigation">
+    <!-- container -->
+    <div class="container nav-container">
+        <!-- responsive-nav -->
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle" class="menu-toggle">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <!-- Add the text "Меню" inside the label -->
+            <span class="menu-text">Меню</span>
+        </label>
+        <ul class="main-nav nav navbar-nav">
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
+            <li><a asp-area="" asp-controller="Store" asp-action="Index">Продукти</a></li>
+            <li><a href="@Url.Action("Index", "Store", new { filter = "promotion-all" })">Промоции</a></li>
+            <li><a href="#">Контакти</a></li>
+            <!-- Admin/Moderator only -->
+            @if (!User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
+            {
+                <li><a asp-area="" asp-controller="Order" asp-action="Index">Поръчки</a></li>
+                <li><a asp-area="" asp-controller="Product" asp-action="Add"><i class="fas fa-plus-circle"></i> Продукт</a></li>
+                <li><a asp-area="" asp-controller="Product" asp-action="Add">Админ панел</a></li>
+            }
+            <!-- /Admin/Moderator only -->
+        </ul>
+        <!-- /responsive-nav -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
+
     <!-- RENDERBODY -->
     <div>
         @RenderBody()
