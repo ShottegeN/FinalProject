@@ -4,7 +4,6 @@
     ViewData["Title"] = "Преглед";
 }
 
-
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
@@ -19,19 +18,31 @@
             <div class="col-md-4 text-center">
                 @if (!string.IsNullOrEmpty(Model.ImageUrl))
                 {
-                    <img src="/@Model.ImageUrl" class="img-fluid" style="max-width: 100%; height: auto;" alt="@Model.ProductName" />
+                    // Check if the ImageUrl starts with "http" or "https" (external image URL)
+                    if (Model.ImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // For external images, use the URL as is
+                        <img src="@Model.ImageUrl" class="img-fluid" style="max-width: 100%; height: auto;" alt="@Model.ProductName" />
+                    }
+                    else
+                    {
+                        // For local images (within wwwroot), prepend the relative path if it starts with "/"
+                        <img src="/@Model.ImageUrl" class="img-fluid" style="max-width: 100%; height: auto;" alt="@Model.ProductName" />
+                    }
                 }
                 else
                 {
-                    <img src="~/img/no-image-available-02.jpg" class="img-fluid" style="max-width: 100%; height: auto;" alt="No Image Available" />
+                        // Default image when ImageUrl is null or empty
+                    <img src="/img/no_img.png" class="img-fluid" style="max-width: 100%; height: auto;" alt="No Image Available" />
                 }
+
+
             </div>
 
             <div class="col-md-8">
                 <div class="card-body">
                     <h5 class="card-title">@Model.ProductName</h5>
                     <hr />
-                    @* <h6 class="card-subtitle mb-2 text-muted">@Model.Price.ToString("C")</h6> *@
                     @if (Model.DiscountPercentage > 0)
                     {
                         var cultureInfo = System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG");
@@ -51,8 +62,9 @@
                     <hr />
                     <p class="card-text">@Model.ShortDescription</p>
                     <hr />
-                    <p class="card-text">@Model.Description</p>
+                    <p class="card-text"><small class="card-text">@Model.Size</small></p>
                     <hr />
+                    <p class="card-text">@Model.Description</p>
                     <p class="card-text"><small class="text-muted">Категория: @Model.GlobalCategory</small> / <small class="text-muted">Вид: @Model.Category</small></p>
                     <hr />
                     <p class="card-text"><small class="card-text">Добавен на: @Model.ReleasedOn / Налични: @Model.Quantity броя</small></p>

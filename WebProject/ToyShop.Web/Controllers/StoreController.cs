@@ -21,7 +21,7 @@ namespace ToyShop.Web.Controllers
 
         public async Task<IActionResult> Index(string sortBy = "rating", int pageNumber = 1, int pageSize = 9, string filter = "")
         {           
-            var storeViewModel = await productService.GetStoreViewModel(sortBy, pageNumber, pageSize, filter);
+            var storeViewModel = await productService.GetStoreViewModelAsync(sortBy, pageNumber, pageSize, filter);
             storeViewModel.AllCategories = await categoryService.GetAllCategoriesAsync();           
 
             return View(storeViewModel);

@@ -14,6 +14,8 @@
 
         public string GlobalCategory { get; set; } = null!;
 
+        public string Size { get; set; } = null!;
+
         public string ShortDescription { get; set; } = null!;
 
         public string ReleasedOn { get; set; } = null!;

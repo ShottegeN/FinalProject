@@ -39,6 +39,7 @@ namespace ToyShop.Data.Models
         public DateTime ReleasedOn { get; set; }
 
         [Comment("Url of the product image")]
+        [MaxLength(ProductConstraints.ImageUrlMaxLength)]
         public string? ImageUrl { get; set; }
 
         [Comment("Global category of the product")]

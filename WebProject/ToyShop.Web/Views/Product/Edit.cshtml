@@ -1,7 +1,6 @@
 ﻿@model ToyShop.ViewModels.AddOrEditProductViewModel
-
 @{
-    ViewData["Title"] = "Добави продукт";
+    ViewData["Title"] = "Редактирай продукт";
 }
 
 <!-- SECTION -->
@@ -16,7 +15,10 @@
 
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10 col-sm-12">
-                <form asp-action="Add" method="post" enctype="multipart/form-data">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                    <!-- Hidden Input for Product Id -->
+                    <input asp-for="@Model.Product.Id" type="hidden" />
+
                     <div class="row">
                         <!-- Product Name -->
                         <div class="col-sm-12 mb-3">
@@ -78,12 +80,11 @@
                         <div class="col-sm-6 mb-3" style="padding-top: 1em">
                             <label asp-for="@Model.Product.GlobalCategory" class="form-label">Изберете категория</label>
                             <select asp-for="@Model.Product.GlobalCategory" class="form-control" aria-required="true">
-                                <option value="">Изберете категория...</option>
+                                <option value="@Model.Product.GlobalCategory">@Model.Product.GlobalCategory</option>
                                 <option value="0">Играчки</option>
                                 <option value="1">Аксесоари</option>
                                 <option value="2">Декорации</option>
                                 <option value="3">Други</option>
-                                <!-- Replace with dynamically generated categories -->
                             </select>
                             <span asp-validation-for="@Model.Product.GlobalCategory" class="text-danger"></span>
                         </div>
@@ -92,7 +93,7 @@
                         <div class="col-sm-6 mb-3" style="padding-top: 1em">
                             <label asp-for="@Model.Product.Category" class="form-label">Изберете вид</label>
                             <select asp-for="@Model.Product.Category" class="form-control" aria-required="true" id="categoryDropdown">
-                                <option value="">Изберете вид...</option>
+                                <option value="@Model.Product.Category">@Model.Product.Category</option>
                                 @foreach (var category in Model.Categories!)
                                 {
                                     <option value="@category.Id">@category.Name</option>
@@ -119,12 +120,11 @@
                                 }
                             });
                         </script>
-
                     </div>
 
                     <!-- Submit Button -->
                     <div class="mb-4" style="padding-top: 1em">
-                        <input class="btn btn-warning w-100 py-2 fw-bold rounded" type="submit" value="Добави" />
+                        <input class="btn btn-warning w-100 py-2 fw-bold rounded" type="submit" value="Запази промените" />
                     </div>
                 </form>
             </div>

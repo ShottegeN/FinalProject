@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
+using ToyShop.Data.Models.Enumerations;
 using ToyShop.ViewModels;
 
 namespace ToyShop.Core.Services
@@ -18,7 +19,7 @@ namespace ToyShop.Core.Services
         }
 
 
-        public async Task<StoreViewModel> GetStoreViewModel(string sortBy, int pageNumber = 1, int pageSize = 9, string filter = "")
+        public async Task<StoreViewModel> GetStoreViewModelAsync(string sortBy, int pageNumber = 1, int pageSize = 9, string filter = "")
         {
             var allProductsQuery = TotalProductsAfterCategoryFilter(filter);
 
@@ -42,6 +43,87 @@ namespace ToyShop.Core.Services
             };
         }
 
+        public async Task AddProductAsync(UIProductViewModel p, string? newCategoryName)
+        {
+            int categoryId = await GetCategoryId(p, newCategoryName);
+
+            var product = new Product
+            {
+                Name = p.ProductName,
+                Price = p.Price!.Value,
+                Quantity = p.Quantity!.Value,
+                Description = p.Description,
+                ShortDescription = p.ShortDescription,
+                Size = p.Size,
+                ImageUrl = p.ImageUrl ?? "img/no_img.png",
+                GlobalCategory = Enum.TryParse(p.GlobalCategory, true, out GlobalCategory globalCategory) ? globalCategory : GlobalCategory.Други,
+                CategoryId = categoryId,
+            };
+
+            await repo.AddAsync(product);
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task EditProductAsync(UIProductViewModel p, string? newCategoryName)
+        {           
+            var product = await repo.GetByIdAsync<Product>(p.Id);
+
+            if (product == null)
+            {
+                throw new ArgumentException("Невалидна операция");
+            }
+
+            // Get or create the category ID
+            int categoryId = await GetCategoryId(p, newCategoryName);
+
+            // Update the properties of the existing product
+            product.Name = p.ProductName;
+            product.Price = p.Price!.Value;
+            product.Quantity = p.Quantity!.Value;
+            product.Description = p.Description;
+            product.ShortDescription = p.ShortDescription;
+            product.Size = p.Size;
+            product.ImageUrl = p.ImageUrl ?? "img/no_img.png";
+            product.GlobalCategory = Enum.TryParse(p.GlobalCategory, true, out GlobalCategory globalCategory) ? globalCategory : GlobalCategory.Други;
+            product.CategoryId = categoryId;
+
+            await repo.UpdateAsync(product);
+
+            await repo.SaveChangesAsync();
+        }
+
+
+
+        public async Task<UIProductViewModel> GetproductForEditAsync(Guid id)
+        {
+            var p = await repo.AllReadonlyAsync<Product>()
+                .Where(p => p.Id == id)
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync();
+
+
+            if (p == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var product = new UIProductViewModel
+            {
+                Id = p.Id,
+                ProductName = p.Name,
+                ImageUrl = p.ImageUrl,
+                Quantity = p.Quantity,
+                Price = p.Price,
+                Size = p.Size,
+                Category = p.Category.Id.ToString(),
+                GlobalCategory = p.GlobalCategory.ToString(),
+                ShortDescription = p.ShortDescription,
+                Description = p.Description
+            };
+
+            return product;
+        }
 
         public async Task<IEnumerable<ProductInfoViewModel>> GetNewest10ProductsAsync()
         {
@@ -70,7 +152,7 @@ namespace ToyShop.Core.Services
             return products;
         }
 
-        public async Task<ProductInfoViewModel> GetProductForDetails(Guid id)
+        public async Task<ProductInfoViewModel> GetProductForDetailsAsync(Guid id)
         {
             var p = await repo.AllReadonlyAsync<Product>()
                 .Where(p => p.Id == id)
@@ -92,6 +174,7 @@ namespace ToyShop.Core.Services
                 ImageUrl = p.ImageUrl,
                 Quantity = p.Quantity,
                 Price = p.Price,
+                Size = p.Size,
                 ReleasedOn = p.ReleasedOn.ToString("dd.MM.yyyy"),
                 Category = p.Category.Name,
                 GlobalCategory = p.GlobalCategory.ToString(),
@@ -106,7 +189,7 @@ namespace ToyShop.Core.Services
             return product;
         }
 
-        public async Task<ProductInfoViewModel> GetproductForDelete(Guid id)
+        public async Task<ProductInfoViewModel> GetproductForDeleteAsync(Guid id)
         {
             var p = await repo.GetByIdAsync<Product>(id);
 
@@ -126,7 +209,7 @@ namespace ToyShop.Core.Services
             return product;
         }
 
-        public async Task<bool> DeleteProductAsync(Guid id)
+        public async Task DeleteProductAsync(Guid id)
         {
             var product = await repo.GetByIdAsync<Product>(id);
 
@@ -138,8 +221,6 @@ namespace ToyShop.Core.Services
             product.IsAvailable = false;
 
             await repo.SaveChangesAsync();
-
-            return true;
         }
 
         //private
@@ -175,6 +256,35 @@ namespace ToyShop.Core.Services
             return products
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize);
+        }
+
+        private async Task<int> GetCategoryId(UIProductViewModel p, string? newCategoryName)
+        {
+            if (newCategoryName == null && p.Category == "new")
+            {
+                throw new ArgumentException("Това поле е задължително!");
+            }
+            else if (newCategoryName == null && p.Category != "new")
+            {
+                return int.Parse(p.Category);
+            }
+
+            var categories = await repo.AllReadonlyAsync<Category>().ToListAsync();
+
+            if (categories.Any(c => c.Name.ToLower() == newCategoryName!.ToLower()))
+            {
+                throw new ArgumentException("Този вид вече съществува!");
+            }
+
+            var newCategory = new Category
+            {
+                Name = newCategoryName!
+            };
+
+            await repo.AddAsync(newCategory);
+            await repo.SaveChangesAsync();
+
+            return newCategory.Id;
         }
 
         private static void CalculatePromotionalPrice(List<ProductInfoViewModel> products)
@@ -235,7 +345,5 @@ namespace ToyShop.Core.Services
 
             return productsQuery;
         }
-
-
     }
 }

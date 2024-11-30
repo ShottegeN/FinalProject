@@ -12,19 +12,90 @@ namespace ToyShop.Web.Controllers
     {
         private readonly ILogger<ProductController> logger;
         private readonly IProductService productService;
+        private readonly ICategoryService categoryService;
 
-        public ProductController(ILogger<ProductController> _logger, IProductService _productService)
+        public ProductController(ILogger<ProductController> _logger, IProductService _productService, ICategoryService _categoryService)
         {
             logger = _logger;
             productService = _productService;
+            categoryService = _categoryService;
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            var product = new ProductInfoViewModel();
+            var addProductViewModel = new AddOrEditProductViewModel
+            {
+                Product = new UIProductViewModel(),
+                Categories = await categoryService.GetAllCategoriesAsync()
+            };
 
-            return View(product);
+            return View(addProductViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddOrEditProductViewModel productViewModel, string? newCategoryName)
+        {
+            if (!ModelState.IsValid)
+            {
+                productViewModel.Categories = await categoryService.GetAllCategoriesAsync();
+
+                return View(productViewModel);
+            }
+
+            try
+            {
+                await productService.AddProductAsync(productViewModel.Product, newCategoryName!);
+            }
+            catch (ArgumentException ex)
+            {
+                ModelState.AddModelError("NewCategoryName", ex.Message);
+                productViewModel.Categories = await categoryService.GetAllCategoriesAsync(); 
+                productViewModel.NewCategoryName = "new";
+
+                return View(productViewModel);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+
+            var addProductViewModel = new AddOrEditProductViewModel
+            {
+                Product = await productService.GetproductForEditAsync(id),
+                Categories = await categoryService.GetAllCategoriesAsync()
+            };
+
+            return View(addProductViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AddOrEditProductViewModel productViewModel, string? newCategoryName)
+        {
+            if (!ModelState.IsValid)
+            {
+                productViewModel.Categories = await categoryService.GetAllCategoriesAsync();
+
+                return View(productViewModel);
+            }
+
+            try
+            {
+                await productService.EditProductAsync(productViewModel.Product, newCategoryName!);
+            }
+            catch (ArgumentException ex)
+            {
+                ModelState.AddModelError("NewCategoryName", ex.Message);
+                productViewModel.Categories = await categoryService.GetAllCategoriesAsync();
+                productViewModel.NewCategoryName = "new";
+
+                return View(productViewModel);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [AllowAnonymous]
@@ -33,7 +104,7 @@ namespace ToyShop.Web.Controllers
         {
             try
             {
-                var product = await productService.GetProductForDetails(productId);
+                var product = await productService.GetProductForDetailsAsync(productId);
 
                 return View(product);
             }
@@ -50,7 +121,7 @@ namespace ToyShop.Web.Controllers
         {
             try
             {
-                var product = await productService.GetproductForDelete(id);
+                var product = await productService.GetproductForDeleteAsync(id);
 
                 return View(product);
 
@@ -65,7 +136,7 @@ namespace ToyShop.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(ProductInfoViewModel product)
         {
-            var result = await productService.DeleteProductAsync(product.Id);
+            await productService.DeleteProductAsync(product.Id);
 
             return RedirectToAction("Index", "Home");
         }
