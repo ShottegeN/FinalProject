@@ -89,11 +89,11 @@
                     </button>
                 </form>
 
-                @if (User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
+                @if (!User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
                 {
                     <!-- Edit Product Form -->
-                    <form asp-action="Edit" method="get" style="display:inline;">
-                        <input type="hidden" name="productId" value="@Model.Id" />
+                    <form asp-action="Edit" asp-controller="Product" method="get" style="display:inline;">
+                        <input type="hidden" name="id" value="@Model.Id" />
                         <button type="submit" class="btn-icon" aria-label="Edit Product">
                             <i class="fa fa-edit"></i>
                             <span class="tooltipp">редактирай</span> <!-- Tooltip text -->
