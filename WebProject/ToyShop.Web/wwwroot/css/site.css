@@ -13,6 +13,69 @@ body {
     background-color: #E4E7ED;
 }
 
+/* Product buttons styling */
+.product-btns button {
+    background: none;
+    border: none;
+    font-size: 18px; /* Adjust icon size to make buttons smaller */
+    color: #000; /* Icon color */
+    cursor: pointer;
+    margin-right: 10px; /* Space between buttons */
+    position: relative; /* Set position relative for tooltip positioning */
+    transition: transform 0.2s, color 0.2s, background-color 0.2s; /* Smooth hover effect */
+    border-radius: 50%; /* Circle shape */
+}
+
+    /* Hover effect for buttons */
+    .product-btns button:hover {
+        transform: scale(1.1); /* Slightly enlarge the button */
+        background-color: lightgray; /* Light gray background when hovering */
+        color: red; /* Change icon color to red on hover */
+    }
+
+/* Style for tooltips */
+.tooltipp {
+    visibility: hidden;
+    width: 90px; /* Adjust width of tooltip */
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px; /* Adjust padding */
+    position: absolute;
+    z-index: 10;
+    bottom: 125%; /* Place the tooltip above the button */
+    left: 50%;
+    margin-left: -45px; /* Center the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    font-size: 12px; /* Smaller font size for tooltip */
+}
+
+    /* Tooltip arrow */
+    .tooltipp::after {
+        content: '';
+        position: absolute;
+        top: 100%; /* Position the arrow at the bottom of the tooltip */
+        left: 50%;
+        margin-left: -5px; /* Center the arrow */
+        border-width: 5px;
+        border-style: solid;
+        border-color: #333 transparent transparent transparent; /* Arrow color */
+    }
+
+/* Make tooltip visible when hovering the button */
+.product-btns button:hover .tooltipp {
+    visibility: visible;
+    opacity: 1; /* Fade-in effect */
+}
+
+/* Ensure tooltips are not obstructed by other content */
+.product-btns {
+    position: relative; /* Ensure tooltip is correctly positioned within this container */
+    z-index: 9999; /* Ensure it's on top of other content */
+}
+
 /* Navigation styles */
 #navigation {
     background-color: #f8f9fa;
@@ -136,65 +199,79 @@ body {
         }
 }
 
-/* Product buttons styling */
-.product-btns button {
-    background: none;
+@media (max-width: 768px) {
+    .footer-menu {
+        flex-direction: column !important;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1400px) {
+    #hot-deal.section {
+        background-image: none !important; /* Remove background image on smaller screens */
+        background-color: #E4E7ED;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.slick-prev, .slick-next {
+    top: 107%;
+}
+
+.slick-prev {
+    left: 30%;
+}
+
+.slick-next {
+    right: 30%;
+}
+
+    .slick-prev:focus, .slick-next:focus {
+        background-color: white; /* Maintain background */
+        border-color: transparent; /* Keep border transparent */
+    }
+
+        .slick-prev:focus:before, .slick-next:focus:before {
+            color: #2B2D42; /* Default color */
+        }
+
+    /* Add hover effect to override focus state */
+    .slick-prev:hover:before, .slick-next:hover:before {
+        color: #FFF; /* Replace with the color for hover */
+    }
+
+    .slick-prev:hover, .slick-next:hover {
+        background-color: #D10024; /* Replace with your hover background color */
+        border-color: #D10024; /* Replace with your hover border color */
+    }
+
+#newsletter.section {
     border: none;
-    font-size: 18px; /* Adjust icon size to make buttons smaller */
-    color: #000; /* Icon color */
-    cursor: pointer;
-    margin-right: 10px; /* Space between buttons */
-    position: relative; /* Set position relative for tooltip positioning */
-    transition: transform 0.2s, color 0.2s, background-color 0.2s; /* Smooth hover effect */
-    border-radius: 50%; /* Circle shape */
 }
 
-    /* Hover effect for buttons */
-    .product-btns button:hover {
-        transform: scale(1.1); /* Slightly enlarge the button */
-        background-color: lightgray; /* Light gray background when hovering */
-        color: red; /* Change icon color to red on hover */
-    }
-
-/* Style for tooltips */
-.tooltipp {
-    visibility: hidden;
-    width: 90px; /* Adjust width of tooltip */
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    padding: 5px; /* Adjust padding */
-    position: absolute;
-    z-index: 10;
-    bottom: 125%; /* Place the tooltip above the button */
-    left: 50%;
-    margin-left: -45px; /* Center the tooltip */
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    font-size: 12px; /* Smaller font size for tooltip */
+ul .loginLi {
+    padding-bottom: 0.5em;
 }
 
-    /* Tooltip arrow */
-    .tooltipp::after {
-        content: '';
-        position: absolute;
-        top: 100%; /* Position the arrow at the bottom of the tooltip */
-        left: 50%;
-        margin-left: -5px; /* Center the arrow */
-        border-width: 5px;
-        border-style: solid;
-        border-color: #333 transparent transparent transparent; /* Arrow color */
-    }
-
-/* Make tooltip visible when hovering the button */
-.product-btns button:hover .tooltipp {
-    visibility: visible;
-    opacity: 1; /* Fade-in effect */
+loginBtn {
+    padding-bottom: 0.5em;
 }
 
-/* Ensure tooltips are not obstructed by other content */
-.product-btns {
-    position: relative; /* Ensure tooltip is correctly positioned within this container */
-    z-index: 9999; /* Ensure it's on top of other content */
+.footer-menu {
+    display: flex;
+    justify-content: center;
+}
+
+.input-select {
+    border-radius: 0.7em;
 }
