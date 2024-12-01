@@ -31,6 +31,24 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
     .AddDefaultTokenProviders()
     .AddTokenProvider<DataProtectorTokenProvider<User>>("Default");
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";  // Customize the login path
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Customize the access denied path
+});
+
+// NOT IMPLEMENTED!
+//builder.Services.AddAuthentication()
+//    .AddGoogle(options =>
+//    {
+//        options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+//        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+//    })
+//    .AddFacebook(options =>
+//    {
+//        options.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+//        options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+//    });
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
