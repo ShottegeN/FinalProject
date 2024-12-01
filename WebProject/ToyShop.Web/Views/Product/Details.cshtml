@@ -18,25 +18,60 @@
             <div class="col-md-4 text-center">
                 @if (!string.IsNullOrEmpty(Model.ImageUrl))
                 {
-                    // Check if the ImageUrl starts with "http" or "https" (external image URL)
                     if (Model.ImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                     {
-                        // For external images, use the URL as is
                         <img src="@Model.ImageUrl" class="img-fluid" style="max-width: 100%; height: auto;" alt="@Model.ProductName" />
                     }
                     else
                     {
-                        // For local images (within wwwroot), prepend the relative path if it starts with "/"
                         <img src="/@Model.ImageUrl" class="img-fluid" style="max-width: 100%; height: auto;" alt="@Model.ProductName" />
                     }
                 }
                 else
                 {
-                        // Default image when ImageUrl is null or empty
                     <img src="/img/no_img.png" class="img-fluid" style="max-width: 100%; height: auto;" alt="No Image Available" />
                 }
 
+                @if (Model.Reviews != null && Model.Reviews.Any())
+                {
+                    <div id="slick-nav-1" class="products-slick-nav" style="margin-top: 1em;"></div>
+                    <h5 style="padding-top: 1em;">Отзиви</h5>
 
+                    <!-- Products tab & slick -->
+                    <div class="col-md-12" style="padding-top: 0.5em;">
+                        <div class="row">
+                            <div class="products-tabs">
+
+                                <!-- tab -->
+                                <div id="tab1" class="tab-pane active">
+
+                                    <div class="products-slick" data-nav="#slick-nav-1">
+                                        @foreach (var review in Model.Reviews)
+                                        {
+                                            <div class="review-item" style="overflow:auto">
+                                                <div class="review-rating">
+                                                    @for (int i = 0; i < review.Rating; i++)
+                                                    {
+                                                        <i class="fa fa-star text-warning"></i>
+                                                    }
+                                                    @for (int i = review.Rating; i < 5; i++)
+                                                    {
+                                                        <i class="fa fa-star-o text-warning"></i>
+                                                    }
+                                                </div>
+                                                <p><strong>@review.UserFullName</strong></p>
+                                                <p>@review.Comment</p>
+                                            </div>
+                                        }
+                                    </div>
+                                    
+                                </div>
+                                <!-- /tab -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Products tab & slick -->
+                }
             </div>
 
             <div class="col-md-8">
@@ -52,7 +87,6 @@
                                 @String.Format(cultureInfo, "{0:C}", Model.Price)
                             </del>
                             @String.Format(cultureInfo, "{0:C}", Model.PromotionalPrice)
-
                         </h6>
                     }
                     else
@@ -70,6 +104,32 @@
                     <p class="card-text"><small class="card-text">Добавен на: @Model.ReleasedOn / Налични: @Model.Quantity броя</small></p>
                     <hr />
                 </div>
+
+                <!-- Write Review Section -->
+                @if (User?.Identity?.IsAuthenticated == true)
+                {
+                    <div class="mt-4" style="padding-top: 1em">
+                        <h5>Добави отзив</h5>
+                        <form asp-controller="Product" asp-action="WriteProductReview" method="post" class="mt-3">
+                            <!-- Hidden Field for ProductId -->
+                            <input type="hidden" name="ProductId" value="@Model.Id" />
+                            <input type="hidden" name="username" value="@User?.Identity?.Name" />
+
+                            <div class="d-flex justify-content-center mb-3" style="padding-bottom: 1em">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <input type="radio" id="star-@i" name="Rating" value="@i" style="display:none;" />
+                                    <label for="star-@i" class="fa fa-star-o text-warning"
+                                           style="cursor: pointer; font-size: 1.5rem; margin-right: 0.5em;"
+                                           onclick="selectStars(@i);"></label>
+                                }
+                            </div>
+                            <textarea name="Comment" class="form-control" rows="3" placeholder="Напишете коментар..."></textarea>
+                            <button type="submit" class="btn btn-primary mt-2 w-100" style="margin-top: 1em">Изпрати</button>
+                        </form>
+                    </div>
+                }
+
                 <div class="card-footer text-center">
                     <div class="d-flex justify-content-around align-items-center">
                         <a href="javascript:window.history.back();" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Назад</a>
@@ -78,7 +138,7 @@
                         {
                             <a asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-success d-flex justify-content-center align-items-center flex-fill mx-1">Купи</a>
                         }
-                        @if (!User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
+                        @if (!(User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true))
                         {
                             <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">Редакция</a>
                             <a asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1" onclick="return confirm('Are you sure you want to delete this product?');">Изтриване</a>
@@ -91,3 +151,18 @@
     <!-- container -->
 </div>
 <!-- SECTION -->
+
+<script>
+    function selectStars(rating) {
+        for (let i = 1; i <= 5; i++) {
+            const star = document.querySelector(`label[for='star-${i}']`);
+            if (i <= rating) {
+                star.classList.remove('fa-star-o');
+                star.classList.add('fa-star');
+            } else {
+                star.classList.remove('fa-star');
+                star.classList.add('fa-star-o');
+            }
+        }
+    }
+</script>

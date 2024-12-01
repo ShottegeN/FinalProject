@@ -20,7 +20,7 @@ namespace ToyShop.Core.Contracts
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    ProductCount = c.Products.Count(),
+                    ProductCount = c.Products.Where(p => p.IsAvailable).Count(),
                 })
                 .ToListAsync();
 

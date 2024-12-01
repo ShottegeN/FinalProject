@@ -66,7 +66,7 @@ namespace ToyShop.Core.Services
         }
 
         public async Task EditProductAsync(UIProductViewModel p, string? newCategoryName)
-        {           
+        {
             var product = await repo.GetByIdAsync<Product>(p.Id);
 
             if (product == null)
@@ -92,7 +92,6 @@ namespace ToyShop.Core.Services
 
             await repo.SaveChangesAsync();
         }
-
 
 
         public async Task<UIProductViewModel> GetproductForEditAsync(Guid id)
@@ -139,6 +138,7 @@ namespace ToyShop.Core.Services
                     ImageUrl = p.ImageUrl,
                     Quantity = p.Quantity,
                     Price = p.Price,
+                    GlobalCategory = p.GlobalCategory.ToString(),
                     Category = p.Category.Name,
                     DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
                     ShortDescription = p.ShortDescription,
@@ -152,19 +152,38 @@ namespace ToyShop.Core.Services
             return products;
         }
 
-        public async Task<ProductInfoViewModel> GetProductForDetailsAsync(Guid id)
+        public async Task<ProductInfoViewModel> GetProductForDetailsAsync(Guid productId)
         {
             var p = await repo.AllReadonlyAsync<Product>()
-                .Where(p => p.Id == id)
+                .Where(p => p.Id == productId)
                 .Include(p => p.Category)
                 .Include(p => p.Reviews)
                 .Include(p => p.Promotion)
                 .FirstOrDefaultAsync();
 
-
             if (p == null)
             {
                 throw new ArgumentNullException();
+            }
+
+            List<ReviewViewModel> reviews = new List<ReviewViewModel>();
+
+            if (p.Reviews.Any())
+            {
+                var userIds = p.Reviews.Select(r => r.UserId).Distinct().ToList();
+
+                var users = await repo.AllReadonlyAsync<User>()
+                    .Where(u => userIds.Contains(u.Id))
+                    .ToDictionaryAsync(u => u.Id, u => $"{u.FirstName} {u.LastName}"); 
+
+                reviews = p.Reviews
+                .Select(r => new ReviewViewModel
+                {
+                    Id = r.Id,
+                    Comment = r.Comment,
+                    Rating = r.Rating,
+                    UserFullName = users.ContainsKey(r.UserId) ? users[r.UserId] : "Unknown" 
+                }).ToList();
             }
 
             var product = new ProductInfoViewModel
@@ -180,13 +199,41 @@ namespace ToyShop.Core.Services
                 GlobalCategory = p.GlobalCategory.ToString(),
                 DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
                 ShortDescription = p.ShortDescription,
-                Rating = p.Reviews.Sum(r => r.Rating),
+                Reviews = reviews,
+                Rating = p.Reviews.Any() ? (int)p.Reviews.Average(r => r.Rating) : 0,
                 Description = p.Description
             };
 
             CalculateSingleProductPromotionalPrice(product);
 
             return product;
+        }
+
+
+        public async Task WriteProductReviewAsync(Guid productId, string username, int rating, string comment)
+        {
+            var user = await repo.AllReadonlyAsync<User>()
+                .Where(u => u.UserName == username)
+                .FirstOrDefaultAsync();
+
+            var product = await repo.GetByIdAsync<Product>(productId);
+
+            if (user == null || product == null) 
+            {
+                throw new ArgumentException();
+            }
+
+            var review = new Review
+            {
+                Comment = comment,
+                Rating = rating,
+                UserId = user.Id,
+                ProductId = product.Id
+            };
+
+            await repo.AddAsync(review);
+            
+            await repo.SaveChangesAsync();
         }
 
         public async Task<ProductInfoViewModel> GetproductForDeleteAsync(Guid id)
@@ -234,6 +281,7 @@ namespace ToyShop.Core.Services
                     ImageUrl = p.ImageUrl,
                     Quantity = p.Quantity,
                     Price = p.Price,
+                    GlobalCategory = p.GlobalCategory.ToString(),
                     Category = p.Category.Name,
                     DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
                     ShortDescription = p.ShortDescription,

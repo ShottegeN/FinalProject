@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="product-body">
-            <p class="product-category">@Model.Category</p>
+            <p class="product-category">@Model.GlobalCategory</p>
             <h3 class="product-name"><a href="@Url.Action("Details", "Product", new { id = Model.Id })">@Model.ProductName</a></h3>
 
             <!-- Product Price -->
@@ -72,13 +72,13 @@
                 </form>
 
                 <!-- Compare Form -->
-                <form asp-action="Compare" method="post" style="display:inline;">
+               @*  <form asp-action="Compare" method="post" style="display:inline;">
                     <input type="hidden" name="productId" value="@Model.Id" />
                     <button type="submit" class="btn-icon" aria-label="Compare">
                         <i class="fa fa-exchange"></i>
                         <span class="tooltipp">сравни</span> <!-- Tooltip text -->
                     </button>
-                </form>
+                </form> *@
 
                 <!-- Product Details Form -->
                 <form asp-action="Details" asp-controller="Product" method="get" style="display:inline;">

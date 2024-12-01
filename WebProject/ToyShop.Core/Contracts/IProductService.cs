@@ -16,6 +16,8 @@ namespace ToyShop.Core.Contracts
 
         public Task AddProductAsync(UIProductViewModel product, string newCategoryName);
 
+        public Task WriteProductReviewAsync(Guid productId, string username, int rating, string comment);
+
         public Task EditProductAsync(UIProductViewModel product, string newCategory);
 
         public Task DeleteProductAsync(Guid id);

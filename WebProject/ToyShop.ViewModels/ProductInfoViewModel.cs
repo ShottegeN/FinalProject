@@ -29,5 +29,7 @@
         public int Rating { get; set; }
 
         public decimal PromotionalPrice {  get; set; }
+        
+        public List<ReviewViewModel>? Reviews { get; set; }
     }
 }
