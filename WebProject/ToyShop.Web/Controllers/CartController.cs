@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
@@ -6,6 +7,7 @@ using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly ILogger<CartController> logger;
@@ -17,6 +19,7 @@ namespace ToyShop.Web.Controllers
             productService = _productService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             Guid? userId = GetCurrentUserId();
@@ -29,6 +32,7 @@ namespace ToyShop.Web.Controllers
             return View(products);
         }
 
+        [HttpPost]
         public async Task<IActionResult> AddToCart(Guid productId)
         {
             Guid? userId = GetCurrentUserId();
@@ -40,7 +44,7 @@ namespace ToyShop.Web.Controllers
 
             await productService.AddToCartAsync(userId.Value, productId);
 
-            return RedirectToAction("Details", "Product", new { productId = productId });
+            return RedirectToAction("Details", "Product", new { productId });
         }
 
 

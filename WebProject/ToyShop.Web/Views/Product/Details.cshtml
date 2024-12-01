@@ -136,7 +136,10 @@
 
                         @if (User?.Identity?.IsAuthenticated == true)
                         {
-                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.Id" class="btn btn-success d-flex justify-content-center align-items-center flex-fill mx-1">Купи</a>                            
+                            <form asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.Id" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-success d-flex justify-content-center align-items-center flex-fill mx-1">Купи</button>
+                            </form>
+
 
                         }
                         @if (!(User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true))
