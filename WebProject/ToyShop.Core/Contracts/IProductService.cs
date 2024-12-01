@@ -26,5 +26,9 @@ namespace ToyShop.Core.Contracts
 
         public Task AddToCartAsync(Guid userId, Guid productId);
 
+        public Task RemoveFromCartAsync(Guid userId, Guid productId);
+
+        public Task UpdateProductQuantityAsync(Guid userId, Guid productId, int quantity);
+
     }
 }

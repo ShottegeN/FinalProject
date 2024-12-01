@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Core.Contracts;
+using ToyShop.Core.Services;
 using ToyShop.Data.Common;
 using ToyShop.ViewModels;
 
@@ -47,7 +48,35 @@ namespace ToyShop.Web.Controllers
             return RedirectToAction("Details", "Product", new { productId });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromCart(Guid productId)
+        {
+            Guid? userId = GetCurrentUserId();
 
+            if (!userId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            await productService.RemoveFromCartAsync(userId.Value, productId);
+
+            return RedirectToAction("Index", "Cart");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProductQuantity(Guid productId, int quantity)
+        {
+            Guid? userId = GetCurrentUserId();
+
+            if (!userId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            await productService.UpdateProductQuantityAsync(userId.Value, productId, quantity);
+
+            return RedirectToAction("Index", "Cart");
+        }
 
 
         //private

@@ -326,11 +326,33 @@ namespace ToyShop.Core.Services
             }
         }
 
+        public async Task RemoveFromCartAsync(Guid userId, Guid productId)
+        {
+            var existingUserProduct = await repo.AllReadonlyAsync<UserProductShoppingCart>()
+                    .Where(up => up.UserId == userId && up.ProductId == productId)
+                    .FirstOrDefaultAsync();
 
+            if (existingUserProduct != null) 
+            {
+                await repo.RemoveAsync(existingUserProduct);
+                await repo.SaveChangesAsync();
+            }            
+        }
 
+        public async Task UpdateProductQuantityAsync(Guid userId, Guid productId, int quantity)
+        {
+            var existingUserProduct = await repo.AllReadonlyAsync<UserProductShoppingCart>()
+                    .Where(up => up.UserId == userId && up.ProductId == productId)
+                    .FirstOrDefaultAsync();
 
+            if (existingUserProduct != null)
+            {
+                existingUserProduct.BoughtQuantity = quantity;                
 
-
+                await repo.UpdateAsync(existingUserProduct);                
+                await repo.SaveChangesAsync();
+            }
+        }
 
 
 
