@@ -376,19 +376,21 @@ namespace ToyShop.Core.Services
             }
             else if (filteringType == "globalCategory")
             {
-                if (filterArray.Length > 2 && !string.IsNullOrEmpty(filterArray[2]))
-                {
-                    var searchQuery = filterArray[2];
-
-                    productsQuery = productsQuery
-                        .Where(p =>
-                        (int)p.GlobalCategory == int.Parse(filteringValue) &&
-                        EF.Functions.Like(p.Name, "%" + searchQuery + "%"));
-                }
-                else if (!string.IsNullOrEmpty(filterArray[2]))
+                if (filterArray.Length >= 2)
                 {
                     productsQuery = productsQuery.Where(p => (int)p.GlobalCategory == int.Parse(filteringValue));
-                }
+
+                    if (filterArray.Length > 2 && filterArray[2] != "")
+                    {
+                        var searchQuery = filterArray[2];
+
+                        productsQuery = productsQuery
+                            .Where(p =>
+                            (int)p.GlobalCategory == int.Parse(filteringValue) &&
+                            EF.Functions.Like(p.Name, "%" + searchQuery + "%"));
+                    }
+                    
+                }                
             }
 
             return productsQuery;
