@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.ViewModels;
 
@@ -8,36 +9,30 @@ namespace ToyShop.Web.Controllers
     public class CartController : Controller
     {
         private readonly ILogger<CartController> logger;
-        private readonly IRepository repo;
+        private readonly IProductService productService;
 
-        public CartController(ILogger<CartController> _logger, IRepository _repo)
+        public CartController(ILogger<CartController> _logger, IProductService _productService)
         {
             logger = _logger;
-            repo = _repo;
+            productService = _productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var userId = GetCurrentUserId();
+
+
             return View();
         }
 
-        public IActionResult Privacy()
+
+
+
+
+        //private
+        private string? GetCurrentUserId()
         {
-            return View();
+            return User.Claims.FirstOrDefault()?.Value;
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            var model = new ErrorViewModel
-            {
-                Title = "Упс! Възникна грешка.",
-                Message = "Не успяхме да обработим вашата заявка. Моля, опитайте отново по-късно.",
-                SupportContact = "support@toyshop.com" // Примерен имейл за контакт
-            };
-
-            return View(model);
-        }
-
     }
 }

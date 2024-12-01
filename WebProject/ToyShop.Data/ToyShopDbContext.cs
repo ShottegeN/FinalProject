@@ -23,19 +23,14 @@ namespace ToyShop.Data
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<City> Cities { get; set; } = null!;
         public DbSet<Country> Countries { get; set; } = null!;
-        public DbSet<Coupon> Coupons { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Promotion> Promotions { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
-        public DbSet<ShoppingCart> ShoppingCarts { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {            
-            // Default values
-            modelBuilder.Entity<Coupon>()
-                .Property(c => c.IsActive)
-                .HasDefaultValue(false);
+            // Default values            
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.IsAvailable)
@@ -58,11 +53,11 @@ namespace ToyShop.Data
             modelBuilder.Entity<UserProductWhishlist>()
                 .HasKey(up => new { up.UserId, up.ProductId });
 
-            modelBuilder.Entity<OrderProduct>()
-                .HasKey(op => new { op.OrderId, op.ProductId });
+            modelBuilder.Entity<UserProductShoppingCart>()
+                .HasKey(up => new { up.UserId, up.ProductId });
 
-            modelBuilder.Entity<ShoppingCartProduct>()
-                .HasKey(scp => new { scp.ShoppingCartId, scp.ProductId });
+            modelBuilder.Entity<OrderProduct>()
+                .HasKey(op => new { op.OrderId, op.ProductId });           
 
             // Configure foreign keys to not use cascading deletes
             modelBuilder.Entity<Order>()
@@ -75,13 +70,7 @@ namespace ToyShop.Data
                 .HasOne(o => o.DeliveryAddress)
                 .WithMany(a => a.Orders)
                 .HasForeignKey(o => o.AddressId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.Coupon)
-                .WithMany(c => c.Orders)
-                .HasForeignKey(o => o.CouponId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);           
 
             modelBuilder.Seed();
 

@@ -46,12 +46,6 @@ namespace ToyShop.Data.Models
         // Navigation property for the delivery address associated with this order, not stored directly in the database.
         public Address DeliveryAddress { get; set; } = null!;
 
-        [Comment("Optional foreign Key reference to the Coupon entity")]
-        public int? CouponId { get; set; }
-
-        // Navigation property for the associated coupon, not stored directly in the database.
-        public Coupon? Coupon { get; set; }
-
         [Required]
         [Comment("Foreign Key reference to the User entity who placed the order")]
         public Guid UserId { get; set; } 

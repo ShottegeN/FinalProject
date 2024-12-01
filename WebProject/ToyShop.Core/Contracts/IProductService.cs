@@ -22,5 +22,7 @@ namespace ToyShop.Core.Contracts
 
         public Task DeleteProductAsync(Guid id);
 
+        //public Task<IEnumerable<ProductInfoViewModel>> GetUsersCartProductsAsync();
+
     }
 }
