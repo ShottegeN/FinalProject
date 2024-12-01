@@ -3,10 +3,9 @@ function updateTotalPrice() {
     let totalPrice = 0;
 
     // Loop through all products and calculate the total price
-    document.querySelectorAll('.product-row').forEach(function (row) {
-        const quantity = parseInt(row.querySelector('.quantity').dataset.quantity) || 1; // Get quantity from dataset
+    document.querySelectorAll('.product-row').forEach(function (row) {        
         const price = parseFloat(row.querySelector('.price').dataset.price) || 0; // Get price from dataset
-        totalPrice += price * quantity; // Update total price calculation
+        totalPrice += price; // Update total price calculation
     });
 
     // Update the total price displayed

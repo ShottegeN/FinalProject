@@ -41,7 +41,7 @@
                     <h5 class="mb-0">@product.ProductName</h5>
                 </div>
                 <div class="col-md-2 text">
-                    <h5 class="mb-0">DDDDDDDDDD</h5>
+                    <h5 class="mb-0">Цена:</h5>
                 </div>
                 <div class="col-md-2 text">
                     <h5 class="mb-0">
@@ -81,13 +81,16 @@
             <div class="col-md-2 text-center">
                 <img src="https://media.istockphoto.com/id/1206806317/vector/shopping-cart-icon-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=1RRQJs5NDhcB67necQn1WCpJX2YMfWZ4rYi1DFKlkNA=" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="Няма налично изображение" />
             </div>
-            <div class="col-md-4 text-start">
+            <div class="col-md-2 text-center">
+                
+            </div>
+            <div class="col-md-2 text-start">
                 <h5 class="mb-0">Обща сума:</h5>
             </div>
             <div class="col-md-2 text-start">
                 <h5 class="mb-0" id="total-price">@totalPrice.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</h5>
             </div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-4 text-center">
                 <a href="javascript:window.history.back();" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Назад</a>
                 <form asp-controller="Product" asp-action="FinishOrder" asp-route-id="" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-danger">Завърши поръчка</button>
