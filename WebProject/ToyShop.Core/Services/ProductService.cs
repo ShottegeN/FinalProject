@@ -270,6 +270,71 @@ namespace ToyShop.Core.Services
             await repo.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<ProductInfoViewModel>> GetUsersCartProductsAsync(Guid? userId)
+        {
+            var products = await repo.AllReadonlyAsync<UserProductShoppingCart>()
+                .Where(up => up.UserId == userId)
+                .Include(up => up.Product)
+                .Select(up => new ProductInfoViewModel
+                {
+                    Id = up.ProductId,
+                    ProductName = up.Product.Name,
+                    Price = up.Product.Price,
+                    BoughtQuantity = up.BoughtQuantity,
+                    ImageUrl = up.Product.ImageUrl,
+                    DiscountPercentage = up.Product.Promotion != null && up.Product.Promotion.StartDate < DateTime.Now && up.Product.Promotion.EndDate > DateTime.Now ? up.Product.Promotion.DiscountPercentage : 0,
+                })
+                .ToListAsync();
+
+            CalculatePromotionalPrice(products);
+
+            return products;
+        }
+
+        public async Task AddToCartAsync(Guid userId, Guid productId)
+        {
+            var user = await repo.GetByIdAsync<User>(userId);
+
+            var product = await repo.GetByIdAsync<Product>(productId);
+
+            if (user != null && product != null)
+            {
+                var existingUserProduct = await repo.AllReadonlyAsync<UserProductShoppingCart>()
+                    .Where(up => up.UserId == userId && up.ProductId == productId)
+                    .FirstOrDefaultAsync();
+
+                if (existingUserProduct != null)
+                {
+                    existingUserProduct.BoughtQuantity++;
+
+                    await repo.UpdateAsync(existingUserProduct);
+                    await repo.SaveChangesAsync();
+                }
+                else
+                {
+                    var userProduct = new UserProductShoppingCart
+                    {
+                        UserId = userId,
+                        ProductId = productId,
+                        BoughtQuantity = 1
+                    };
+
+                    await repo.AddAsync(userProduct);
+                    await repo.SaveChangesAsync();
+
+                }               
+            }
+        }
+
+
+
+
+
+
+
+
+
+
         //private
         private async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsWithFilterSorted(IQueryable<Product> productsQuery, string sortBy, int pageNumber = 1, int pageSize = 9)
         {

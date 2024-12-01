@@ -50,7 +50,7 @@ namespace ToyShop.Web.Controllers
             catch (ArgumentException ex)
             {
                 ModelState.AddModelError("NewCategoryName", ex.Message);
-                productViewModel.Categories = await categoryService.GetAllCategoriesAsync(); 
+                productViewModel.Categories = await categoryService.GetAllCategoriesAsync();
                 productViewModel.NewCategoryName = "new";
 
                 return View(productViewModel);
@@ -118,10 +118,10 @@ namespace ToyShop.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> WriteProductReview(Guid productId, string username, int rating, string comment)
         {
-            
+
             await productService.WriteProductReviewAsync(productId, username, rating, comment);
 
-            return RedirectToAction("Details", "Product", new {productId = productId} );
+            return RedirectToAction("Details", "Product", new { productId = productId });
         }
 
 

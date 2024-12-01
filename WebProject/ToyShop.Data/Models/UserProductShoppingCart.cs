@@ -20,5 +20,8 @@ namespace ToyShop.Data.Models
         [ForeignKey(nameof(ProductId))]
         // Navigation property for the associated product, not stored directly in the database.
         public Product Product { get; set; } = null!;
+
+        [Comment("Quantity of the bought products of same type")]
+        public int BoughtQuantity { get; set; }
     }
 }

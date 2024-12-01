@@ -3,55 +3,115 @@
     var totalPrice = 0.00m;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
-    <h2>@ViewData["Title"]</h2>
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container py-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <hr />
+
+        @foreach (var product in Model)
+        {
+            decimal currentPrice = product.DiscountPercentage > 0 ? product.PromotionalPrice : product.Price;
+            totalPrice += currentPrice * product.Quantity;
+
+            <div class="row align-items-center mb-4 py-3" style="border-bottom: 1px solid #ccc; padding: 1em;">
+                <div class="col-md-2 text-center">
+                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                    {
+                        <img src="@product.ImageUrl" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="@product.ProductName" />
+                    }
+                    else
+                    {
+                        <img src="~/img/no-image-available-02.jpg" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="Няма налично изображение" />
+                    }
+                </div>
+                <div class="col-md-2 text-start">
+                    <h5 class="mb-0">@product.ProductName</h5>
+                </div>
+                <div class="col-md-2 text">
+                    <h5 class="mb-0">DDDDDDDDDD</h5>
+                </div>
+                <div class="col-md-2 text">
+                    <h5 class="mb-0">
+                        @if (product.DiscountPercentage > 0)
+                        {
+                            var cultureInfo = System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG");
+                            <span class="product-old-price" style="text-decoration: line-through; color: #888;">
+                                @String.Format(cultureInfo, "{0:C}", product.Price)
+                            </span>
+                            <br />
+                            <span class="product-promotional-price" style="color: red;">
+                                @String.Format(cultureInfo, "{0:C}", product.PromotionalPrice)
+                            </span>
+                        }
+                        else
+                        {
+                            <span>@product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span>
+                        }
+                    </h5>
+                </div>
+                <div class="col-md-2 text-start">
+                    <h5 class="mb-0">
+                        <!-- Set default quantity value to 1 -->
+                        <input type="number" value="@product.BoughtQuantity" min="1" class="form-control quantity-input" data-price="@currentPrice" data-product-id="@product.Id" style="width: 80px;" />
+                    </h5>
+                </div>
+                <div class="col-md-2 text-end">
+                    <form asp-controller="Product" asp-action="RemoveFromCart" asp-route-id="@product.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Премахни</button>
+                    </form>
+                </div>
+            </div>
+        }
+
+        <!-- Total Price Row -->
+        <div class="row align-items-center mb-4 py-3" style="margin-top: 2em;">
+            <div class="col-md-2 text-center">
+                <img src="https://media.istockphoto.com/id/1206806317/vector/shopping-cart-icon-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=1RRQJs5NDhcB67necQn1WCpJX2YMfWZ4rYi1DFKlkNA=" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="Няма налично изображение" />
+            </div>
+            <div class="col-md-4 text-start">
+                <h5 class="mb-0">Обща сума:</h5>
+            </div>
+            <div class="col-md-2 text-start">
+                <h5 class="mb-0" id="total-price">@totalPrice.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</h5>
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="javascript:window.history.back();" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Назад</a>
+                <form asp-controller="Product" asp-action="FinishOrder" asp-route-id="" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Завърши поръчка</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- container -->
 </div>
-<hr />
+<!-- SECTION -->
+<!-- Add JavaScript to dynamically update the total price -->
+<script>
+    // Function to update the total price dynamically
+    function updateTotalPrice() {
+        let totalPrice = 0;
+        // Loop through all quantity inputs and update total price
+        document.querySelectorAll('.quantity-input').forEach(function (input) {
+            const quantity = parseInt(input.value) || 1; // Default to 1 if invalid input
+            const price = parseFloat(input.dataset.price); // Get price from data attribute
+            totalPrice += price * quantity; // Update total price calculation
+        });
 
-@foreach (var product in Model)
-{
-    totalPrice += product.Price;
+        // Update the total price displayed
+        document.getElementById('total-price').textContent = totalPrice.toLocaleString('bg-BG', { style: 'currency', currency: 'BGN' });
+    }
 
-    <div class="row align-items-center mb-4 py-3" style="border-bottom: 1px solid #ccc;">
-        <div class="col-md-2 text-center">
-            @if (!string.IsNullOrEmpty(product.ImageUrl))
-            {
-                <img src="@product.ImageUrl" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="@product.ProductName" />
-            }
-            else
-            {
-                <img src="~/img/no-image-available-02.jpg" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="Няма налично изображение" />
-            }
-        </div>
-        <div class="col-md-4 text-start">
-            <h5 class="mb-0">@product.ProductName</h5>
-        </div>
-        <div class="col-md-2 text-start">
-            <h5 class="mb-0">@product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</h5>
-        </div>
-        <div class="col-md-4 text-end">
-            <form asp-controller="Product" asp-action="RemoveFromCart" asp-route-id="@product.Id" method="post" style="display:inline;">
-                <button type="submit" class="btn btn-danger">Премахни</button>
-            </form>
-        </div>
-    </div>
-}
+    // Listen for changes in quantity input fields
+    document.querySelectorAll('.quantity-input').forEach(function (input) {
+        input.addEventListener('input', updateTotalPrice); // Recalculate when quantity changes
+    });
 
-<div class="row align-items-center mb-4 py-3">
+    // Call updateTotalPrice on page load to ensure the initial total price is calculated
+    window.onload = updateTotalPrice;
+</script>
 
-    <div class="col-md-2 text-center">
-        <img src="https://media.istockphoto.com/id/1206806317/vector/shopping-cart-icon-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=1RRQJs5NDhcB67necQn1WCpJX2YMfWZ4rYi1DFKlkNA=" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="Няма налично изображение" />
-    </div>
-
-    <div class="col-md-4 text-start">
-        <h5 class="mb-0">Обща сума:</h5>
-    </div>
-    <div class="col-md-2 text-start">
-        <h5 class="mb-0">@totalPrice.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</h5>
-    </div>
-    <div class="col-md-4 text-end">
-        <form asp-controller="Product" asp-action="FinishOrder" asp-route-id="" method="post" style="display:inline;">
-            <button type="submit" class="btn btn-danger">Завърши поръчка</button>
-        </form>
-    </div>
-</div>

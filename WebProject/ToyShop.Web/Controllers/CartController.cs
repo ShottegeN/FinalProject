@@ -19,20 +19,44 @@ namespace ToyShop.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var userId = GetCurrentUserId();
+            Guid? userId = GetCurrentUserId();
 
 
-            return View();
+
+            var products = await productService.GetUsersCartProductsAsync(userId);
+
+
+            return View(products);
         }
 
+        public async Task<IActionResult> AddToCart(Guid productId)
+        {
+            Guid? userId = GetCurrentUserId();
+
+            if (!userId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            await productService.AddToCartAsync(userId.Value, productId);
+
+            return RedirectToAction("Details", "Product", new { productId = productId });
+        }
 
 
 
 
         //private
-        private string? GetCurrentUserId()
+        private Guid? GetCurrentUserId()
         {
-            return User.Claims.FirstOrDefault()?.Value;
+            var userIdClaim = User.Claims.FirstOrDefault()?.Value;
+            if (Guid.TryParse(userIdClaim, out var userId))
+            {
+                return userId;
+            }
+
+            return null;
         }
+
     }
 }
