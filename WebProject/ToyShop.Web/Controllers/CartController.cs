@@ -78,11 +78,11 @@ namespace ToyShop.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCartItemCount()
         {
-            Guid? userId = GetCurrentUserId();  // Get user ID
+            Guid? userId = GetCurrentUserId();  
 
             if (!userId.HasValue)
             {
-                return Json(0);  // If user is not logged in, return 0
+                return Json(0);  
             }
 
             var products = await productService.GetUsersCartProductsAsync(userId.Value);

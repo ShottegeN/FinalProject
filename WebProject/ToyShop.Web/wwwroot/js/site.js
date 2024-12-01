@@ -83,7 +83,19 @@ $.ajax({
     type: 'GET',
     success: function (response) {
         console.log(response);  // Log the response for debugging
-        $('.qty').text(response);  // Update the .qty element with the cart item count
+        $('.cart').text(response);  // Update the .cart element with the cart item count
+    },
+    error: function (xhr, status, error) {
+        console.error('Error fetching cart item count:', error);
+    }
+});
+
+$.ajax({
+    url: '/Product/GetWhishlistProductsCount',  // This should match the route above
+    type: 'GET',
+    success: function (response) {
+        console.log(response);  // Log the response for debugging
+        $('.fav').text(response);  // Update the .fav element with the cart item count
     },
     error: function (xhr, status, error) {
         console.error('Error fetching cart item count:', error);

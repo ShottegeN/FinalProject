@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Любими";
+    var totalPrice = 0.00m;
+}
+@model IEnumerable<ProductInfoViewModel>
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container py-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <hr />
+
+        <!-- Total Price Row -->
+        <div class="row align-items-center mb-4 py-3" style="border-bottom: 1px solid #ccc; padding: 1em;">
+            <div class="col-md-2 text-center">
+                <img src="https://st2.depositphotos.com/1063296/8338/i/450/depositphotos_83381950-stock-photo-big-red-heart.jpg" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="Няма налично изображение" />
+            </div>
+            <div class="col-md-2 text-start">
+                <h5 class="mb-0"></h5>
+            </div>
+            <div class="col-md-2 text-start">
+                <h5 class="mb-0">Обща сума:</h5>
+            </div>
+            <div class="col-md-2 text-start">
+                <h5 class="mb-0" id="total-price">@totalPrice.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</h5>
+            </div>
+            <div class="col-md-2 text-end">
+                <!-- Change action to Cart/Index and update button text -->
+                <a href="@Url.Action("Index", "Cart")" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Към количката</a>
+            </div>
+            <div class="col-md-2 text-end">
+                <a href="javascript:window.history.back();" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Назад</a>
+            </div>
+        </div>
+
+        @foreach (var product in Model)
+        {
+            decimal currentPrice = product.DiscountPercentage > 0 ? product.PromotionalPrice : product.Price;
+
+            <div class="row align-items-center mb-4 py-3 product-row" style="border-bottom: 1px solid #ccc; padding: 1em;">
+                <div class="col-md-2 text-center">
+                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                    {
+                        if (product.ImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <img src="@product.ImageUrl" class="img-fluid" style="max-width: 100%; height: auto;" alt="@product.ProductName" />
+                        }
+                        else
+                        {
+                            <img src="/@product.ImageUrl" class="img-fluid" style="max-width: 100%; height: auto;" alt="@product.ProductName" />
+                        }
+                    }
+                    else
+                    {
+                        <img src="/img/no_img.png" class="img-fluid" style="max-width: 100%; height: auto;" alt="No Image Available" />
+                    }
+                </div>
+                <div class="col-md-2 text-start">
+                    <h5 class="mb-0">@product.ProductName</h5>
+                </div>
+                <div class="col-md-2 text">
+                    <h5 class="mb-0 quantity" data-quantity="@product.Quantity">@product.Quantity</h5>
+                </div>
+                <div class="col-md-2 text">
+                    <h5 class="mb-0 price" data-price="@currentPrice">
+                        @if (product.DiscountPercentage > 0)
+                        {
+                            <span class="product-old-price" style="text-decoration: line-through; color: #888;">
+                                @product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))
+                            </span>
+                            <br />
+                            <span class="product-promotional-price" style="color: red;">
+                                @currentPrice.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))
+                            </span>
+                        }
+                        else
+                        {
+                            @currentPrice.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))
+                        }
+                    </h5>
+                </div>
+                <div class="col-md-2 text-start">
+                    <form asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@product.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-success">Добави в количка</button>
+                    </form>
+                </div>
+                <div class="col-md-2 text-end">
+                    <form asp-controller="Product" asp-action="RemoveFromWhishlist" asp-route-productId="@product.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Премахни</button>
+                    </form>
+                </div>
+            </div>
+        }
+
+
+        
+    </div>
+    <!-- container -->
+</div>
+<!-- SECTION -->
+
+<script src="~/js/whishlist-total-price.js"></script>

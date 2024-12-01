@@ -2,6 +2,7 @@
     ViewData["Title"] = "Количка";
     var totalPrice = 0.00m;
 }
+@model IEnumerable<ProductInfoViewModel>
 
 <!-- SECTION -->
 <div class="section">
@@ -22,11 +23,18 @@
                 <div class="col-md-2 text-center">
                     @if (!string.IsNullOrEmpty(product.ImageUrl))
                     {
-                        <img src="@product.ImageUrl" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="@product.ProductName" />
+                        if (product.ImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <img src="@product.ImageUrl" class="img-fluid" style="max-width: 100%; height: auto;" alt="@product.ProductName" />
+                        }
+                        else
+                        {
+                            <img src="/@product.ImageUrl" class="img-fluid" style="max-width: 100%; height: auto;" alt="@product.ProductName" />
+                        }
                     }
                     else
                     {
-                        <img src="~/img/no-image-available-02.jpg" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="Няма налично изображение" />
+                        <img src="/img/no_img.png" class="img-fluid" style="max-width: 100%; height: auto;" alt="No Image Available" />
                     }
                 </div>
                 <div class="col-md-2 text-start">
@@ -91,5 +99,5 @@
 </div>
 <!-- SECTION -->
 <!-- Add JavaScript to dynamically update the total price -->
-<script src="~/js/shopping-card.js"></script>   
+<script src="~/js/cart-total-price.js"></script>
 

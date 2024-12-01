@@ -30,5 +30,12 @@ namespace ToyShop.Core.Contracts
 
         public Task UpdateProductQuantityAsync(Guid userId, Guid productId, int quantity);
 
+        public Task<IEnumerable<ProductInfoViewModel>> GetUsersWhishlistAsync(Guid? userId);
+
+        public Task AddToWishlistAsync(Guid userId, Guid productId);
+
+        public Task RemoveFromWhishlistAsync(Guid userId, Guid productId);
+
+        
     }
 }

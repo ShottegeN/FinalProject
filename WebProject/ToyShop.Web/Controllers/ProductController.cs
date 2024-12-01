@@ -149,5 +149,82 @@ namespace ToyShop.Web.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Whishlist()
+        {
+            Guid? userId = GetCurrentUserId();
+
+            if (!userId.HasValue)
+            {
+                return Json(0);
+            }
+
+            var products = await productService.GetUsersWhishlistAsync(userId.Value);
+
+            return View(products);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToWishlist(Guid productId)
+        {
+            Guid? userId = GetCurrentUserId();
+
+            if (!userId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            await productService.AddToWishlistAsync(userId.Value, productId);
+
+            return RedirectToAction("Whishlist", "Product");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromWhishlist(Guid productId)
+        {
+            Guid? userId = GetCurrentUserId();
+
+            if (!userId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            await productService.RemoveFromWhishlistAsync(userId.Value, productId);
+
+            return RedirectToAction("Whishlist", "Product");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetWhishlistProductsCount()
+        {
+            Guid? userId = GetCurrentUserId();
+
+            if (!userId.HasValue)
+            {
+                return Json(0);
+            }
+
+            var products = await productService.GetUsersWhishlistAsync(userId.Value);
+            int cartItemCount = products.Count();
+
+            return Json(cartItemCount);
+        }
+
+
+
+
+
+        //private
+        private Guid? GetCurrentUserId()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault()?.Value;
+            if (Guid.TryParse(userIdClaim, out var userId))
+            {
+                return userId;
+            }
+
+            return null;
+        }
     }
 }

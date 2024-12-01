@@ -60,7 +60,7 @@
             <!-- Product Buttons -->
             <div class="product-btns" data-product-id="@Model.Id">
                 <!-- Add to Wishlist Form -->
-                <form asp-action="AddToWishlist" method="post" style="display:inline;">
+                <form asp-action="AddToWishlist" asp-controller="Product" method="post" style="display:inline;">
                     <input type="hidden" name="productId" value="@Model.Id" />
                     <button type="submit" class="btn-icon" aria-label="Add to Wishlist">
                         <i class="fa fa-heart-o"></i>

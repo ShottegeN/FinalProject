@@ -355,6 +355,66 @@ namespace ToyShop.Core.Services
             }
         }
 
+        public async Task<IEnumerable<ProductInfoViewModel>> GetUsersWhishlistAsync(Guid? userId)
+        {
+            var products = await repo.AllReadonlyAsync<UserProductWhishlist>()
+                .Where(up => up.UserId == userId)
+                .Include(up => up.Product)
+                .Where(up => up.Product.IsAvailable)
+                .Select(up => new ProductInfoViewModel
+                {
+                    Id = up.ProductId,
+                    ProductName = up.Product.Name,
+                    Price = up.Product.Price,
+                    ImageUrl = up.Product.ImageUrl,
+                    DiscountPercentage = up.Product.Promotion != null && up.Product.Promotion.StartDate < DateTime.Now && up.Product.Promotion.EndDate > DateTime.Now ? up.Product.Promotion.DiscountPercentage : 0,
+                })
+                .ToListAsync();
+
+            CalculatePromotionalPrice(products);
+
+            return products;
+        }
+
+        public async Task AddToWishlistAsync(Guid userId, Guid productId)
+        {
+            var user = await repo.GetByIdAsync<User>(userId);
+
+            var product = await repo.GetByIdAsync<Product>(productId);
+
+            if (user != null && product != null)
+            {
+                var existingUserProduct = await repo.AllReadonlyAsync<UserProductWhishlist>()
+                    .Where(up => up.UserId == userId && up.ProductId == productId)
+                    .FirstOrDefaultAsync();
+
+                if (existingUserProduct == null)
+                {
+                    var userProduct = new UserProductWhishlist
+                    {
+                        UserId = userId,
+                        ProductId = productId,
+                    };
+
+                    await repo.AddAsync(userProduct);
+                    await repo.SaveChangesAsync();
+                }
+            }
+        }
+
+        public async Task RemoveFromWhishlistAsync(Guid userId, Guid productId)
+        {
+            var existingUserProduct = await repo.AllReadonlyAsync<UserProductWhishlist>()
+                    .Where(up => up.UserId == userId && up.ProductId == productId)
+                    .FirstOrDefaultAsync();
+
+            if (existingUserProduct != null)
+            {
+                await repo.RemoveAsync(existingUserProduct);
+                await repo.SaveChangesAsync();
+            }
+        }
+
 
 
 
