@@ -21,7 +21,7 @@ namespace ToyShop.Core.Services
 
         public async Task<StoreViewModel> GetStoreViewModelAsync(string sortBy, int pageNumber = 1, int pageSize = 9, string filter = "")
         {
-            var allProductsQuery = TotalProductsAfterCategoryFilter(filter);
+            var allProductsQuery = TotalProductsAfterFiltered(filter);
 
             var totalProductsCount = await allProductsQuery.CountAsync();
 
@@ -155,7 +155,7 @@ namespace ToyShop.Core.Services
         public async Task<ProductInfoViewModel> GetProductForDetailsAsync(Guid productId)
         {
             var p = await repo.AllReadonlyAsync<Product>()
-                .Where(p => p.Id == productId)
+                .Where(p => p.Id == productId && p.IsAvailable)
                 .Include(p => p.Category)
                 .Include(p => p.Reviews)
                 .Include(p => p.Promotion)
@@ -275,6 +275,7 @@ namespace ToyShop.Core.Services
             var products = await repo.AllReadonlyAsync<UserProductShoppingCart>()
                 .Where(up => up.UserId == userId)
                 .Include(up => up.Product)
+                .Where(up => up.Product.IsAvailable)
                 .Select(up => new ProductInfoViewModel
                 {
                     Id = up.ProductId,
@@ -435,7 +436,7 @@ namespace ToyShop.Core.Services
             p.PromotionalPrice = p.Price - p.Price * p.DiscountPercentage / 100;
         }
 
-        private IQueryable<Product> TotalProductsAfterCategoryFilter(string filter)
+        private IQueryable<Product> TotalProductsAfterFiltered(string filter)
         {
             var productsQuery = repo.AllReadonlyAsync<Product>().Where(p => p.IsAvailable);
 
@@ -463,7 +464,7 @@ namespace ToyShop.Core.Services
             }
             else if (filteringType == "globalCategory")
             {
-                if (filterArray.Length >= 2)
+                if (filterArray.Length >= 2 && filteringValue != "")
                 {
                     productsQuery = productsQuery.Where(p => (int)p.GlobalCategory == int.Parse(filteringValue));
 

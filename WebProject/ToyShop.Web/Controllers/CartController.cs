@@ -25,10 +25,7 @@ namespace ToyShop.Web.Controllers
         {
             Guid? userId = GetCurrentUserId();
 
-
-
             var products = await productService.GetUsersCartProductsAsync(userId);
-
 
             return View(products);
         }
@@ -77,6 +74,23 @@ namespace ToyShop.Web.Controllers
 
             return RedirectToAction("Index", "Cart");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCartItemCount()
+        {
+            Guid? userId = GetCurrentUserId();  // Get user ID
+
+            if (!userId.HasValue)
+            {
+                return Json(0);  // If user is not logged in, return 0
+            }
+
+            var products = await productService.GetUsersCartProductsAsync(userId.Value);
+            int cartItemCount = products.Count();
+
+            return Json(cartItemCount);
+        }
+
 
 
         //private

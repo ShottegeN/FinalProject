@@ -78,3 +78,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+$.ajax({
+    url: '/Cart/GetCartItemCount',  // This should match the route above
+    type: 'GET',
+    success: function (response) {
+        console.log(response);  // Log the response for debugging
+        $('.qty').text(response);  // Update the .qty element with the cart item count
+    },
+    error: function (xhr, status, error) {
+        console.error('Error fetching cart item count:', error);
+    }
+});
+
+
+
+
