@@ -46,12 +46,9 @@
             <div class="product-rating">
                 @for (int i = 0; i < 5; i++)
                 {
-                    int counter = Model.Rating;
-
-                    if (i < counter)
+                    if (i < Model.Rating)
                     {
                         <i class="fa fa-star"></i>
-                        counter--;
                     }
                     else
                     {

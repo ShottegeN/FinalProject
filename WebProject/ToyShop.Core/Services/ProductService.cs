@@ -142,7 +142,7 @@ namespace ToyShop.Core.Services
                     Category = p.Category.Name,
                     DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
                     ShortDescription = p.ShortDescription,
-                    Rating = p.Reviews.Sum(r => r.Rating),
+                    Rating = p.Reviews.Any() ? p.Reviews.Average(r => (double)r.Rating) : 0,
                     Description = p.Description
                 })
                 .ToListAsync();
@@ -200,7 +200,7 @@ namespace ToyShop.Core.Services
                 DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
                 ShortDescription = p.ShortDescription,
                 Reviews = reviews,
-                Rating = p.Reviews.Any() ? (int)p.Reviews.Average(r => r.Rating) : 0,
+                Rating = p.Reviews.Any() ? p.Reviews.Average(r => (double)r.Rating) : 0,
                 Description = p.Description
             };
 
@@ -285,7 +285,7 @@ namespace ToyShop.Core.Services
                     Category = p.Category.Name,
                     DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
                     ShortDescription = p.ShortDescription,
-                    Rating = p.Reviews.Sum(r => r.Rating),
+                    Rating = p.Reviews.Any() ? p.Reviews.Average(r => (double)r.Rating) : 0,
                     Description = p.Description
                 })
                 .ToListAsync();

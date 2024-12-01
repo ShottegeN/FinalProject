@@ -26,7 +26,7 @@
 
         public int DiscountPercentage { get; set; }
 
-        public int Rating { get; set; }
+        public double Rating { get; set; }
 
         public decimal PromotionalPrice {  get; set; }
         
