@@ -39,10 +39,7 @@
                 </div>
                 <div class="col-md-2 text-start">
                     <h5 class="mb-0">@product.ProductName</h5>
-                </div>
-                <div class="col-md-2 text">
-                    <h5 class="mb-0">Цена:</h5>
-                </div>
+                </div>               
                 <div class="col-md-2 text">
                     <h5 class="mb-0">
                         @if (product.DiscountPercentage > 0)
@@ -67,6 +64,12 @@
                         <!-- Set default quantity value to 1 -->
                         <input type="number" value="@product.BoughtQuantity" min="1" class="form-control quantity-input" data-price="@currentPrice" data-product-id="@product.Id" style="width: 80px;" />
                     </h5>
+                </div>
+                <div class="col-md-2 text-start">
+                    <form asp-action="Details" asp-controller="Product" method="get" style="display:inline;">
+                        <input type="hidden" name="productId" value="@product.Id" />
+                        <button type="submit" class="btn btn-info">Детайли</button>
+                    </form>
                 </div>
                 <div class="col-md-2 text-end">
                     <form asp-controller="Cart" asp-action="RemoveFromCart" asp-route-productId="@product.Id" method="post" style="display:inline;">

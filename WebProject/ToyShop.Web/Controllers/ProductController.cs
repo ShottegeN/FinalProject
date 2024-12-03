@@ -187,7 +187,7 @@ namespace ToyShop.Web.Controllers
 
             if (!userId.HasValue)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("/Identity/Account/Login");
             }
 
             await productService.RemoveFromWhishlistAsync(userId.Value, productId);

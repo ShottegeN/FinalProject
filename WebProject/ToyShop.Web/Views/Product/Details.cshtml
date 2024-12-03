@@ -64,7 +64,7 @@
                                             </div>
                                         }
                                     </div>
-                                    
+
                                 </div>
                                 <!-- /tab -->
                             </div>
@@ -76,7 +76,22 @@
 
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">@Model.ProductName</h5>
+                    <p>
+                        <h5 class="card-title">@Model.ProductName</h5>
+                        <div class="product-rating">
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                if (i < Model.Rating)
+                                {
+                                    <i class="fa fa-star"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-star-o"></i>
+                                }
+                            }
+                        </div>
+                    </p>
                     <hr />
                     @if (Model.DiscountPercentage > 0)
                     {
@@ -133,6 +148,12 @@
                 <div class="card-footer text-center">
                     <div class="d-flex justify-content-around align-items-center">
                         <a href="javascript:window.history.back();" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Назад</a>
+
+                        <form asp-action="AddToWishlist" asp-controller="Product" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-info">Добави любими</button>
+                        </form>
+
 
                         @if (User?.Identity?.IsAuthenticated == true)
                         {
