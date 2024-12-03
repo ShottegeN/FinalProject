@@ -118,6 +118,10 @@ namespace ToyShop.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> WriteProductReview(Guid productId, string username, int rating, string comment)
         {
+            if (username == null)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
 
             await productService.WriteProductReviewAsync(productId, username, rating, comment);
 

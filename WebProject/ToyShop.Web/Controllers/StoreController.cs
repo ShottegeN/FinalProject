@@ -25,10 +25,6 @@ namespace ToyShop.Web.Controllers
             storeViewModel.AllCategories = await categoryService.GetAllCategoriesAsync();           
 
             return View(storeViewModel);
-        }
-
-
-        //modelState.Isvalid should be after all other errors, so all of them could be displayed at once! 
-        // use modelState.AddModelError for the different errors!
+        }        
     }
 }
