@@ -157,7 +157,7 @@ namespace ToyShop.Web.Controllers
 
             if (!userId.HasValue)
             {
-                return Json(0);
+                return Redirect("/Identity/Account/Login");
             }
 
             var products = await productService.GetUsersWhishlistAsync(userId.Value);
@@ -172,7 +172,8 @@ namespace ToyShop.Web.Controllers
 
             if (!userId.HasValue)
             {
-                return RedirectToAction("Login", "Account");
+                return Redirect("/Identity/Account/Login");
+
             }
 
             await productService.AddToWishlistAsync(userId.Value, productId);

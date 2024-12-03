@@ -25,6 +25,11 @@ namespace ToyShop.Web.Controllers
         {
             Guid? userId = GetCurrentUserId();
 
+            if (!userId.HasValue)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
             var products = await productService.GetUsersCartProductsAsync(userId);
 
             return View(products);
@@ -37,7 +42,7 @@ namespace ToyShop.Web.Controllers
 
             if (!userId.HasValue)
             {
-                return RedirectToAction("Login", "Account");
+                return Redirect("/Identity/Account/Login");
             }
 
             await productService.AddToCartAsync(userId.Value, productId);
@@ -52,7 +57,7 @@ namespace ToyShop.Web.Controllers
 
             if (!userId.HasValue)
             {
-                return RedirectToAction("Login", "Account");
+                return Redirect("/Identity/Account/Login");
             }
 
             await productService.RemoveFromCartAsync(userId.Value, productId);
