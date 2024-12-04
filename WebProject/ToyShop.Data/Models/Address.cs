@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 using ToyShop.Common.EntityConstraints;
 
@@ -12,7 +13,7 @@ namespace ToyShop.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(AddressConstraints.StreetMaxLength)]
+        [MaxLength(AddressConstraints.StreetNameMaxLength)]
         [Comment("Street name of the address with a maximum length constraint")]
         public string StreetName { get; set; } = null!;
 
@@ -43,5 +44,6 @@ namespace ToyShop.Data.Models
 
         // Navigation property for the collection of users associated with this address.
         public ICollection<User> Users { get; set; } = new HashSet<User>();
+       
     }
 }

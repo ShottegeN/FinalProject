@@ -282,6 +282,7 @@ namespace ToyShop.Core.Services
                     ProductName = up.Product.Name,
                     Price = up.Product.Price,
                     BoughtQuantity = up.BoughtQuantity,
+                    Quantity = up.Product.Quantity,
                     ImageUrl = up.Product.ImageUrl,
                     DiscountPercentage = up.Product.Promotion != null && up.Product.Promotion.StartDate < DateTime.Now && up.Product.Promotion.EndDate > DateTime.Now ? up.Product.Promotion.DiscountPercentage : 0,
                 })

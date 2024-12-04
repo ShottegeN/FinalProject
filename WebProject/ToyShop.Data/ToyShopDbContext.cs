@@ -22,7 +22,6 @@ namespace ToyShop.Data
         public DbSet<Address> Addresses { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<City> Cities { get; set; } = null!;
-        public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Promotion> Promotions { get; set; } = null!;
@@ -42,11 +41,7 @@ namespace ToyShop.Data
 
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
-                .IsUnique();
-
-            modelBuilder.Entity<Country>()
-               .Property(u => u.IsActive)
-               .HasDefaultValue(false);
+                .IsUnique();           
 
 
             // Composite Keys
@@ -57,7 +52,8 @@ namespace ToyShop.Data
                 .HasKey(up => new { up.UserId, up.ProductId });
 
             modelBuilder.Entity<OrderProduct>()
-                .HasKey(op => new { op.OrderId, op.ProductId });           
+               .HasKey(up => new { up.OrderId, up.ProductId });
+
 
             // Configure foreign keys to not use cascading deletes
             modelBuilder.Entity<Order>()

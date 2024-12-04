@@ -67,7 +67,6 @@ namespace ToyShop.Data.Models
 
         public ICollection<UserProductWhishlist> UsersProducts { get; set; } = new HashSet<UserProductWhishlist>();
         public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
-        public ICollection<OrderProduct> OrdersProducts { get; set; } = new HashSet<OrderProduct>();
 
         [Comment("Indicates if the product is currently available for purchase")]
         public bool IsAvailable { get; set; } = true;

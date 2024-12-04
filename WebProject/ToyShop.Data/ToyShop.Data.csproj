@@ -38,9 +38,6 @@
     <None Update="Datasets\Cities.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Datasets\Countries.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Datasets\Products.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

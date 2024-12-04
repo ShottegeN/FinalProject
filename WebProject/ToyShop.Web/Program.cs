@@ -18,6 +18,7 @@ builder.Services.AddScoped<IRepository, Repository>()
     .AddScoped<IProductService, ProductService>()
     .AddScoped<IPromotionService, PromotionService>()
     .AddScoped<ICategoryService, CategoryService>()
+    .AddScoped<IOrderService, OrderService>()
     .AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>

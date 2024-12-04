@@ -22,11 +22,7 @@ namespace ToyShop.Data.Models
         public string PostCode { get; set; } = null!;
 
         [Comment("Foreign Key reference to the Country entity")]
-        public int CountryId { get; set; }
-
-        // Navigation property for the related Country entity, not stored directly in the database.
-        [ForeignKey(nameof(CountryId))]
-        public Country Country { get; set; } = null!;
+        public int CountryId { get; set; }       
 
         // Navigation property for the collection of addresses associated with this city.
         public ICollection<Address> Addresses { get; set; } = new HashSet<Address>();

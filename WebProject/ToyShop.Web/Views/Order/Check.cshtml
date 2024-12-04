@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "Детайли на поръчката";
+    var totalPrice = 0.00m;
+}
+@model ToyShop.ViewModels.OrderViewModel
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container py-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <hr />
+
+        <form asp-controller="Order" asp-action="Finish" method="post">
+
+            <!-- Order Details -->
+            <div class="row mb-4" style="margin-bottom: 3em;">
+                <div class="col-md-12">
+                    <h5>Продукти</h5>
+
+                    @foreach (var product in Model.Products)
+                    {
+                        decimal currentPrice = product.DiscountPercentage > 0 ? product.PromotionalPrice : product.Price;
+                        totalPrice += currentPrice * product.Quantity;
+
+                        <div class="row align-items-center mb-4 py-3" style="border-bottom: 1px solid #ccc; padding: 1em;">
+                            <div class="col-md-2 text-center">
+                                @if (!string.IsNullOrEmpty(product.ImageUrl))
+                                {
+                                    if (product.ImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <img src="@product.ImageUrl" class="img-fluid" style="max-width: 80%; height: auto;" alt="@product.ProductName" />
+                                    }
+                                    else
+                                    {
+                                        <img src="/@product.ImageUrl" class="img-fluid" style="max-width: 80%; height: auto;" alt="@product.ProductName" />
+                                    }
+                                }
+                                else
+                                {
+                                    <img src="/img/no_img.png" class="img-fluid" style="max-width: 80%; height: auto;" alt="No Image Available" />
+                                }
+                            </div>
+                            <div class="col-md-2 text-start">
+                                <h5 class="mb-0">@product.ProductName</h5>
+                            </div>
+                            <div class="col-md-2 text">
+                                <h5 class="mb-0">
+                                    @if (product.DiscountPercentage > 0)
+                                    {
+                                        var cultureInfo = System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG");
+                                        <span class="product-old-price" style="text-decoration: line-through; color: #888;">
+                                            @String.Format(cultureInfo, "{0:C}", product.Price)
+                                        </span>
+                                        <br />
+                                        <span class="product-promotional-price" style="color: red;">
+                                            @String.Format(cultureInfo, "{0:C}", product.PromotionalPrice)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>@product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span>
+                                    }
+                                </h5>
+                            </div>
+                            <div class="col-md-2 text-start">
+                                <h5 class="mb-0">
+                                    <input type="text" value="@product.BoughtQuantity" class="form-control" style="width: 50px;" readonly />
+                                </h5>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Delivery Address Section -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <label for="deliveryType">Тип на доставка</label>
+                        <select id="deliveryType" name="DeliveryType" class="form-control">
+                            <option value="Лично вземане" selected>Лично вземане</option>
+                            <option value="До адрес">До адрес</option>
+                            <option value="До офис на куриер">До офис на куриер</option>
+                        </select>
+                    </div>
+
+                    @if (true)
+                    {
+                        <div class="delivery-address">
+                            <h5>Адрес за доставка</h5>
+
+                            <div class="form-group">
+                                <label for="street">Град</label>
+                                <input type="text" id="city" name="City" class="form-control" placeholder="Град" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="street">Пощенски код</label>
+                                <input type="text" id="postCode" name="PostCode" class="form-control" placeholder="Пощенски код" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="street">Улица</label>
+                                <input type="text" id="street" name="Street" class="form-control" placeholder="" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="street">Номер</label>
+                                <input type="text" id="number" name="Number" class="form-control" placeholder="No." required />
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="block">Блок (не е задължително)</label>
+                                <input type="text" id="block" name="Block" class="form-control" placeholder="Блок" />
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="entrance">Вход (не е задължително)</label>
+                                <input type="text" id="entrance" name="Entrance" class="form-control" placeholder="Вход" />
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <h3>Общо</h3>
+                    <p><strong>Цена на поръчката:</strong> <span id="price">@Model.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span></p>
+                    <p><strong>Доставка:</strong> <span id="deliveryCost">Безплатна</span></p>
+                    <p><strong>Крайна цена:</strong> <span id="finalPrice">@Model.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span></p>
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="javascript:window.history.back();" class="btn btn-warning">Назад</a>
+                        <button type="submit" class="btn btn-danger">Финализирай поръчка</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </form>
+
+    </div>
+    <!-- container -->
+</div>
+<!-- SECTION -->
+
+<script src="~/js/check-order.js"></script>
+<script src="~/js/empty-addres.js"></script>

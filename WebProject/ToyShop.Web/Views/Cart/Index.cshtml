@@ -62,7 +62,7 @@
                 <div class="col-md-2 text-start">
                     <h5 class="mb-0">
                         <!-- Set default quantity value to 1 -->
-                        <input type="number" value="@product.BoughtQuantity" min="1" class="form-control quantity-input" data-price="@currentPrice" data-product-id="@product.Id" style="width: 80px;" />
+                        <input type="number" value="@product.BoughtQuantity" min="1" max="@product.Quantity" class="form-control quantity-input" data-price="@currentPrice" data-product-id="@product.Id" style="width: 80px;" />
                     </h5>
                 </div>
                 <div class="col-md-2 text-start">
@@ -83,20 +83,32 @@
         <div class="row align-items-center mb-4 py-3" style="margin-top: 2em;">
             <div class="col-md-2 text-center">
                 <img src="https://media.istockphoto.com/id/1206806317/vector/shopping-cart-icon-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=1RRQJs5NDhcB67necQn1WCpJX2YMfWZ4rYi1DFKlkNA=" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="Няма налично изображение" />
-            </div>
-            <div class="col-md-2 text-center">
-                
-            </div>
+            </div>            
             <div class="col-md-2 text-start">
                 <h5 class="mb-0">Обща сума:</h5>
             </div>
             <div class="col-md-2 text-start">
                 <h5 class="mb-0" id="total-price">@totalPrice.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</h5>
             </div>
-            <div class="col-md-4 text-center">
+            <div class="col-md-2 text-center">
                 <a href="javascript:window.history.back();" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Назад</a>
-                <form asp-controller="Order" asp-action="Index" asp-route-id="" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger">Завърши поръчка</button>
+            </div>
+            <div class="col-md-4 text-start">                
+                <form asp-controller="Order" asp-action="Check" method="get">
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    var product = Model.ElementAt(i);
+                    
+                    <input type="hidden" name="Products[@i].Id" value="@product.Id" />
+                    <input type="hidden" name="Products[@i].ProductName" value="@product.ProductName" />
+                    <input type="hidden" name="Products[@i].ImageUrl" value="@product.ImageUrl" />
+                    <input type="hidden" name="Products[@i].Price" value="@product.Price" />
+                    <input type="hidden" name="Products[@i].PromotionalPrice" value="@product.PromotionalPrice" />
+                    <input type="hidden" name="Products[@i].Quantity" value="@product.Quantity" />
+                    <input type="hidden" name="Products[@i].DiscountPercentage" value="@product.DiscountPercentage" />
+                    <input type="hidden" name="Products[@i].BoughtQuantity" value="@product.BoughtQuantity" />
+                }                    
+                    <button type="submit" class="btn btn-danger">Поръчка</button>
                 </form>
             </div>
         </div>

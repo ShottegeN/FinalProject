@@ -2,8 +2,12 @@
 {
     public static class AddressConstraints
     {
-        public const byte StreetMinLength = 2;
-        public const byte StreetMaxLength = 50;
+        public const byte StreetNameMinLength = 2;
+        public const byte StreetNameMaxLength = 50;
+
+        public const string IntMinValue = "1";
+        public const string IntMaxValue = "500";
+
 
         public const byte EntranceMaxLength = 10;
 

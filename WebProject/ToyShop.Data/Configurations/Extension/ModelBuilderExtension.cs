@@ -6,7 +6,6 @@ namespace ToyShop.Data.Configurations.Extension
     {
         public static void Seed(this ModelBuilder modelBuilder) 
         {
-            modelBuilder.ApplyConfiguration(new CountryConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
             modelBuilder.ApplyConfiguration(new AddressConfiguration());
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
