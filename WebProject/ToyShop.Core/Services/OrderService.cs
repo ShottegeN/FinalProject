@@ -2,6 +2,7 @@
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
+using ToyShop.Data.Models.Enumerations;
 using ToyShop.ViewModels;
 
 namespace ToyShop.Core.Services
@@ -15,7 +16,7 @@ namespace ToyShop.Core.Services
             repo = _repo;
         }        
 
-        public async Task<IEnumerable<OrderViewModel>> GetAllUserOrdersAsync(Guid userId)
+        public async Task<List<OrderViewModel>> GetAllUserOrdersAsync(Guid userId)
         {
             var orders = await repo.AllReadonlyAsync<Order>()
                 .Where(o => o.UserId == userId)
@@ -36,7 +37,7 @@ namespace ToyShop.Core.Services
                         Price = op.Product.Price,
                         BoughtQuantity = op.BoughtQuantity,
                         DiscountPercentage = op.Product.Promotion != null && op.Product.Promotion.StartDate < DateTime.Now && op.Product.Promotion.EndDate > DateTime.Now ? op.Product.Promotion.DiscountPercentage : 0,
-                    })
+                    }).ToList()
                 })
                 .OrderBy(o => o.OrderDate)
                 .ToListAsync();
@@ -44,17 +45,12 @@ namespace ToyShop.Core.Services
             return orders;
         }
 
-        public async Task<OrderViewModel> CheckOrderAsync(Guid userId, IEnumerable<ProductInfoViewModel> products)
+        public async Task<OrderViewModel> CheckOrderAsync(Guid userId, List<ProductInfoViewModel> products)
         {
             var user = await repo.AllReadonlyAsync<User>()
                 .Where(u => u.Id == userId)
                 .Include(u => u.Address.City)
-                .FirstOrDefaultAsync();
-
-            if (user == null)
-            {
-                throw new ArgumentNullException();
-            }
+                .FirstOrDefaultAsync();            
 
             var usersProducts = await repo.AllReadonlyAsync<UserProductShoppingCart>()
                 .Where(up => up.UserId == userId)
@@ -62,8 +58,15 @@ namespace ToyShop.Core.Services
             
             var order = new OrderViewModel
             {
-                //Number = DateTime.Now.ToString("ssHHddMMyyyy") + Guid.NewGuid().ToString("N").Substring(0, 6),                               
-                Products = products
+               // Number = DateTime.Now.ToString("ddMMyyyy") + Guid.NewGuid().ToString("N").Substring(0, 6),                               
+                Products = products,
+                DeliveryAddress = new AddressViewModel
+                {
+                    StreetName = "N/A",
+                    Number = 500,
+                    CityName = "N/A",
+                    PostCode = "N/A",
+                }
             };
 
             foreach (var product in order.Products)
@@ -86,7 +89,7 @@ namespace ToyShop.Core.Services
             }
 
             return order;
-        }
+        }        
 
         public async Task<OrderViewModel> FinishOrderAsync(Guid userId)
         {

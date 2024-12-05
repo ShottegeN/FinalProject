@@ -4,7 +4,7 @@
     {      
         public Guid Id { get; set; }
 
-        public string ProductName { get; set; } = null!;
+        public string ProductName { get; set; } = String.Empty;
 
         public string? ImageUrl { get; set; }
 
@@ -12,17 +12,17 @@
 
         public decimal Price { get; set; }
 
-        public string GlobalCategory { get; set; } = null!;
+        public string GlobalCategory { get; set; } = String.Empty;
 
-        public string Size { get; set; } = null!;
+        public string Size { get; set; } = String.Empty;
 
-        public string ShortDescription { get; set; } = null!;
+        public string ShortDescription { get; set; } = String.Empty;
 
-        public string ReleasedOn { get; set; } = null!;
+        public string ReleasedOn { get; set; } = String.Empty;
 
         public string? Description { get; set; }
 
-        public string Category { get; set; } = null!;
+        public string Category { get; set; } = String.Empty;
 
         public int DiscountPercentage { get; set; }
 

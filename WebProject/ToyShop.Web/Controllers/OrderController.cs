@@ -1,9 +1,6 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Core.Contracts;
-using ToyShop.Data.Common;
-using ToyShop.Data.Models;
 using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
@@ -12,9 +9,11 @@ namespace ToyShop.Web.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderService orderService;
+        private readonly ILogger<OrderController> logger;
 
-        public OrderController(IOrderService _orderService)
+        public OrderController(ILogger<OrderController> _logger, IOrderService _orderService)
         {
+            logger = _logger;
             orderService = _orderService;
         }
 
@@ -32,7 +31,7 @@ namespace ToyShop.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Check(IEnumerable<ProductInfoViewModel> products)
+        public async Task<IActionResult> Check(List<ProductInfoViewModel> products)
         {
             Guid? userId = GetCurrentUserId();
 
@@ -67,14 +66,17 @@ namespace ToyShop.Web.Controllers
             {
                 return Redirect("/Identity/Account/Login");
             }
+           
 
-            if (!ModelState.IsValid && order.DeliveryType != "Лично вземане")
-            {
+            // Log the model state errors if there are any
+            if (!ModelState.IsValid)
+            {               
                 return View("Check", order);
             }
 
-            return RedirectToAction("Finish", "Order");
+            return RedirectToAction("Index", "Order");
         }
+
 
 
         //private
@@ -88,6 +90,19 @@ namespace ToyShop.Web.Controllers
             }
 
             return null;
+        }
+
+        private AddressViewModel GetPersonalClaimAddress()
+        {
+            var address = new AddressViewModel
+            {
+                StreetName = "N/A",
+                Number = 0,
+                CityName = "N/A",
+                PostCode = "N/A",
+            };
+
+            return address;
         }
     }
 }

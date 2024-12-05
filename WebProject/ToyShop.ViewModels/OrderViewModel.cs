@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
 
-        public string Number { get; set; } = null!;
+        public string Number { get; set; } = string.Empty;
 
         public decimal Price { get; set; }
 
@@ -16,13 +16,13 @@
 
         public string DeliveryType { get; set; } = string.Empty;
 
-        public string OrderSatus { get; set; } = null!;
+        public string OrderSatus { get; set; } = string.Empty;
 
         public AddressViewModel DeliveryAddress { get; set; } = null!;
 
         public Guid UserId { get; set; }
 
-        public IEnumerable<ProductInfoViewModel> Products { get; set; } = new List<ProductInfoViewModel>();
+        public List<ProductInfoViewModel> Products { get; set; } = new ();
 
     }
 }
