@@ -28,13 +28,36 @@ namespace ToyShop.Web.Controllers
             };
 
             return View(homeViewModel);
-        }       
+        }
 
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Contacts()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult DeliveryAndReturning()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Terms()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

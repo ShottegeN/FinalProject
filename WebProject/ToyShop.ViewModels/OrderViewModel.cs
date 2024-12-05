@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ToyShop.ViewModels
+﻿namespace ToyShop.ViewModels
 {
     public class OrderViewModel
     {
@@ -19,6 +13,8 @@ namespace ToyShop.ViewModels
         public DateTime OrderDate { get; set; }
 
         public DateTime? SendingDate { get; set; }
+
+        public string DeliveryType { get; set; } = string.Empty;
 
         public string OrderSatus { get; set; } = null!;
 

@@ -88,9 +88,22 @@ namespace ToyShop.Core.Services
             return order;
         }
 
+        public async Task<OrderViewModel> FinishOrderAsync(Guid userId)
+        {
+
+
+
+
+
+
+            throw new NotImplementedException();
+        }
+
         public Task<OrderViewModel> GetOrderByIdAsync(Guid userId, Guid orderId)
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

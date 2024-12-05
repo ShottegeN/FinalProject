@@ -59,7 +59,7 @@ namespace ToyShop.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Finish()
+        public async Task<IActionResult> Finish(OrderViewModel order)
         {
             Guid? userId = GetCurrentUserId();
 
@@ -68,7 +68,12 @@ namespace ToyShop.Web.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            return View();
+            if (!ModelState.IsValid && order.DeliveryType != "Лично вземане")
+            {
+                return View("Check", order);
+            }
+
+            return RedirectToAction("Finish", "Order");
         }
 
 

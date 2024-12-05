@@ -19,10 +19,11 @@
             <!-- Order Details -->
             <div class="row mb-4" style="margin-bottom: 3em;">
                 <div class="col-md-12">
-                    <h5>Продукти</h5>
+                    <h5>Продукти</h5>                    
 
-                    @foreach (var product in Model.Products)
+                    @for (int i = 0; i < Model.Products.Count(); i++)
                     {
+                        var product = Model.Products.ToArray()[i];
                         decimal currentPrice = product.DiscountPercentage > 0 ? product.PromotionalPrice : product.Price;
                         totalPrice += currentPrice * product.Quantity;
 
@@ -72,6 +73,16 @@
                                 </h5>
                             </div>
                         </div>
+
+                        <!-- Hidden inputs for posting ProductInfoViewModel -->
+                        <input type="hidden" asp-for="Products.ToArray()[@i].Id" />
+                        <input type="hidden" asp-for="Products.ToArray()[@i].ProductName" />
+                        <input type="hidden" asp-for="Products.ToArray()[@i].Price" />
+                        <input type="hidden" asp-for="Products.ToArray()[@i].PromotionalPrice" />
+                        <input type="hidden" asp-for="Products.ToArray()[@i].DiscountPercentage" />
+                        <input type="hidden" asp-for="Products.ToArray()[@i].Quantity" />
+                        <input type="hidden" asp-for="Products.ToArray()[@i].BoughtQuantity" />
+                        <input type="hidden" asp-for="Products.ToArray()[@i].ImageUrl" />
                     }
                 </div>
             </div>
@@ -81,54 +92,69 @@
                 <div class="col-md-6">
                     <div class="form-group mt-2">
                         <label for="deliveryType">Тип на доставка</label>
-                        <select id="deliveryType" name="DeliveryType" class="form-control">
+                        <select id="deliveryType" name="DeliveryType" class="form-control" asp-for="DeliveryType">
                             <option value="Лично вземане" selected>Лично вземане</option>
                             <option value="До адрес">До адрес</option>
                             <option value="До офис на куриер">До офис на куриер</option>
                         </select>
+                        <span asp-validation-for="DeliveryType" class="text-danger"></span>
                     </div>
 
-                    @if (true)
-                    {
-                        <div class="delivery-address">
-                            <h5>Адрес за доставка</h5>
+                    <div class="delivery-address">
+                        <h5>Адрес за доставка</h5>
 
-                            <div class="form-group">
-                                <label for="street">Град</label>
-                                <input type="text" id="city" name="City" class="form-control" placeholder="Град" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="street">Пощенски код</label>
-                                <input type="text" id="postCode" name="PostCode" class="form-control" placeholder="Пощенски код" required />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="street">Улица</label>
-                                <input type="text" id="street" name="Street" class="form-control" placeholder="" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="street">Номер</label>
-                                <input type="text" id="number" name="Number" class="form-control" placeholder="No." required />
-                            </div>
-
-                            <div class="form-group mt-2">
-                                <label for="block">Блок (не е задължително)</label>
-                                <input type="text" id="block" name="Block" class="form-control" placeholder="Блок" />
-                            </div>
-
-                            <div class="form-group mt-2">
-                                <label for="entrance">Вход (не е задължително)</label>
-                                <input type="text" id="entrance" name="Entrance" class="form-control" placeholder="Вход" />
-                            </div>
+                        <div class="form-group">
+                            <label for="city">Град</label>
+                            <input type="text" id="city" asp-for="DeliveryAddress.CityName" class="form-control" required />
+                            <span asp-validation-for="DeliveryAddress.CityName" class="text-danger"></span>
                         </div>
-                    }
+
+                        <div class="form-group">
+                            <label for="postCode">Пощенски код</label>
+                            <input type="text" id="postCode" asp-for="DeliveryAddress.PostCode" class="form-control" required />
+                            <span asp-validation-for="DeliveryAddress.PostCode" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="street">Улица</label>
+                            <input type="text" id="street" asp-for="DeliveryAddress.StreetName" class="form-control" required />
+                            <span asp-validation-for="DeliveryAddress.StreetName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="number">Номер</label>
+                            <input type="number" id="number" asp-for="DeliveryAddress.Number" class="form-control" required />
+                            <span asp-validation-for="DeliveryAddress.Number" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="buildingNumber">Блок (не е задължително)</label>
+                            <input type="number" id="buildingNumber" asp-for="DeliveryAddress.BuildingNumber" class="form-control" />
+                            <span asp-validation-for="DeliveryAddress.BuildingNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entrance">Вход (не е задължително)</label>
+                            <input type="text" id="entrance" asp-for="DeliveryAddress.Entrance" class="form-control" />
+                            <span asp-validation-for="DeliveryAddress.Entrance" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="otherAddressInformation">Друга информация (не е задължително)</label>
+                            <textarea id="otherAddressInformation" asp-for="DeliveryAddress.OtherAddressInformation" class="form-control"></textarea>
+                            <span asp-validation-for="DeliveryAddress.OtherAddressInformation" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-6">
                     <h3>Общо</h3>
                     <p><strong>Цена на поръчката:</strong> <span id="price">@Model.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span></p>
                     <p><strong>Доставка:</strong> <span id="deliveryCost">Безплатна</span></p>
-                    <p><strong>Крайна цена:</strong> <span id="finalPrice">@Model.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span></p>
+                    <p>
+                        <strong>Крайна цена:</strong>
+                        <span id="finalPrice">@Model.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span>
+                    </p>
                     <!-- Buttons -->
                     <div class="d-flex justify-content-between">
                         <a href="javascript:window.history.back();" class="btn btn-warning">Назад</a>
@@ -136,10 +162,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
         </form>
 
     </div>
