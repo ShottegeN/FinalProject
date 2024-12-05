@@ -1,9 +1,21 @@
 ﻿document.querySelectorAll('.quantity-input').forEach(function (input) {
+    // Block keyboard input
+    input.addEventListener('keydown', function (event) {
+        event.preventDefault(); // Disable typing
+    });
+
+    // Allow only mouse or spinner changes
     input.addEventListener('change', function () {
-        const newQuantity = parseInt(input.value) || 1;  // Default to 1 if invalid input
+        let newQuantity = parseInt(input.value) || 1; // Default to 1 if invalid
         const productId = input.dataset.productId;
 
-        // Update the corresponding hidden input for BoughtQuantity
+        // Ensure quantity is valid and within allowed bounds
+        if (newQuantity < 1) {
+            newQuantity = 1;
+            input.value = newQuantity; // Reset invalid input
+        }
+
+        // Update hidden input for BoughtQuantity
         const hiddenInput = document.querySelector(`input[name="Products[${productId}].BoughtQuantity"]`);
         if (hiddenInput) {
             hiddenInput.value = newQuantity;
@@ -41,4 +53,5 @@ function updateTotalPrice() {
     document.getElementById('total-price').textContent = totalPrice.toLocaleString('bg-BG', { style: 'currency', currency: 'BGN' });
 }
 
+// Initialize total price on page load
 window.onload = updateTotalPrice;
