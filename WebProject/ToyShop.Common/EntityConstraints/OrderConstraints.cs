@@ -2,7 +2,7 @@
 {
     public static class OrderConstraints
     {
-        public const byte OrderNumberMaxLength = 10;
+        public const byte OrderNumberMaxLength = 15;
 
         public const decimal OrderMinPrice = 0m;
 
