@@ -91,7 +91,7 @@ namespace ToyShop.Core.Services
             return order;
         }
 
-        public async Task<OrderViewModel> FinishOrderAsync(Guid userId, OrderViewModel o)
+        public async Task FinishOrderAsync(Guid userId, OrderViewModel o)
         {
             var address = await repo.AllReadonlyAsync<Address>()
                 .Where(a => a.City.Name.ToLower() == o.DeliveryAddress.CityName.ToLower())
@@ -117,7 +117,7 @@ namespace ToyShop.Core.Services
                     };
 
                     await repo.AddAsync(city);
-                    
+                    await repo.SaveChangesAsync();
                 }
 
                 address = new Address
@@ -131,8 +131,8 @@ namespace ToyShop.Core.Services
                 };
 
                 await repo.AddAsync(address);
-
-            }
+                await repo.SaveChangesAsync();
+            }                        
 
             var order = new Order
             {
@@ -145,20 +145,29 @@ namespace ToyShop.Core.Services
                 DeliveryPrice = o.DeliveryPrice,
                 TotalPrice = o.TotalPrice,
             };
-            
-            var usersProducts = await repo.AllReadonlyAsync<UserProductShoppingCart>()
-                .Where(u => u.UserId == userId)
+
+            var usersProductsShoppingCart = await repo.AllReadonlyAsync<UserProductShoppingCart>()
+                .Where(up => up.UserId == userId)
                 .ToListAsync();
 
+            var ordersProducts = new List<OrderProduct>();
+
+            foreach (var up in usersProductsShoppingCart)
+            {
+                var orderProduct = new OrderProduct
+                {
+                    Order = order,
+                    Product = up.Product,
+                    BoughtQuantity = up.BoughtQuantity,
+                };
+
+                ordersProducts.Add(orderProduct);
+            }
+                       
             await repo.AddAsync(order);
-            await repo.RemoveRangeAsync(usersProducts);
-            await repo.SaveChangesAsync();
-
-            o.OrderDate = order.OrderDate;
-            o.Number = order.Number;
-            o.OrderSatus = o.OrderSatus.ToString();
-
-            return o;
+            await repo.AddRangeAsync(ordersProducts);
+            await repo.RemoveRangeAsync(usersProductsShoppingCart);
+            await repo.SaveChangesAsync();           
         }
 
         public Task<OrderViewModel> GetOrderByIdAsync(Guid userId, Guid orderId)

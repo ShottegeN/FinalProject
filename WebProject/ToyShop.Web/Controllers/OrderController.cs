@@ -67,8 +67,6 @@ namespace ToyShop.Web.Controllers
                 return Redirect("/Identity/Account/Login");
             }
            
-
-            // Log the model state errors if there are any
             if (!ModelState.IsValid)
             {               
                 return View("Check", order);
@@ -76,9 +74,21 @@ namespace ToyShop.Web.Controllers
 
             await orderService.FinishOrderAsync(userId.Value, order);
 
-            return RedirectToAction("Index", "Order");
+            return RedirectToAction("LastFinishedOrder", "Order", new {orderId = order.Id});
         }
 
+        [HttpGet]
+        public IActionResult LastFinishedOrder(Guid orderId)
+        {
+            Guid? userId = GetCurrentUserId();
+
+            if (!userId.HasValue)
+            {
+                return Redirect("/Identity/Account/Login");
+            }                   
+
+            return View(order);
+        }
 
 
         //private

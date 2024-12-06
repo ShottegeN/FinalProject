@@ -2,6 +2,10 @@
 {
     public class OrderViewModel
     {
+        public OrderViewModel()
+        {
+            int a = 2;
+        }
         public Guid Id { get; set; }
 
         public string Number { get; set; } = string.Empty;
