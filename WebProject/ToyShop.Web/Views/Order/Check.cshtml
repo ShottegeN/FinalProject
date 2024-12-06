@@ -1,6 +1,5 @@
 ﻿@{
     ViewData["Title"] = "Преглед на поръчката";
-    var totalPrice = 0.00m;
 }
 @model ToyShop.ViewModels.OrderViewModel
 
@@ -19,13 +18,12 @@
             <!-- Order Details -->
             <div class="row mb-4" style="margin-bottom: 3em;">
                 <div class="col-md-12">
-                    <h5>Продукти</h5>                    
+                    <h5>Продукти</h5>
 
                     @for (int i = 0; i < Model.Products.Count(); i++)
                     {
                         var product = Model.Products[i];
                         decimal currentPrice = product.DiscountPercentage > 0 ? product.PromotionalPrice : product.Price;
-                        totalPrice += currentPrice * product.Quantity;
 
                         <div class="row align-items-center mb-4 py-3" style="border-bottom: 1px solid #ccc; padding: 1em;">
                             <div class="col-md-2 text-center">
@@ -100,8 +98,7 @@
                         <span asp-validation-for="DeliveryType" class="text-danger"></span>
                     </div>
 
-                    @if (Model.DeliveryType != "Лично вземане")
-                    {
+                   
                         <div class="delivery-address">
                             <h5>Адрес за доставка</h5>
 
@@ -147,7 +144,7 @@
                                 <span asp-validation-for="DeliveryAddress.OtherAddressInformation" class="text-danger"></span>
                             </div>
                         </div>
-                    }
+                    
                 </div>
 
                 <div class="col-md-6">
@@ -158,6 +155,12 @@
                         <strong>Крайна цена:</strong>
                         <span id="finalPrice">@Model.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span>
                     </p>
+
+                    <!-- Hidden inputs for Price, DeliveryPrice, and TotalPrice -->
+                    <input type="hidden" id="hiddenPrice" name="Price" value="@Model.Price" />
+                    <input type="hidden" id="hiddenDeliveryPrice" name="DeliveryPrice" value="0.00" />
+                    <input type="hidden" id="hiddenTotalPrice" name="TotalPrice" value="@Model.TotalPrice" />
+
                     <!-- Buttons -->
                     <div class="d-flex justify-content-between">
                         <a href="javascript:window.history.back();" class="btn btn-warning">Назад</a>

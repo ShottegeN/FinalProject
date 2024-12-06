@@ -30,6 +30,10 @@ namespace ToyShop.Data.Models
         [Comment("Delivery price associated with the order")]
         public decimal DeliveryPrice { get; set; }
 
+        [Column(TypeName = "money")]
+        [Comment("Total price including delivery price")]
+        public decimal TotalPrice { get; set; }
+
         [Comment("Date when the order was placed")]
         public DateTime OrderDate { get; set; }
 

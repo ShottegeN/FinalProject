@@ -10,6 +10,6 @@ namespace ToyShop.Core.Contracts
 
         public Task<OrderViewModel> CheckOrderAsync(Guid userId, List<ProductInfoViewModel> products);
 
-        public Task<OrderViewModel> FinishOrderAsync(Guid userId);
+        public Task<OrderViewModel> FinishOrderAsync(Guid userId, OrderViewModel order);
     }
 }

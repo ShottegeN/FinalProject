@@ -19,10 +19,7 @@ namespace ToyShop.Data.Models
         [Required]
         [MaxLength(CityConstraints.PostCodeMaxLength)]
         [Comment("Post code of the city with a maximum length constraint")]
-        public string PostCode { get; set; } = null!;
-
-        [Comment("Foreign Key reference to the Country entity")]
-        public int CountryId { get; set; }       
+        public string PostCode { get; set; } = null!;         
 
         // Navigation property for the collection of addresses associated with this city.
         public ICollection<Address> Addresses { get; set; } = new HashSet<Address>();

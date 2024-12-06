@@ -10,6 +10,8 @@
 
         public decimal DeliveryPrice { get; set; }
 
+        public decimal TotalPrice { get; set; }
+
         public DateTime OrderDate { get; set; }
 
         public DateTime? SendingDate { get; set; }

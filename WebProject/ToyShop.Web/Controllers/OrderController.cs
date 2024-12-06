@@ -74,6 +74,8 @@ namespace ToyShop.Web.Controllers
                 return View("Check", order);
             }
 
+            await orderService.FinishOrderAsync(userId.Value, order);
+
             return RedirectToAction("Index", "Order");
         }
 
