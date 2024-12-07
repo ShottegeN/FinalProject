@@ -1,11 +1,12 @@
-﻿using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using ToyShop.Common;
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
 using ToyShop.Data.Models.Enumerations;
 using ToyShop.ViewModels;
+
 
 namespace ToyShop.Core.Services
 {
@@ -47,20 +48,37 @@ namespace ToyShop.Core.Services
         {
             int categoryId = await GetCategoryId(p, newCategoryName);
 
-            var product = new Product
-            {
-                Name = p.ProductName,
-                Price = p.Price!.Value,
-                Quantity = p.Quantity!.Value,
-                Description = p.Description,
-                ShortDescription = p.ShortDescription,
-                Size = p.Size,
-                ImageUrl = p.ImageUrl ?? "img/no_img.png",
-                GlobalCategory = Enum.TryParse(p.GlobalCategory, true, out GlobalCategory globalCategory) ? globalCategory : GlobalCategory.Други,
-                CategoryId = categoryId,
-            };
+            var product = await repo.AllReadonlyAsync<Product>()
+                .Where(p => p.Name.ToLower() == p.Name.ToLower())
+                .Where(p => p.CategoryId == categoryId)
+                .FirstOrDefaultAsync();
 
-            await repo.AddAsync(product);
+            if (product != null && product.IsAvailable == false)
+            {
+                product.Quantity += p.Quantity!.Value;
+                product.IsAvailable = true;
+            }
+            else if (product != null && product.IsAvailable == true)
+            {
+                throw new FieldValidationException("Продукт с това име вече съществува!", "Product.ProductName");
+            }
+            else
+            {
+                product = new Product
+                {
+                    Name = p.ProductName,
+                    Price = p.Price!.Value,
+                    Quantity = p.Quantity!.Value,
+                    Description = p.Description,
+                    ShortDescription = p.ShortDescription,
+                    Size = p.Size,
+                    ImageUrl = p.ImageUrl ?? "img/no_img.png",
+                    GlobalCategory = Enum.TryParse(p.GlobalCategory, true, out GlobalCategory globalCategory) ? globalCategory : GlobalCategory.Други,
+                    CategoryId = categoryId,
+                };
+
+                await repo.AddAsync(product);
+            }
 
             await repo.SaveChangesAsync();
         }
@@ -71,7 +89,7 @@ namespace ToyShop.Core.Services
 
             if (product == null)
             {
-                throw new ArgumentException("Невалидна операция");
+                throw new ArgumentNullException("Невалидна операция");
             }
 
             // Get or create the category ID
@@ -104,7 +122,7 @@ namespace ToyShop.Core.Services
 
             if (p == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("Невалидна операция");
             }
 
             var product = new UIProductViewModel
@@ -174,7 +192,7 @@ namespace ToyShop.Core.Services
 
                 var users = await repo.AllReadonlyAsync<User>()
                     .Where(u => userIds.Contains(u.Id))
-                    .ToDictionaryAsync(u => u.Id, u => $"{u.FirstName} {u.LastName}"); 
+                    .ToDictionaryAsync(u => u.Id, u => $"{u.FirstName} {u.LastName}");
 
                 reviews = p.Reviews
                 .Select(r => new ReviewViewModel
@@ -182,7 +200,7 @@ namespace ToyShop.Core.Services
                     Id = r.Id,
                     Comment = r.Comment,
                     Rating = r.Rating,
-                    UserFullName = users.ContainsKey(r.UserId) ? users[r.UserId] : "Unknown" 
+                    UserFullName = users.ContainsKey(r.UserId) ? users[r.UserId] : "Unknown"
                 }).ToList();
             }
 
@@ -218,7 +236,7 @@ namespace ToyShop.Core.Services
 
             var product = await repo.GetByIdAsync<Product>(productId);
 
-            if (user == null || product == null) 
+            if (user == null || product == null)
             {
                 throw new ArgumentException();
             }
@@ -232,7 +250,7 @@ namespace ToyShop.Core.Services
             };
 
             await repo.AddAsync(review);
-            
+
             await repo.SaveChangesAsync();
         }
 
@@ -324,7 +342,7 @@ namespace ToyShop.Core.Services
                     await repo.AddAsync(userProduct);
                     await repo.SaveChangesAsync();
 
-                }               
+                }
             }
         }
 
@@ -334,11 +352,11 @@ namespace ToyShop.Core.Services
                     .Where(up => up.UserId == userId && up.ProductId == productId)
                     .FirstOrDefaultAsync();
 
-            if (existingUserProduct != null) 
+            if (existingUserProduct != null)
             {
                 await repo.RemoveAsync(existingUserProduct);
                 await repo.SaveChangesAsync();
-            }            
+            }
         }
 
         public async Task UpdateProductQuantityAsync(Guid userId, Guid productId, int quantity)
@@ -349,9 +367,9 @@ namespace ToyShop.Core.Services
 
             if (existingUserProduct != null)
             {
-                existingUserProduct.BoughtQuantity = quantity;                
+                existingUserProduct.BoughtQuantity = quantity;
 
-                await repo.UpdateAsync(existingUserProduct);                
+                await repo.UpdateAsync(existingUserProduct);
                 await repo.SaveChangesAsync();
             }
         }
@@ -457,20 +475,26 @@ namespace ToyShop.Core.Services
 
         private async Task<int> GetCategoryId(UIProductViewModel p, string? newCategoryName)
         {
-            if (newCategoryName == null && p.Category == "new")
-            {
-                throw new ArgumentException("Това поле е задължително!");
-            }
-            else if (newCategoryName == null && p.Category != "new")
+
+            if (p.Category != "new")
             {
                 return int.Parse(p.Category);
+            }
+            else if(p.Category == null)
+            {
+                throw new FieldValidationException("Това поле е задължително!", "Product.Category");
+            }
+
+            if (newCategoryName == null)
+            {
+                throw new FieldValidationException("Това поле е задължително!", "NewCategoryName");
             }
 
             var categories = await repo.AllReadonlyAsync<Category>().ToListAsync();
 
             if (categories.Any(c => c.Name.ToLower() == newCategoryName!.ToLower()))
             {
-                throw new ArgumentException("Този вид вече съществува!");
+                throw new FieldValidationException("Този вид вече съществува!", "NewCategoryName");
             }
 
             var newCategory = new Category
@@ -538,8 +562,8 @@ namespace ToyShop.Core.Services
                             (int)p.GlobalCategory == int.Parse(filteringValue) &&
                             EF.Functions.Like(p.Name, "%" + searchQuery + "%"));
                     }
-                    
-                }                
+
+                }
             }
 
             return productsQuery;

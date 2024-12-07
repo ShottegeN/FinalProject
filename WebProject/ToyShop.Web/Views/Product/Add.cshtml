@@ -103,23 +103,11 @@
                         </div>
 
                         <!-- Hidden input for custom category -->
-                        <div class="col-sm-6 mb-3" style="padding-top: 1em; display: @(Model.NewCategoryName != null ? "block" : "none")" id="customCategoryInput">
-                            <label for="newCategoryName" class="form-label">Добавете нов вид</label>
-                            <input asp-for="NewCategoryName" id="customCategory" name="newCategoryName" class="form-control" type="text" placeholder="Въведете нов вид" />
-                            <span asp-validation-for="NewCategoryName" class="text-danger"></span>
+                        <div class="col-sm-6 mb-3" style="padding-top: 1em; display: @(Model.NewCategoryName != null && Model.NewCategoryName != "new" ? "block" : "none")" id="customCategoryInput">
+                            <label for="@Model.NewCategoryName" class="form-label">Добавете нов вид</label>
+                            <input asp-for="@Model.NewCategoryName" id="customCategory" name="newCategoryName" class="form-control" type="text" placeholder="Въведете нов вид" />
+                            <span asp-validation-for="@Model.NewCategoryName" class="text-danger"></span>
                         </div>
-
-                        <script>
-                            document.getElementById('categoryDropdown').addEventListener('change', function () {
-                                var customCategoryInput = document.getElementById('customCategoryInput');
-                                if (this.value === 'new') {
-                                    customCategoryInput.style.display = 'block';
-                                } else {
-                                    customCategoryInput.style.display = 'none';
-                                }
-                            });
-                        </script>
-
                     </div>
 
                     <!-- Submit Button -->
@@ -133,3 +121,5 @@
     <!-- container -->
 </div>
 <!-- SECTION -->
+
+<script src="/js/add-product-new-category.js"></script>

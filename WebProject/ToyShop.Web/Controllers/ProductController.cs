@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using ToyShop.Common;
 using ToyShop.Core.Contracts;
 using ToyShop.Core.Services;
 using ToyShop.ViewModels;
@@ -47,15 +49,15 @@ namespace ToyShop.Web.Controllers
             {
                 await productService.AddProductAsync(productViewModel.Product, newCategoryName!);
             }
-            catch (ArgumentException ex)
+            catch (FieldValidationException ex)
             {
-                ModelState.AddModelError("NewCategoryName", ex.Message);
+                ModelState.AddModelError(ex.FieldName, ex.Message);
                 productViewModel.Categories = await categoryService.GetAllCategoriesAsync();
                 productViewModel.NewCategoryName = "new";
 
                 return View(productViewModel);
             }
-
+            
             return RedirectToAction("Index", "Home");
         }
 
