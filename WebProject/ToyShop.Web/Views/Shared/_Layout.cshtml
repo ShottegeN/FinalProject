@@ -149,16 +149,23 @@
                 <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
                 <li><a asp-area="" asp-controller="Store" asp-action="Index">Продукти</a></li>
                 <li><a href="@Url.Action("Index", "Store", new { filter = "promotion-all" })">Промоции</a></li>
-                <li><a href="#">Контакти</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Contacts">Контакти</a></li>
                 <!-- Admin/Moderator only -->
                 @if (!User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
                 {
-                    <li><a asp-area="" asp-controller="Order" asp-action="Index">Поръчки</a></li>
-                    <li><a asp-area="" asp-controller="Product" asp-action="Add"><i class="fas fa-plus-circle"></i> Продукт</a></li>
-                    <li><a asp-area="" asp-controller="Product" asp-action="Add">Админ панел</a></li>
+                    <li><a asp-area="" asp-controller="Order" asp-action="Index">Моите поръчки</a></li>                    
+                    <li class="dropdown">
+                        <a href="#" id="admin-dropdown-link">Админ <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown-menu" id="admin-dropdown-menu" style="display: none;">
+                            <li><a href="/Order/Index">Поръчки</a></li>
+                            <li><a href="/Product/Add"><i class="fas fa-plus-circle"></i> Продукт</a></li>
+                            <li><a href="/Category/Decorations">Декорации</a></li>
+                            <li><a href="/Category/Other">Други</a></li>
+                        </ul>
+                    </li>
                 }
-                <!-- /Admin/Moderator only -->
             </ul>
+
             <!-- /responsive-nav -->
         </div>
         <!-- /container -->
@@ -214,11 +221,11 @@
                 <div class="row footer-menu">
                     <div class="col-md-3 col-xs-6">
                         <div class="footer">
-                            <h3 class="footer-title">За нас</h3>                           
+                            <h3 class="footer-title">За нас</h3>
                             <ul class="footer-links">
                                 <li> <a asp-action="About" asp-controller="Home">@GetAboutUs()</a></li>
                                 <li><a asp-action="Contacts" asp-controller="Home"><i class="fa fa-map-marker"></i>@GetAddress()</a></li>
-                                <li><a asp-action ="Contacts" asp-controller="Home"><i class="fa fa-phone"></i>@GetPhoneNumber()</a></li>
+                                <li><a asp-action="Contacts" asp-controller="Home"><i class="fa fa-phone"></i>@GetPhoneNumber()</a></li>
                                 <li><a asp-action="Contacts" asp-controller="Home"><i class="fa fa-envelope-o"></i>@GetEmail()</a></li>
                             </ul>
                         </div>
@@ -229,9 +236,9 @@
                     <div class="col-md-3 col-xs-6">
                         <div class="footer">
                             <h3 class="footer-title">Информация</h3>
-                            <ul class="footer-links">                               
+                            <ul class="footer-links">
                                 <li><a asp-action="Contacts" asp-controller="Home">Контакти</a></li>
-                                <li><a asp-action="Privacy"asp-controller="Home">Политика</a></li>
+                                <li><a asp-action="Privacy" asp-controller="Home">Политика</a></li>
                                 <li><a asp-action="DeliveryAndReturning" asp-controller="Home">Доставка и връщане</a></li>
                                 <li><a asp-action="Terms" asp-controller="Home">Условия</a></li>
                             </ul>
@@ -262,12 +269,12 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         @* <ul class="footer-payments">
-                            <li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-                            <li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-                            <li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-                            <li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-                            <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-                            <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
+                        <li><a href="#"><i class="fa fa-credit-card"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
                         </ul> *@
                         <span class="copyright">
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -293,6 +300,7 @@
     <script src="~/js/main.js"></script>
     <script src="~/js/site.js"></script> <!-- Ensure your site.js is loaded after jQuery and plugins -->
     <script src="~/js/searchBar.js"></script>
+    <script src="~/js/admin-dropdown.js"></script>
     <!-- Optional: Countdown Script if you want to render countdowns on the page -->
     <!-- Section for additional scripts -->
     @await RenderSectionAsync("Scripts", required: false)

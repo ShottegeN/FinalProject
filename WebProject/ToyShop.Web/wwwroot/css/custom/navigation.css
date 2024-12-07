@@ -1,0 +1,142 @@
+#navigation {
+    background-color: #f8f9fa;
+    position: relative;
+    z-index: 1;
+    min-height: 60px;
+}
+
+    #navigation .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        padding-bottom: 0;
+    }
+
+    #navigation .main-nav {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        #navigation .main-nav li {
+            margin: 0 10px;
+        }
+
+        #navigation .main-nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+#menu-toggle {
+    display: none;
+}
+
+.menu-toggle {
+    display: block;
+    padding: 8px 12px;
+    background-color: #333;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+    .menu-toggle:hover {
+        background-color: #D10024;
+    }
+
+@media (min-width: 993px) {
+    .menu-toggle {
+        display: none;
+    }
+
+    #navigation .nav-container {
+        padding-bottom: 10px;
+    }
+}
+
+@media (max-width: 992px) {
+    #menu-toggle {
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 14px;
+    }
+
+    #navigation .main-nav {
+        display: none;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+        background-color: #f8f9fa;
+        padding: 20px;
+        box-shadow: 0 4px 2px -2px gray;
+    }
+
+    #menu-toggle:checked ~ .main-nav {
+        display: flex;
+    }
+
+    #navigation {
+        padding-bottom: 0;
+    }
+
+        #navigation .nav-container {
+            padding-bottom: 20px;
+        }
+
+        #navigation .main-nav li {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        #navigation .main-nav a {
+            font-size: 18px;
+        }
+
+    /* Admin Panel - Center on Small Screens */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 50px; /* Adjust for your layout */
+        left: 50%;
+        transform: translateX(-50%); /* Center the dropdown */
+        background-color: #f8f9fa;
+        width: 200px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+        .dropdown-menu li {
+            padding: 10px;
+            text-align: center;
+        }
+
+    /* Ensure dropdown appears below the "Админ" text */
+    #admin-dropdown-link {
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+
+        /* Display the dropdown when clicked */
+        #admin-dropdown-link:hover + .dropdown-menu {
+            display: block;
+        }
+}

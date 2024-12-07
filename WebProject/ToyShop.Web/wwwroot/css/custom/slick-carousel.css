@@ -1,0 +1,29 @@
+.slick-prev, .slick-next {
+    top: 107%;
+}
+
+.slick-prev {
+    left: 30%;
+}
+
+.slick-next {
+    right: 30%;
+}
+
+    .slick-prev:focus, .slick-next:focus {
+        background-color: white;
+        border-color: transparent;
+    }
+
+        .slick-prev:focus:before, .slick-next:focus:before {
+            color: #2B2D42;
+        }
+
+    .slick-prev:hover:before, .slick-next:hover:before {
+        color: #FFF;
+    }
+
+    .slick-prev:hover, .slick-next:hover {
+        background-color: #D10024;
+        border-color: #D10024;
+    }

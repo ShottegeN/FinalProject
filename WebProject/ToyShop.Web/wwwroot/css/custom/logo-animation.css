@@ -1,0 +1,36 @@
+.header-logo {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    overflow: hidden;
+}
+
+.logo-animation {
+    max-width: 150px;
+    mix-blend-mode: soft-light;
+    opacity: 0.85;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+@keyframes flowing-background {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-10px) scale(1.05);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+.logo-animation {
+    animation: flowing-background 3s infinite ease-in-out;
+}
+
+    .logo-animation:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }

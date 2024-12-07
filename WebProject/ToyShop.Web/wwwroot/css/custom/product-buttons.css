@@ -1,0 +1,56 @@
+.product-btns button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #000;
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    transition: transform 0.2s, color 0.2s, background-color 0.2s;
+    border-radius: 50%;
+}
+
+    .product-btns button:hover {
+        transform: scale(1.1);
+        background-color: lightgray;
+        color: red;
+    }
+
+.tooltipp {
+    visibility: hidden;
+    width: 90px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -45px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    font-size: 12px;
+}
+
+    .tooltipp::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #333 transparent transparent transparent;
+    }
+
+.product-btns button:hover .tooltipp {
+    visibility: visible;
+    opacity: 1;
+}
+
+.product-btns {
+    position: relative;
+    z-index: 9999;
+}

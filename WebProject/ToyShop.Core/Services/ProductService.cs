@@ -56,6 +56,8 @@ namespace ToyShop.Core.Services
             {
                 product.Quantity += p.Quantity!.Value;
                 product.IsAvailable = true;
+
+                await repo.UpdateAsync(product);
             }
             else if (product != null && product.IsAvailable == true)
             {
