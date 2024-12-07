@@ -2,10 +2,6 @@
 {
     public class OrderViewModel
     {
-        public OrderViewModel()
-        {
-            int a = 2;
-        }
         public Guid Id { get; set; }
 
         public string Number { get; set; } = string.Empty;
@@ -29,6 +25,5 @@
         public Guid UserId { get; set; }
 
         public List<ProductInfoViewModel> Products { get; set; } = new ();
-
     }
 }

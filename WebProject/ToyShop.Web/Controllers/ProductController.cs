@@ -127,7 +127,7 @@ namespace ToyShop.Web.Controllers
 
             await productService.WriteProductReviewAsync(productId, username, rating, comment);
 
-            return RedirectToAction("Details", "Product", new { productId = productId });
+            return RedirectToAction("Details", "Product", new { productId });
         }
 
 
@@ -217,10 +217,6 @@ namespace ToyShop.Web.Controllers
 
             return Json(cartItemCount);
         }
-
-
-
-
 
         //private
         private Guid? GetCurrentUserId()

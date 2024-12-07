@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ToyShop.Common;
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;

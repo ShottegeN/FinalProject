@@ -23,7 +23,7 @@
         </div>
         <div class="product-body">
             <p class="product-category">@Model.GlobalCategory</p>
-            <h3 class="product-name"><a href="@Url.Action("Details", "Product", new { id = Model.Id })">@Model.ProductName</a></h3>
+            <h3 class="product-name">@Model.ProductName</h3>
 
             <!-- Product Price -->
             @if (Model.DiscountPercentage > 0)

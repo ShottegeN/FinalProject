@@ -5,7 +5,7 @@
         public Guid Id { get; set; }
 
         public string ProductName { get; set; } = String.Empty;
-
+        
         public string? ImageUrl { get; set; }
 
         public int Quantity { get; set; }

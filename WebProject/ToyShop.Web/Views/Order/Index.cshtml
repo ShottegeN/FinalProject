@@ -1,7 +1,43 @@
-﻿@{
-    ViewData["Title"] = "Orders";
-}
+﻿@model ToyShop.ViewModels.OrderViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to Order</h1>    
+@{
+    ViewData["Title"] = "Провери поръчка";
+}
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container py-4">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header text-center">
+                            <h3 class="mb-0">Провери поръчка</h3>
+                        </div>
+                        <div class="card-body">
+                            <!-- Form for order search -->
+                            <form asp-controller="Order" asp-action="Details" method="get">
+                                <div class="mb-4">
+                                    <label for="orderNumber" class="form-label">
+                                        <strong>Номер на поръчката</strong>
+                                    </label>
+                                    <input type="text" id="orderNumber" name="orderNumber"
+                                           class="form-control"
+                                           placeholder="Въведи номера на желаната поръчка"
+                                           required />
+                                    <!-- Validation span for orderNumber -->
+                                    <span asp-validation-for="@Model.Number" class="text-danger"></span>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 1em;">
+                                        Провери
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

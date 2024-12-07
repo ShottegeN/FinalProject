@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ToyShop.Common;
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
@@ -91,7 +92,7 @@ namespace ToyShop.Core.Services
             return order;
         }
 
-        public async Task FinishOrderAsync(Guid userId, OrderViewModel o)
+        public async Task<string> FinishOrderAsync(Guid userId, OrderViewModel o)
         {
             var address = await repo.AllReadonlyAsync<Address>()
                 .Where(a => a.City.Name.ToLower() == o.DeliveryAddress.CityName.ToLower())
@@ -132,7 +133,7 @@ namespace ToyShop.Core.Services
 
                 await repo.AddAsync(address);
                 await repo.SaveChangesAsync();
-            }                        
+            }
 
             var order = new Order
             {
@@ -148,33 +149,112 @@ namespace ToyShop.Core.Services
 
             var usersProductsShoppingCart = await repo.AllReadonlyAsync<UserProductShoppingCart>()
                 .Where(up => up.UserId == userId)
+                .Include(up => up.Product)
                 .ToListAsync();
 
             var ordersProducts = new List<OrderProduct>();
 
             foreach (var up in usersProductsShoppingCart)
             {
-                var orderProduct = new OrderProduct
+                OrderProduct orderProduct;
+                if (up.BoughtQuantity <= up.Product.Quantity)
                 {
-                    Order = order,
-                    Product = up.Product,
-                    BoughtQuantity = up.BoughtQuantity,
-                };
+                    orderProduct = new OrderProduct
+                    {
+                        OrderId = order.Id,
+                        Order = order,
+                        ProductId = up.ProductId,
+                        Product = up.Product,
+                        BoughtQuantity = up.BoughtQuantity,
+                    };
+                    orderProduct.Product.Quantity -= up.BoughtQuantity;
+
+                    if (orderProduct.Product.Quantity == 0)
+                    {
+                        orderProduct.Product.IsAvailable = false;
+                    }
+
+                    await repo.UpdateAsync(orderProduct.Product);
+                }
+                else
+                {
+                    throw new ArgumentException("Недостатъчно количество!");
+                }
 
                 ordersProducts.Add(orderProduct);
             }
-                       
+
+
             await repo.AddAsync(order);
-            await repo.AddRangeAsync(ordersProducts);
             await repo.RemoveRangeAsync(usersProductsShoppingCart);
-            await repo.SaveChangesAsync();           
+            await repo.AddRangeAsync(ordersProducts);
+            await repo.SaveChangesAsync();
+
+            return order.Number;
         }
 
-        public Task<OrderViewModel> GetOrderByIdAsync(Guid userId, Guid orderId)
+        public async Task<OrderViewModel> GetOrderByNumberAsync(Guid userId, string orderNumber)
         {
-            throw new NotImplementedException();
+            var order = await repo.AllReadonlyAsync<Order>()
+                .Where(o => o.Number == orderNumber)
+                .Where(o => o.UserId == userId)
+                .Include(o => o.DeliveryAddress)
+                .Include(o => o.OrdersProducts)
+                    .ThenInclude(op => op.Product)
+                .Select(o => new OrderViewModel
+                {
+                    Id = o.Id,
+                    Number = o.Number,
+                    OrderDate = o.OrderDate,
+                    SendingDate = o.SendingDate,
+                    Price = o.Price,
+                    DeliveryPrice = o.DeliveryPrice,
+                    TotalPrice = o.TotalPrice,
+                    OrderSatus = OrderStatusTranslator.Translate(o.Status),
+                    DeliveryAddress = new AddressViewModel
+                    {
+                        CityName = o.DeliveryAddress.City.Name,
+                        PostCode = o.DeliveryAddress.City.PostCode,
+                        StreetName = o.DeliveryAddress.StreetName,
+                        Number = o.DeliveryAddress.Number,
+                        BuildingNumber = o.DeliveryAddress.BuildingNumber,
+                        Entrance = o.DeliveryAddress.Entrance,
+                        OtherAddressInformation = o.DeliveryAddress.OtherAddressInformation,
+                    },
+                    Products = o.OrdersProducts.Select(op => new ProductInfoViewModel
+                    {
+                        ProductName = op.Product.Name,
+                        Price = op.Product.Price,
+                        Quantity = op.Product.Quantity,
+                        ImageUrl = op.Product.ImageUrl,
+                        BoughtQuantity = op.BoughtQuantity,
+                        GlobalCategory = op.Product.GlobalCategory.ToString(),
+                        Size = op.Product.Size,
+                        ShortDescription = op.Product.ShortDescription,
+                        Description = op.Product.ShortDescription,
+                        Category = op.Product.Category.Name,
+                        DiscountPercentage = op.Product.Promotion != null ? op.Product.Promotion.DiscountPercentage : 0,
+                        PromotionalPrice = op.Product.Promotion != null
+                        ? op.Product.Price - op.Product.Price * op.Product.Promotion.DiscountPercentage / 100
+                        : op.Product.Price,
+                    }).ToList()
+
+                })
+                .FirstOrDefaultAsync();
+
+            if (order == null)
+            {
+                throw new FieldValidationException("Невалиден номер на поръчка!", "Model.Number");
+            }
+
+            switch (order.DeliveryPrice)
+            {
+                case 5: order.DeliveryType = "До офис на куриер"; break;
+                case 7: order.DeliveryType = "До адрес"; break;
+                default: order.DeliveryType = "Лично вземане"; break;
+            }
+
+            return order;
         }
-
-
     }
 }

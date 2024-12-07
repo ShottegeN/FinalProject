@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ToyShop.Common;
 using ToyShop.Core.Contracts;
 using ToyShop.ViewModels;
 
@@ -72,22 +73,32 @@ namespace ToyShop.Web.Controllers
                 return View("Check", order);
             }
 
-            await orderService.FinishOrderAsync(userId.Value, order);
+            string orderNumber = await orderService.FinishOrderAsync(userId.Value, order);
 
-            return RedirectToAction("LastFinishedOrder", "Order", new {orderId = order.Id});
+            return RedirectToAction("Details", "Order", new {orderNumber});
         }
 
         [HttpGet]
-        public IActionResult LastFinishedOrder(Guid orderId)
+        public async Task<ActionResult> Details(string orderNumber)
         {
             Guid? userId = GetCurrentUserId();
 
             if (!userId.HasValue)
             {
                 return Redirect("/Identity/Account/Login");
-            }                   
+            }
 
-            return View(order);
+            try
+            {
+                var order = await orderService.GetOrderByNumberAsync(userId.Value, orderNumber);
+                return View(order);
+            }
+            catch (FieldValidationException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
 
@@ -104,17 +115,17 @@ namespace ToyShop.Web.Controllers
             return null;
         }
 
-        private AddressViewModel GetPersonalClaimAddress()
-        {
-            var address = new AddressViewModel
-            {
-                StreetName = "N/A",
-                Number = 0,
-                CityName = "N/A",
-                PostCode = "N/A",
-            };
+        //private AddressViewModel GetPersonalClaimAddress()
+        //{
+        //    var address = new AddressViewModel
+        //    {
+        //        StreetName = "N/A",
+        //        Number = 0,
+        //        CityName = "N/A",
+        //        PostCode = "N/A",
+        //    };
 
-            return address;
-        }
+        //    return address;
+        //}
     }
 }

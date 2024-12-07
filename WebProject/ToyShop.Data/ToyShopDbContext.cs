@@ -52,7 +52,7 @@ namespace ToyShop.Data
                 .HasKey(up => new { up.UserId, up.ProductId });
 
             modelBuilder.Entity<OrderProduct>()
-               .HasKey(up => new { up.OrderId, up.ProductId });
+               .HasKey(оp => new { оp.OrderId, оp.ProductId });
 
 
             // Configure foreign keys to not use cascading deletes
