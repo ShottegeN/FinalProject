@@ -24,21 +24,7 @@ namespace ToyShop.Core.Services
         {
             int pageSize = 5;
 
-            var ordersQuery = repo.AllReadonlyAsync<Order>(); 
-
-            var user = await userManager.FindByIdAsync(userId.ToString());
-
-            if (user != null)
-            {
-                var roles = await userManager.GetRolesAsync(user);
-
-                if (roles.Contains("Administrator") && !roles.Contains("Moderator"))
-                {
-                    ordersQuery = repo.AllReadonlyAsync<Order>()
-                        .Where(o => o.UserId == userId);
-                }
-
-            }
+            IQueryable<Order> ordersQuery = await GetAllOrdersQuery(userId);
 
             if (startDate.HasValue)
             {
@@ -79,6 +65,7 @@ namespace ToyShop.Core.Services
             };
         }
 
+       
 
         public async Task<OrderViewModel> CheckOrderAsync(Guid userId, List<ProductInfoViewModel> products)
         {
@@ -229,9 +216,10 @@ namespace ToyShop.Core.Services
 
         public async Task<OrderViewModel> GetOrderByNumberAsync(Guid userId, string orderNumber)
         {
-            var order = await repo.AllReadonlyAsync<Order>()
+            IQueryable<Order> ordersQuery = await GetAllOrdersQuery(userId);
+
+            var order = await ordersQuery
                 .Where(o => o.Number == orderNumber)
-                .Where(o => o.UserId == userId)
                 .Include(o => o.DeliveryAddress)
                 .Include(o => o.OrdersProducts)
                     .ThenInclude(op => op.Product)
@@ -281,7 +269,7 @@ namespace ToyShop.Core.Services
 
             if (order == null)
             {
-                throw new FieldValidationException("Невалиден номер на поръчка!", "Model.Number");
+                throw new FieldValidationException("Невалиден номер на поръчка!", String.Empty);
             }
 
             switch (order.DeliveryPrice)
@@ -292,6 +280,29 @@ namespace ToyShop.Core.Services
             }
 
             return order;
+        }
+
+
+        //private
+        private async Task<IQueryable<Order>> GetAllOrdersQuery(Guid userId)
+        {
+            var ordersQuery = repo.AllReadonlyAsync<Order>();
+
+            var user = await userManager.FindByIdAsync(userId.ToString());
+
+            if (user != null)
+            {
+                var roles = await userManager.GetRolesAsync(user);
+
+                if (roles.Contains("Administrator") && !roles.Contains("Moderator"))
+                {
+                    ordersQuery = repo.AllReadonlyAsync<Order>()
+                        .Where(o => o.UserId == userId);
+                }
+
+            }
+
+            return ordersQuery;
         }
     }
 }

@@ -116,19 +116,6 @@ namespace ToyShop.Web.Controllers
             }
 
             return null;
-        }
-
-        //private AddressViewModel GetPersonalClaimAddress()
-        //{
-        //    var address = new AddressViewModel
-        //    {
-        //        StreetName = "N/A",
-        //        Number = 0,
-        //        CityName = "N/A",
-        //        PostCode = "N/A",
-        //    };
-
-        //    return address;
-        //}
+        }        
     }
 }
