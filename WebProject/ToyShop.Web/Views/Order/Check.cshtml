@@ -13,7 +13,7 @@
         </div>
         <hr />
 
-        <form asp-controller="Order" asp-action="Finish" method="post">
+        <form asp-controller="Order" asp-action="Finish" method="post" onsubmit="return confirmOrder();">
 
             <!-- Order Details -->
             <div class="row mb-4" style="margin-bottom: 3em;">
@@ -177,3 +177,8 @@
 
 <script src="~/js/check-order.js"></script>
 <script src="~/js/default-addres.js"></script>
+<script>
+    function confirmOrder() {
+        return confirm("Сигурни ли сте, че искате да завършите поръчката?");
+    }
+</script>

@@ -57,3 +57,4 @@
     // Initial price update on page load
     updatePrices();
 });
+

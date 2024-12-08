@@ -170,7 +170,7 @@
         <!-- Buttons for actions at the bottom -->
         <div style="display: flex; padding-top: 1em; gap: 1em;">
             <div>
-                <form asp-controller="Order" asp-action="Cancel" method="post" class="mb-0">
+                <form asp-controller="Order" asp-action="Cancel" method="post" class="mb-0" onsubmit="return confirmCancel();">
                     <input type="hidden" name="orderId" value="@Model.Id" />
                     <button type="submit" class="btn btn-warning"
                     @(Model.OrderStatus != "Обработва се.." ? "disabled" : "")>
@@ -203,5 +203,9 @@
 <script>
     function confirmDelete() {
         return confirm("Сигурни ли сте, че искате да изтриете поръчката?");
+    }
+
+    function confirmCancel() {
+        return confirm("Сигурни ли сте, че искате да анулирате поръчката?");
     }
 </script>
