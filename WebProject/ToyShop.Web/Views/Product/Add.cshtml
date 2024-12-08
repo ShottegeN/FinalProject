@@ -101,6 +101,18 @@
                             </select>
                             <span asp-validation-for="@Model.Product.Category" class="text-danger"></span>
                         </div>
+                        <!-- Promotion -->
+                        <div class="col-sm-6 mb-3" style="padding-top: 1em">
+                            <label asp-for="@Model.Product.Promotion" class="form-label">Изберете Промоция</label>
+                            <select asp-for="@Model.Product.Promotion" class="form-control" aria-required="true" id="categoryDropdown">
+                                <option value="">Изберете промоция...</option>
+                                @foreach (var promotion in Model.Promotions!)
+                                {
+                                    <option value="@promotion.Id">@promotion.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="@Model.Product.Category" class="text-danger"></span>
+                        </div>
 
                         <!-- Hidden input for custom category -->
                         <div class="col-sm-6 mb-3" style="padding-top: 1em; display: @(Model.NewCategoryName != null && Model.NewCategoryName != "new" ? "block" : "none")" id="customCategoryInput">

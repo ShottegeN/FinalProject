@@ -39,5 +39,8 @@ namespace ToyShop.ViewModels
 
         [Required(ErrorMessage = "Полето е задължително!")]
         public string Category { get; set; } = null!;
+
+        [Required(ErrorMessage = "Полето е задължително!")]
+        public string? Promotion { get; set; } = null!;
     }
 }

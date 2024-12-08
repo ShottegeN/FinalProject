@@ -16,12 +16,14 @@ namespace ToyShop.Web.Controllers
         private readonly ILogger<ProductController> logger;
         private readonly IProductService productService;
         private readonly ICategoryService categoryService;
+        private readonly IPromotionService promotionService;
 
-        public ProductController(ILogger<ProductController> _logger, IProductService _productService, ICategoryService _categoryService)
+        public ProductController(ILogger<ProductController> _logger, IProductService _productService, ICategoryService _categoryService, IPromotionService _promotionService)
         {
             logger = _logger;
             productService = _productService;
             categoryService = _categoryService;
+            promotionService = _promotionService;
         }
 
         [HttpGet]
@@ -30,7 +32,8 @@ namespace ToyShop.Web.Controllers
             var addProductViewModel = new AddOrEditProductViewModel
             {
                 Product = new UIProductViewModel(),
-                Categories = await categoryService.GetAllCategoriesAsync()
+                Categories = await categoryService.GetAllCategoriesAsync(),
+                Promotions = await promotionService.GetAllPromotionsAsync(),
             };
 
             return View(addProductViewModel);
@@ -42,6 +45,7 @@ namespace ToyShop.Web.Controllers
             if (!ModelState.IsValid)
             {
                 productViewModel.Categories = await categoryService.GetAllCategoriesAsync();
+                productViewModel.Promotions = await promotionService.GetAllPromotionsAsync();
 
                 return View(productViewModel);
             }
@@ -54,6 +58,7 @@ namespace ToyShop.Web.Controllers
             {
                 ModelState.AddModelError(ex.FieldName, ex.Message);
                 productViewModel.Categories = await categoryService.GetAllCategoriesAsync();
+                productViewModel.Promotions = await promotionService.GetAllPromotionsAsync();
                 productViewModel.NewCategoryName = "new";
 
                 return View(productViewModel);
@@ -66,13 +71,22 @@ namespace ToyShop.Web.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
 
-            var addProductViewModel = new AddOrEditProductViewModel
+            try
             {
-                Product = await productService.GetproductForEditAsync(id),
-                Categories = await categoryService.GetAllCategoriesAsync()
-            };
+                var addProductViewModel = new AddOrEditProductViewModel
+                {
+                    Product = await productService.GetproductForEditAsync(id),
+                    Categories = await categoryService.GetAllCategoriesAsync(),
+                    Promotions = await promotionService.GetAllPromotionsAsync(),
+                };
 
-            return View(addProductViewModel);
+                return View(addProductViewModel);
+            }
+            catch (ArgumentNullException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
@@ -81,7 +95,7 @@ namespace ToyShop.Web.Controllers
             if (!ModelState.IsValid)
             {
                 productViewModel.Categories = await categoryService.GetAllCategoriesAsync();
-
+                productViewModel.Promotions = await promotionService.GetAllPromotionsAsync();
                 return View(productViewModel);
             }
 
@@ -93,6 +107,7 @@ namespace ToyShop.Web.Controllers
             {
                 ModelState.AddModelError("NewCategoryName", ex.Message);
                 productViewModel.Categories = await categoryService.GetAllCategoriesAsync();
+                productViewModel.Promotions = await promotionService.GetAllPromotionsAsync();
                 productViewModel.NewCategoryName = "new";
 
                 return View(productViewModel);
@@ -111,9 +126,9 @@ namespace ToyShop.Web.Controllers
 
                 return View(product);
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
-                TempData["ErrorMessage"] = "Ресурсът не е намерен!.";
+                TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -126,9 +141,17 @@ namespace ToyShop.Web.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            await productService.WriteProductReviewAsync(productId, username, rating, comment);
+            try
+            {
+                await productService.WriteProductReviewAsync(productId, username, rating, comment);
 
-            return RedirectToAction("Details", "Product", new { productId });
+                return RedirectToAction("Details", "Product", new { productId });
+            }
+            catch (ArgumentNullException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
 
@@ -142,9 +165,9 @@ namespace ToyShop.Web.Controllers
                 return View(product);
 
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
-                TempData["ErrorMessage"] = "Невалидна операция!";
+                TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -152,9 +175,16 @@ namespace ToyShop.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(ProductInfoViewModel product)
         {
-            await productService.DeleteProductAsync(product.Id);
-
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                await productService.DeleteProductAsync(product.Id);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (ArgumentNullException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpGet]

@@ -46,10 +46,11 @@ namespace ToyShop.Core.Services
         public async Task AddProductAsync(UIProductViewModel p, string? newCategoryName)
         {
             int categoryId = await GetCategoryId(p, newCategoryName);
+            bool hasPromotion = int.TryParse(p.Promotion, out int promotionId);
 
             var product = await repo.AllReadonlyAsync<Product>()
-                .Where(p => p.Name.ToLower() == p.Name.ToLower())
-                .Where(p => p.CategoryId == categoryId)
+                .Where(product => product.Name.ToLower() == p.ProductName.ToLower())
+                .Where(product => product.CategoryId == categoryId)
                 .FirstOrDefaultAsync();
 
             if (product != null && product.IsAvailable == false)
@@ -76,6 +77,7 @@ namespace ToyShop.Core.Services
                     ImageUrl = p.ImageUrl ?? "img/no_img.png",
                     GlobalCategory = Enum.TryParse(p.GlobalCategory, true, out GlobalCategory globalCategory) ? globalCategory : GlobalCategory.Други,
                     CategoryId = categoryId,
+                    PromotionId = promotionId,
                 };
 
                 await repo.AddAsync(product);
@@ -92,11 +94,35 @@ namespace ToyShop.Core.Services
             {
                 throw new ArgumentNullException("Невалидна операция");
             }
+           
+            bool isParsable = int.TryParse(p.Promotion, out int promotionId);
 
-            // Get or create the category ID
+            if (isParsable) // promotion selected
+            {
+                product.PromotionId = promotionId;
+            }
+            else if (!isParsable && p.Promotion == "none")//no promotion selected
+            {
+                product.PromotionId = null;
+            }
+            else //product has promotion, not changed on submit, promotion comes as string != none and no parsable to int
+            {
+                var promotion = await repo.AllReadonlyAsync<Promotion>()
+                .Where(prom => prom.Name == p.Promotion)
+                .FirstOrDefaultAsync();
+
+                if (promotion != null)// if no promotion with this name existing
+                {
+                    product.PromotionId = promotion.Id;
+                }
+                else
+                {
+                    throw new ArgumentNullException("Невалидна операция");
+                }                               
+            }
+
             int categoryId = await GetCategoryId(p, newCategoryName);
 
-            // Update the properties of the existing product
             product.Name = p.ProductName;
             product.Price = p.Price!.Value;
             product.Quantity = p.Quantity!.Value;
@@ -108,16 +134,15 @@ namespace ToyShop.Core.Services
             product.CategoryId = categoryId;
 
             await repo.UpdateAsync(product);
-
             await repo.SaveChangesAsync();
         }
-
 
         public async Task<UIProductViewModel> GetproductForEditAsync(Guid id)
         {
             var p = await repo.AllReadonlyAsync<Product>()
                 .Where(p => p.Id == id)
                 .Include(p => p.Category)
+                .Include(p => p.Promotion)
                 .FirstOrDefaultAsync();
 
 
@@ -134,10 +159,12 @@ namespace ToyShop.Core.Services
                 Quantity = p.Quantity,
                 Price = p.Price,
                 Size = p.Size,
+                Promotion = p.Promotion?.Name,
                 Category = p.Category.Id.ToString(),
                 GlobalCategory = p.GlobalCategory.ToString(),
                 ShortDescription = p.ShortDescription,
                 Description = p.Description
+
             };
 
             return product;
@@ -228,7 +255,6 @@ namespace ToyShop.Core.Services
             return product;
         }
 
-
         public async Task WriteProductReviewAsync(Guid productId, string username, int rating, string comment)
         {
             var user = await repo.AllReadonlyAsync<User>()
@@ -239,7 +265,7 @@ namespace ToyShop.Core.Services
 
             if (user == null || product == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentNullException("Невалидна операция!");
             }
 
             var review = new Review
@@ -261,7 +287,7 @@ namespace ToyShop.Core.Services
 
             if (p == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("Невалидна операция!");
             }
 
             var product = new ProductInfoViewModel
@@ -281,7 +307,7 @@ namespace ToyShop.Core.Services
 
             if (product == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("Невалидна операция!");
             }
 
             product.IsAvailable = false;
@@ -436,8 +462,6 @@ namespace ToyShop.Core.Services
         }
 
 
-
-
         //private
         private async Task<IEnumerable<ProductInfoViewModel>> GetAllProductsWithFilterSorted(IQueryable<Product> productsQuery, string sortBy, int pageNumber = 1, int pageSize = 9)
         {
@@ -481,7 +505,7 @@ namespace ToyShop.Core.Services
             {
                 return int.Parse(p.Category);
             }
-            else if(p.Category == null)
+            else if (p.Category == null)
             {
                 throw new CustomException("Това поле е задължително!", "Product.Category");
             }

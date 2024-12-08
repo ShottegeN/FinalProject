@@ -80,7 +80,7 @@
                         <div class="col-sm-6 mb-3" style="padding-top: 1em">
                             <label asp-for="@Model.Product.GlobalCategory" class="form-label">Изберете категория</label>
                             <select asp-for="@Model.Product.GlobalCategory" class="form-control" aria-required="true">
-                                <option value="@Model.Product.GlobalCategory">@Model.Product.GlobalCategory</option>
+                                <option value="@Model.Product.GlobalCategory" style="display: none;">@Model.Product.GlobalCategory</option>
                                 <option value="0">Играчки</option>
                                 <option value="1">Аксесоари</option>
                                 <option value="2">Декорации</option>
@@ -93,12 +93,25 @@
                         <div class="col-sm-6 mb-3" style="padding-top: 1em">
                             <label asp-for="@Model.Product.Category" class="form-label">Изберете вид</label>
                             <select asp-for="@Model.Product.Category" class="form-control" aria-required="true" id="categoryDropdown">
-                                <option value="@Model.Product.Category">@Model.Product.Category</option>
+                                <option value="@Model.Product.Category" style="display: none;">@Model.Product.Category</option>
                                 @foreach (var category in Model.Categories!)
                                 {
                                     <option value="@category.Id">@category.Name</option>
                                 }
                                 <option value="new">Нов вид</option>
+                            </select>
+                            <span asp-validation-for="@Model.Product.Category" class="text-danger"></span>
+                        </div>
+                        <!-- Promotion -->
+                        <div class="col-sm-6 mb-3" style="padding-top: 1em">
+                            <label asp-for="@Model.Product.Promotion" class="form-label">Изберете Промоция</label>
+                            <select asp-for="@Model.Product.Promotion" class="form-control" aria-required="true" id="categoryDropdown">
+                                <option value="@Model.Product.Promotion" style="display: none;">@Model.Product.Promotion</option>
+                                <option value="none">Без промоция</option>
+                                @foreach (var promotion in Model.Promotions!)
+                                {
+                                    <option value="@promotion.Id">@promotion.Name</option>
+                                }
                             </select>
                             <span asp-validation-for="@Model.Product.Category" class="text-danger"></span>
                         </div>
@@ -108,18 +121,7 @@
                             <label for="newCategoryName" class="form-label">Добавете нов вид</label>
                             <input asp-for="NewCategoryName" id="customCategory" name="newCategoryName" class="form-control" type="text" placeholder="Въведете нов вид" />
                             <span asp-validation-for="NewCategoryName" class="text-danger"></span>
-                        </div>
-
-                        <script>
-                            document.getElementById('categoryDropdown').addEventListener('change', function () {
-                                var customCategoryInput = document.getElementById('customCategoryInput');
-                                if (this.value === 'new') {
-                                    customCategoryInput.style.display = 'block';
-                                } else {
-                                    customCategoryInput.style.display = 'none';
-                                }
-                            });
-                        </script>
+                        </div>                        
                     </div>
 
                     <!-- Submit Button -->
@@ -133,3 +135,13 @@
     <!-- container -->
 </div>
 <!-- SECTION -->
+<script>
+    document.getElementById('categoryDropdown').addEventListener('change', function () {
+        var customCategoryInput = document.getElementById('customCategoryInput');
+        if (this.value === 'new') {
+            customCategoryInput.style.display = 'block';
+        } else {
+            customCategoryInput.style.display = 'none';
+        }
+    });
+</script>
