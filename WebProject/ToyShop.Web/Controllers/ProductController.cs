@@ -50,7 +50,7 @@ namespace ToyShop.Web.Controllers
             {
                 await productService.AddProductAsync(productViewModel.Product, newCategoryName!);
             }
-            catch (FieldValidationException ex)
+            catch (CustomException ex)
             {
                 ModelState.AddModelError(ex.FieldName, ex.Message);
                 productViewModel.Categories = await categoryService.GetAllCategoriesAsync();

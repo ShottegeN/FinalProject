@@ -83,7 +83,7 @@
                             <h5 class="mb-0">
                                 <input type="text" value="@product.BoughtQuantity" class="text-center" style="width: 50px;" readonly />
                             </h5>
-                        </div>                        
+                        </div>
                     </div>
 
                     <!-- Hidden inputs for posting ProductInfoViewModel -->
@@ -171,9 +171,14 @@
         <div style="display: flex; padding-top: 1em; gap: 1em;">
             <div>
                 <form asp-controller="Order" asp-action="Cancel" method="post" class="mb-0">
-                    <button type="submit" class="btn btn-danger">Анулирай</button>
+                    <input type="hidden" name="orderId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger"
+                    @(Model.OrderStatus != "Обработва се.." ? "disabled" : "")>
+                        Анулирай
+                    </button>
                 </form>
             </div>
+
             @if (!(User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true))
             {
                 <div>

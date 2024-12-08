@@ -49,7 +49,8 @@ namespace ToyShop.Web.Controllers
             return View(order);
         }
 
-        public async Task<IActionResult> Cancel()
+        [HttpPost]
+        public async Task<IActionResult> Cancel(Guid orderId)
         {
             Guid? userId = GetCurrentUserId();
 
@@ -57,8 +58,17 @@ namespace ToyShop.Web.Controllers
             {
                 return Redirect("/Identity/Account/Login");
             }
-
-            return View();
+            
+            try
+            {
+                await orderService.CancelOrderAsync(userId.Value, orderId);
+                return RedirectToAction("Index", "Order");
+            }
+            catch (CustomException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
@@ -96,12 +106,12 @@ namespace ToyShop.Web.Controllers
                 var order = await orderService.GetOrderByNumberAsync(userId.Value, orderNumber);
                 return View(order);
             }
-            catch (FieldValidationException ex)
+            catch (CustomException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");
             }
-            
+
         }
 
 

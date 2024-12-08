@@ -70,9 +70,7 @@ namespace ToyShop.Core.Services
                 Orders = orders
             };
         }
-
        
-
         public async Task<OrderViewModel> CheckOrderAsync(Guid userId, List<ProductInfoViewModel> products)
         {
             var user = await repo.AllReadonlyAsync<User>()
@@ -220,6 +218,36 @@ namespace ToyShop.Core.Services
             return order.Number;
         }
 
+        public async Task CancelOrderAsync(Guid userId, Guid orderId)
+        {
+            var order = await repo.GetByIdAsync<Order>(orderId);
+
+            if (order != null && order.UserId == userId) 
+            {
+                var orderProduct = await repo.AllReadonlyAsync<OrderProduct>()
+                    .Where(op => op.OrderId == order.Id)
+                    .ToListAsync();
+
+                foreach (var op in orderProduct)
+                {
+                    var product = await repo.GetByIdAsync<Product>(op.ProductId);
+
+                    product!.Quantity += op.BoughtQuantity;
+
+                    await repo.UpdateAsync(product);
+                }
+                order.Status = OrderStatus.Cancelled;
+
+                await repo.UpdateAsync(order);
+                await repo.RemoveRangeAsync(orderProduct);
+                await repo.SaveChangesAsync();
+            }
+            else
+            {
+                throw new CustomException("Невалидна операция", String.Empty);
+            }
+        }
+
         public async Task<OrderViewModel> GetOrderByNumberAsync(Guid userId, string orderNumber)
         {
             IQueryable<Order> ordersQuery = await GetAllOrdersQuery(userId);
@@ -275,7 +303,7 @@ namespace ToyShop.Core.Services
 
             if (order == null)
             {
-                throw new FieldValidationException("Невалиден номер на поръчка!", String.Empty);
+                throw new CustomException("Невалиден номер на поръчка!", String.Empty);
             }
 
             switch (order.DeliveryPrice)

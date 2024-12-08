@@ -61,7 +61,7 @@ namespace ToyShop.Core.Services
             }
             else if (product != null && product.IsAvailable == true)
             {
-                throw new FieldValidationException("Продукт с това име вече съществува!", "Product.ProductName");
+                throw new CustomException("Продукт с това име вече съществува!", "Product.ProductName");
             }
             else
             {
@@ -483,19 +483,19 @@ namespace ToyShop.Core.Services
             }
             else if(p.Category == null)
             {
-                throw new FieldValidationException("Това поле е задължително!", "Product.Category");
+                throw new CustomException("Това поле е задължително!", "Product.Category");
             }
 
             if (newCategoryName == null)
             {
-                throw new FieldValidationException("Това поле е задължително!", "NewCategoryName");
+                throw new CustomException("Това поле е задължително!", "NewCategoryName");
             }
 
             var categories = await repo.AllReadonlyAsync<Category>().ToListAsync();
 
             if (categories.Any(c => c.Name.ToLower() == newCategoryName!.ToLower()))
             {
-                throw new FieldValidationException("Този вид вече съществува!", "NewCategoryName");
+                throw new CustomException("Този вид вече съществува!", "NewCategoryName");
             }
 
             var newCategory = new Category
