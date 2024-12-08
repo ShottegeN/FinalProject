@@ -1,0 +1,14 @@
+﻿@model PromotionViewModel
+
+<div>
+    <h3>Сигурни ли сте, че искате да изтриете тази промоция?</h3>
+    <p>Име: @Model.Name</p>
+    <p>Отстъпка: @Model.DiscountPercentage%</p>
+    <p>Период: @Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</p>
+
+    <form asp-action="RemoveConfirmed" method="post">
+        <input asp-for="Id" type="hidden" />
+        <button type="submit" class="btn btn-danger">Изтрий</button>
+        <a asp-action="All" class="btn btn-secondary">Отказ</a>
+    </form>
+</div>

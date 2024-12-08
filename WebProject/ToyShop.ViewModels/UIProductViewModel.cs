@@ -1,9 +1,9 @@
-﻿namespace ToyShop.ViewModels
-{
-    using System.ComponentModel.DataAnnotations;
-    using ToyShop.Common.EntityConstraints;
-    using static ToyShop.Common.EntityConstraints.ProductConstraints;
+﻿using System.ComponentModel.DataAnnotations;
+using ToyShop.Common.EntityConstraints;
+using static ToyShop.Common.EntityConstraints.ProductConstraints;
 
+namespace ToyShop.ViewModels
+{
     public class UIProductViewModel
     {
         public Guid Id { get; set; }
@@ -23,6 +23,7 @@
         [Range(typeof(decimal), MinPrice, MaxPrice, ErrorMessage = "Цената трябва да бъде между {1} и {2}!")]
         public decimal? Price { get; set; }
 
+        [Required(ErrorMessage = "Полето е задължително!")]
         [StringLength(SizeMaxLength, MinimumLength = SizeMinLength, ErrorMessage = "Размерът трябва да е между {2} и {1} символа!")]
         public string Size { get; set; } = null!;
 
