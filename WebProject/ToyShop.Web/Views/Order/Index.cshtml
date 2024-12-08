@@ -38,9 +38,29 @@
     </div>
 }
 
+
 <!-- SECTION - Display user orders -->
 <div class="section">
     <div class="container py-5">
+        <!-- Filter Dropdown -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <form asp-controller="Order" asp-action="Index" method="get" class="d-flex">
+                    <label for="orderStatusFilter" class="me-2 align-self-center"><strong>Филтрирай по статус:</strong></label>
+                    <select id="orderStatusFilter" name="status" class="form-select me-2">
+                        <option value="">Всички</option>
+                        <option value="0">Обработка</option>
+                        <option value="1">Чака доставка</option>
+                        <option value="2">Доставена</option>
+                        <option value="3">Отказана</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Филтрирай</button>
+                </form>
+            </div>
+        </div>
+        
+
+        <!-- Orders Table -->
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card shadow-sm">
@@ -111,3 +131,4 @@
         </div>
     </div>
 </div>
+<script src="/js/order-status-filter.js"></script>

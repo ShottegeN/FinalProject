@@ -19,7 +19,7 @@ namespace ToyShop.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int pageNumber = 1, DateTime? startDate = null, DateTime? endDate = null)
+        public async Task<IActionResult> Index(int pageNumber = 1, DateTime? startDate = null, DateTime? endDate = null, string? status = null)
         {
             Guid? userId = GetCurrentUserId();
 
@@ -28,7 +28,7 @@ namespace ToyShop.Web.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            var ordersData = await orderService.GetPaginatedUserOrdersAsync(userId.Value, pageNumber, startDate, endDate);
+            var ordersData = await orderService.GetPaginatedUserOrdersAsync(userId.Value, pageNumber, startDate, endDate, status);
 
             return View(ordersData);
         }

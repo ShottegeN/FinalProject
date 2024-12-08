@@ -20,11 +20,17 @@ namespace ToyShop.Core.Services
             userManager = _userManager;
         }
 
-        public async Task<OrderDisplayViewModel> GetPaginatedUserOrdersAsync(Guid userId, int pageNumber = 1, DateTime? startDate = null, DateTime? endDate = null)
+        public async Task<OrderDisplayViewModel> GetPaginatedUserOrdersAsync(Guid userId, int pageNumber = 1, DateTime? startDate = null, DateTime? endDate = null, string? status = null)
         {
             int pageSize = 5;
 
             IQueryable<Order> ordersQuery = await GetAllOrdersQuery(userId);
+
+            if (status != null)
+            {
+                ordersQuery = ordersQuery
+                    .Where(o => (int)o.Status == int.Parse(status));
+            }
 
             if (startDate.HasValue)
             {
@@ -286,8 +292,8 @@ namespace ToyShop.Core.Services
         //private
         private async Task<IQueryable<Order>> GetAllOrdersQuery(Guid userId)
         {
-            var ordersQuery = repo.AllReadonlyAsync<Order>();
-
+            var ordersQuery = repo.AllReadonlyAsync<Order>();            
+            
             var user = await userManager.FindByIdAsync(userId.ToString());
 
             if (user != null)
