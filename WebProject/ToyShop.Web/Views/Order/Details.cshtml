@@ -172,7 +172,7 @@
             <div>
                 <form asp-controller="Order" asp-action="Cancel" method="post" class="mb-0">
                     <input type="hidden" name="orderId" value="@Model.Id" />
-                    <button type="submit" class="btn btn-danger"
+                    <button type="submit" class="btn btn-warning"
                     @(Model.OrderStatus != "Обработва се.." ? "disabled" : "")>
                         Анулирай
                     </button>
@@ -191,14 +191,17 @@
                     </form>
                 </div>
                 <div>
-                    <form asp-controller="Order" asp-action="Delete" method="post" class="mb-0">
+                    <form asp-controller="Order" asp-action="Delete" asp-route-id="@Model.Id" method="post" class="mb-0" onsubmit="return confirmDelete();">
                         <input type="hidden" name="orderId" value="@Model.Id" />
-                        <button type="submit" class="btn btn-danger">Изтрий</button>
+                        <button type="submit" class="btn btn-danger">Изтриване</button>
                     </form>
                 </div>
             }
         </div>
-
-
     </div>
 </div>
+<script>
+    function confirmDelete() {
+        return confirm("Сигурни ли сте, че искате да изтриете поръчката?");
+    }
+</script>

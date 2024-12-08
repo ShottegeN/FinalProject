@@ -14,6 +14,8 @@ namespace ToyShop.Core.Contracts
 
         public Task CancelOrderAsync(Guid userId, Guid orderId);
 
+        public Task DeleteOrderAsync(Guid userId, Guid orderId);
+
         public Task<OrderViewModel> GetOrderForEditAsync(Guid userId, Guid orderId);
 
         public Task EditOrderAsync(Guid userId, OrderViewModel order);

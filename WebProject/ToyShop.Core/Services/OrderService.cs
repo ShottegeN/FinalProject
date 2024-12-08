@@ -218,6 +218,39 @@ namespace ToyShop.Core.Services
                 throw new CustomException("Невалидна операция", String.Empty);
             }
         }
+        public async Task DeleteOrderAsync(Guid userId, Guid orderId)
+        {
+            var ordersQuery = await GetAllOrdersQuery(userId);
+
+            var order = ordersQuery
+                .Where(o => o.Id == orderId)
+                .FirstOrDefault();
+
+            if (order != null && order.UserId == userId)
+            {
+                var orderProduct = await repo.AllReadonlyAsync<OrderProduct>()
+                    .Where(op => op.OrderId == order.Id)
+                    .ToListAsync();
+
+                foreach (var op in orderProduct)
+                {
+                    var product = await repo.GetByIdAsync<Product>(op.ProductId);
+
+                    product!.Quantity += op.BoughtQuantity;
+
+                    await repo.UpdateAsync(product);
+                }
+                order.Status = OrderStatus.Cancelled;
+
+                await repo.RemoveAsync(order);
+                await repo.RemoveRangeAsync(orderProduct);
+                await repo.SaveChangesAsync();
+            }
+            else
+            {
+                throw new CustomException("Невалидна операция", String.Empty);
+            }
+        }
 
         public async Task<OrderViewModel> GetOrderForDetailsAsync(Guid userId, string orderNumber)
         {
@@ -365,6 +398,8 @@ namespace ToyShop.Core.Services
 
 
         //private
+
+        //change for admin and moderator!!!
         private async Task<IQueryable<Order>> GetAllOrdersQuery(Guid userId)
         {
             var ordersQuery = repo.AllReadonlyAsync<Order>();

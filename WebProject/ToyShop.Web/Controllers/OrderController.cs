@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Common;
 using ToyShop.Core.Contracts;
+using ToyShop.Data.Models;
 using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
@@ -159,6 +160,28 @@ namespace ToyShop.Web.Controllers
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return View(order);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid orderId)
+        {
+            Guid? userId = GetCurrentUserId();
+
+            if (!userId.HasValue)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            try
+            {
+                await orderService.DeleteOrderAsync(userId.Value, orderId);
+                return RedirectToAction("Index", "Order");
+            }
+            catch (CustomException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
             }
         }
 
