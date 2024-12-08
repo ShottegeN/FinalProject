@@ -18,11 +18,15 @@
 
         public string DeliveryType { get; set; } = string.Empty;
 
-        public string OrderSatus { get; set; } = string.Empty;
+        public string OrderStatus { get; set; } = string.Empty;
 
         public AddressViewModel DeliveryAddress { get; set; } = null!;
 
         public Guid UserId { get; set; }
+
+        public string UserFullName { get; set; } = string.Empty;
+        public string UserEmail { get; set; } = string.Empty;
+        public string UserPhone { get; set; } = string.Empty;
 
         public List<ProductInfoViewModel> Products { get; set; } = new ();
     }

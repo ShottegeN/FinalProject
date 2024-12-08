@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ToyShop.Common;
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
@@ -11,40 +12,73 @@ namespace ToyShop.Core.Services
     public class OrderService : IOrderService
     {
         private readonly IRepository repo;
+        private readonly UserManager<User> userManager;
 
-        public OrderService(IRepository _repo)
+        public OrderService(IRepository _repo, UserManager<User> _userManager)
         {
             repo = _repo;
+            userManager = _userManager;
         }
 
-        public async Task<List<OrderViewModel>> GetAllUserOrdersAsync(Guid userId)
+        public async Task<OrderDisplayViewModel> GetPaginatedUserOrdersAsync(Guid userId, int pageNumber = 1, DateTime? startDate = null, DateTime? endDate = null)
         {
-            var orders = await repo.AllReadonlyAsync<Order>()
-                .Where(o => o.UserId == userId)
+            int pageSize = 5;
+
+            var ordersQuery = repo.AllReadonlyAsync<Order>(); 
+
+            var user = await userManager.FindByIdAsync(userId.ToString());
+
+            if (user != null)
+            {
+                var roles = await userManager.GetRolesAsync(user);
+
+                if (roles.Contains("Administrator") && !roles.Contains("Moderator"))
+                {
+                    ordersQuery = repo.AllReadonlyAsync<Order>()
+                        .Where(o => o.UserId == userId);
+                }
+
+            }
+
+            if (startDate.HasValue)
+            {
+                ordersQuery = ordersQuery.Where(o => o.OrderDate >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                ordersQuery = ordersQuery.Where(o => o.OrderDate <= endDate.Value);
+            }
+
+            int totalOrders = await ordersQuery.CountAsync();
+            int totalPages = (int)Math.Ceiling(totalOrders / (double)pageSize);
+
+            var orders = await ordersQuery
+                .OrderBy(o => o.OrderDate)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .Select(o => new OrderViewModel
                 {
                     Id = o.Id,
                     Number = o.Number,
-                    Price = o.Price,
-                    //DeliveryAddress = o.DeliveryAddress.ToString(),
+                    TotalPrice = o.TotalPrice,
                     OrderDate = o.OrderDate,
-                    SendingDate = o.SendingDate.HasValue ? o.SendingDate : null,
-                    OrderSatus = o.Status.ToString(),
+                    SendingDate = o.SendingDate,
+                    OrderStatus = OrderStatusTranslator.Translate(o.Status),
                     DeliveryPrice = o.DeliveryPrice,
-                    Products = o.OrdersProducts.Select(op => new ProductInfoViewModel
-                    {
-                        Id = op.Product.Id,
-                        ProductName = op.Product.Name,
-                        Price = op.Product.Price,
-                        BoughtQuantity = op.BoughtQuantity,
-                        DiscountPercentage = op.Product.Promotion != null && op.Product.Promotion.StartDate < DateTime.Now && op.Product.Promotion.EndDate > DateTime.Now ? op.Product.Promotion.DiscountPercentage : 0,
-                    }).ToList()
                 })
-                .OrderBy(o => o.OrderDate)
                 .ToListAsync();
 
-            return orders;
+            return new OrderDisplayViewModel
+            {
+                PageNumber = pageNumber,
+                TotalPages = totalPages,
+                StartDate = startDate,
+                EndDate = endDate,
+                Orders = orders
+            };
         }
+
 
         public async Task<OrderViewModel> CheckOrderAsync(Guid userId, List<ProductInfoViewModel> products)
         {
@@ -210,7 +244,10 @@ namespace ToyShop.Core.Services
                     Price = o.Price,
                     DeliveryPrice = o.DeliveryPrice,
                     TotalPrice = o.TotalPrice,
-                    OrderSatus = OrderStatusTranslator.Translate(o.Status),
+                    UserFullName = o.User.FirstName + " " + o.User.LastName,
+                    UserEmail = o.User.Email!,
+                    UserPhone = o.User.PhoneNumber!,
+                    OrderStatus = OrderStatusTranslator.Translate(o.Status),
                     DeliveryAddress = new AddressViewModel
                     {
                         CityName = o.DeliveryAddress.City.Name,
