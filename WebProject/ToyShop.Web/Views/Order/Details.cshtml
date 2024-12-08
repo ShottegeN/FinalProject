@@ -183,11 +183,16 @@
             {
                 <div>
                     <form asp-controller="Order" asp-action="Edit" method="get" class="mb-0">
-                        <button type="submit" class="btn btn-info">Редактирай</button>
+                        <input type="hidden" name="orderId" value="@Model.Id" />
+                        <button type="submit" class="btn btn-info"
+                        @(Model.OrderStatus == "Анулирана" ? "disabled" : "")>
+                            Редактирай
+                        </button>
                     </form>
                 </div>
                 <div>
                     <form asp-controller="Order" asp-action="Delete" method="post" class="mb-0">
+                        <input type="hidden" name="orderId" value="@Model.Id" />
                         <button type="submit" class="btn btn-danger">Изтрий</button>
                     </form>
                 </div>

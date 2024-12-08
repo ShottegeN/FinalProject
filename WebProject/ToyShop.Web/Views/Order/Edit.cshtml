@@ -1,0 +1,162 @@
+﻿@model ToyShop.ViewModels.OrderViewModel
+
+@{
+    ViewData["Title"] = "Редактирай Поръчка";
+}
+
+<!-- Form to Submit Order Data -->
+<form asp-action="Edit" method="post">
+    <div class="section">
+        <!-- container -->
+        <div class="container py-4">
+            <div class="row">
+                <!-- Left Side Section: Order Details -->
+                <div class="col-md-6">
+                    <h5>Детайли на поръчката</h5>
+
+                    <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+                    <!-- Order Number (Readonly) -->
+                    <div class="form-group mb-3">
+                        <label for="Number">Номер на поръчката</label>
+                        <input type="text" id="Number" name="Number" class="form-control form-control-sm" value="@Model.Number" readonly />
+                    </div>
+
+                    <!-- Order Status Dropdown -->
+                    <div class="form-group mb-3">
+                        <label for="OrderStatusDropdown">Статус на поръчката</label>
+                        <select id="OrderStatusDropdown" name="OrderStatusDropdown" class="form-control form-control-sm">
+                            <option value="@Model.OrderStatus">@Model.OrderStatus</option>
+                            <option value="Обработва се..">Обработва се..</option>
+                            <option value="Изпратена">Изпратена</option>
+                            <option value="Доставена">Доставена</option>
+                            <option value="Анулирана">Анулирана</option>
+                        </select>
+                        <!-- Hidden input to send the OrderStatus value -->
+                        <input type="hidden" id="OrderStatusHidden" name="OrderStatus" value="@Model.OrderStatus" />
+                    </div>                    
+
+                    <!-- Order Date (Readonly) -->
+                    <div class="form-group mb-3">
+                        <label for="OrderDate">Дата на поръчката</label>
+                        <input type="text" id="OrderDate" name="OrderDate" class="form-control form-control-sm" value="@Model.OrderDate.ToString("yyyy-MM-dd")" readonly />
+                    </div>
+
+                    <!-- Sending Date -->
+                    <div class="form-group mb-3">
+                        <label for="SendingDate">Дата на изпращане</label>
+                        <input type="text" id="SendingDate" name="SendingDate" class="form-control form-control-sm" value="@Model.SendingDate?.ToString("yyyy-MM-dd")" readonly />
+                    </div>
+
+                    <!-- Price -->
+                    <div class="form-group mb-3">
+                        <label for="Price">Цена</label>
+                        <input type="text" id="Price" name="Price" class="form-control form-control-sm" value="@Model.Price.ToString("F2")" readonly />
+                    </div>
+
+                    <!-- Delivery Type Dropdown -->
+                    <div class="form-group mb-3">
+                        <label for="DeliveryTypeDropdown">Начин на доставка</label>
+                        <select id="DeliveryTypeDropdown" name="DeliveryTypeDropdown" class="form-control form-control-sm" onchange="updateDeliveryPrice(); toggleDeliveryAddressFields();">
+                            <option value="@Model.DeliveryType">@Model.DeliveryType</option>
+                            <option value="До адрес">До адрес</option>
+                            <option value="До офис на куриер">До офис на куриер</option>
+                            <option value="Лично вземане">Лично вземане</option>
+                        </select>
+                        <!-- Hidden input to send the DeliveryType value -->
+                        <input type="hidden" id="DeliveryTypeHidden" name="DeliveryType" value="@Model.DeliveryType" />
+                    </div>
+                    
+
+
+                    <!-- Delivery Price (Readonly) -->
+                    <div class="form-group mb-3">
+                        <label for="DeliveryPrice">Цена на доставка</label>
+                        <input type="text" id="DeliveryPrice" name="DeliveryPrice" class="form-control form-control-sm" value="@Model.DeliveryPrice.ToString("F2")" readonly />
+                    </div>
+
+                    <!-- Total Price (Readonly) -->
+                    <div class="form-group mb-3">
+                        <label for="TotalPrice">Обща цена</label>
+                        <input type="text" id="TotalPrice" name="TotalPrice" class="form-control form-control-sm" value="@Model.TotalPrice.ToString("F2")" readonly />
+                    </div>
+
+
+                    <!-- Save Changes Button -->
+                    <button type="submit" class="btn btn-primary">Запази промените</button>
+                </div>
+
+                <!-- Right Side Section: Delivery Address Details (Hidden by Default) -->
+                <div class="col-md-6" id="deliveryAddressSection" style="display:none;">
+                    <h5>Данни за доставка</h5>
+                    <!-- User Info Fields -->
+                    <div class="form-group mb-3">
+                        <label for="UserFullName">Получател</label>
+                        <input type="text" id="UserFullName" name="UserFullName" class="form-control form-control-sm" value="@Model.UserFullName" readonly />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="UserEmail">Email</label>
+                        <input type="email" id="UserEmail" name="UserEmail" class="form-control form-control-sm" value="@Model.UserEmail" readonly />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="UserPhone">Телефон</label>
+                        <input type="text" id="UserPhone" name="UserPhone" class="form-control form-control-sm" value="@Model.UserPhone" readonly />
+                    </div>                    
+
+                    <!-- Delivery Address Fields -->
+                    <!-- Street Name -->
+                    <div class="form-group mb-3">
+                        <label for="StreetName">Улица</label>
+                        <input type="text" id="StreetName" name="DeliveryAddress.StreetName" class="form-control form-control-sm" value="@Model.DeliveryAddress.StreetName" />
+                        <span class="text-danger">@Html.ValidationMessageFor(m => m.DeliveryAddress.StreetName)</span>
+                    </div>
+
+                    <!-- Number -->
+                    <div class="form-group mb-3">
+                        <label for="Number">Номер</label>
+                        <input type="number" id="Number" name="DeliveryAddress.Number" class="form-control form-control-sm" value="@Model.DeliveryAddress.Number" />
+                        <span class="text-danger">@Html.ValidationMessageFor(m => m.DeliveryAddress.Number)</span>
+                    </div>
+
+                    <!-- Building Number -->
+                    <div class="form-group mb-3">
+                        <label for="BuildingNumber">Блок (не е задължително)</label>
+                        <input type="number" id="BuildingNumber" name="DeliveryAddress.BuildingNumber" class="form-control form-control-sm" value="@Model.DeliveryAddress.BuildingNumber" />
+                        <span class="text-danger">@Html.ValidationMessageFor(m => m.DeliveryAddress.BuildingNumber)</span>
+                    </div>
+
+                    <!-- Entrance -->
+                    <div class="form-group mb-3">
+                        <label for="Entrance">Вход (не е задължително)</label>
+                        <input type="text" id="Entrance" name="DeliveryAddress.Entrance" class="form-control form-control-sm" value="@Model.DeliveryAddress.Entrance" />
+                        <span class="text-danger">@Html.ValidationMessageFor(m => m.DeliveryAddress.Entrance)</span>
+                    </div>
+
+                    <!-- Other Address Information -->
+                    <div class="form-group mb-3">
+                        <label for="OtherAddressInformation">Друга информация (не е задължително)</label>
+                        <textarea id="OtherAddressInformation" name="DeliveryAddress.OtherAddressInformation" class="form-control form-control-sm">@Model.DeliveryAddress.OtherAddressInformation</textarea>
+                        <span class="text-danger">@Html.ValidationMessageFor(m => m.DeliveryAddress.OtherAddressInformation)</span>
+                    </div>
+
+                    <!-- City Name -->
+                    <div class="form-group mb-3">
+                        <label for="CityName">Град</label>
+                        <input type="text" id="CityName" name="DeliveryAddress.CityName" class="form-control form-control-sm" value="@Model.DeliveryAddress.CityName" />
+                        <span class="text-danger">@Html.ValidationMessageFor(m => m.DeliveryAddress.CityName)</span>
+                    </div>
+
+                    <!-- Postcode -->
+                    <div class="form-group mb-3">
+                        <label for="PostCode">Пощенски код</label>
+                        <input type="text" id="PostCode" name="DeliveryAddress.PostCode" class="form-control form-control-sm" value="@Model.DeliveryAddress.PostCode" />
+                        <span class="text-danger">@Html.ValidationMessageFor(m => m.DeliveryAddress.PostCode)</span>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="/js/edit-order.js"></script>

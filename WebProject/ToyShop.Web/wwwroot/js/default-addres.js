@@ -4,10 +4,10 @@
 
     // Default values for required fields
     const defaultValues = {
-        "DeliveryAddress.CityName": "N/A",
-        "DeliveryAddress.PostCode": "N/A",
-        "DeliveryAddress.StreetName": "N/A",
-        "DeliveryAddress.Number": "500"
+        "DeliveryAddress.CityName": "Бургас",
+        "DeliveryAddress.PostCode": "8000",
+        "DeliveryAddress.StreetName": "бул. Тракия",
+        "DeliveryAddress.Number": "23"
     };
 
     // Reset address fields only if they contain default values

@@ -1,12 +1,12 @@
 [
   {
     "Id": 1,
-    "StreetName": "бул. Витоша",
-    "Number": 12,
+    "StreetName": "бул. Тракия",
+    "Number": 23,
     "BuildingNumber": null,
-    "Entrance": "А",
-    "OtherAddressInformation": "До НДК",
-    "CityId": 1
+    "Entrance": null,
+    "OtherAddressInformation": "Адрес за лично вземане на поръчката.",
+    "CityId": 4
   },
   {
     "Id": 2,
@@ -82,6 +82,15 @@
   },
   {
     "Id": 10,
+    "StreetName": "бул. Витоша",
+    "Number": 12,
+    "BuildingNumber": null,
+    "Entrance": "А",
+    "OtherAddressInformation": "До НДК",
+    "CityId": 1
+  },
+  {
+    "Id": 11,
     "StreetName": "ул. Шипка",
     "Number": 99,
     "BuildingNumber": null,

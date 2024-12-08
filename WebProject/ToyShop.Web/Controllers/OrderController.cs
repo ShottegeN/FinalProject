@@ -33,7 +33,6 @@ namespace ToyShop.Web.Controllers
             return View(ordersData);
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Check(List<ProductInfoViewModel> products)
         {
@@ -58,7 +57,7 @@ namespace ToyShop.Web.Controllers
             {
                 return Redirect("/Identity/Account/Login");
             }
-            
+
             try
             {
                 await orderService.CancelOrderAsync(userId.Value, orderId);
@@ -80,15 +79,15 @@ namespace ToyShop.Web.Controllers
             {
                 return Redirect("/Identity/Account/Login");
             }
-           
+
             if (!ModelState.IsValid)
-            {               
+            {
                 return View("Check", order);
             }
 
             string orderNumber = await orderService.FinishOrderAsync(userId.Value, order);
 
-            return RedirectToAction("Details", "Order", new {orderNumber});
+            return RedirectToAction("Details", "Order", new { orderNumber });
         }
 
         [HttpGet]
@@ -103,7 +102,7 @@ namespace ToyShop.Web.Controllers
 
             try
             {
-                var order = await orderService.GetOrderByNumberAsync(userId.Value, orderNumber);
+                var order = await orderService.GetOrderForDetailsAsync(userId.Value, orderNumber);
                 return View(order);
             }
             catch (CustomException ex)
@@ -114,6 +113,54 @@ namespace ToyShop.Web.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Edit(Guid orderId)
+        {
+            Guid? userId = GetCurrentUserId();
+
+            if (!userId.HasValue)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            try
+            {
+                var order = await orderService.GetOrderForEditAsync(userId.Value, orderId);
+                return View(order);
+            }
+            catch (CustomException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(OrderViewModel order)
+        {
+            Guid? userId = GetCurrentUserId();
+
+            if (!userId.HasValue)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(order);
+            }
+
+            try
+            {
+                await orderService.EditOrderAsync(userId.Value, order);
+                return RedirectToAction("Index", "Order");
+            }
+            catch (CustomException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(order);
+            }
+        }
 
         //private
         private Guid? GetCurrentUserId()
@@ -126,6 +173,6 @@ namespace ToyShop.Web.Controllers
             }
 
             return null;
-        }        
+        }
     }
 }
