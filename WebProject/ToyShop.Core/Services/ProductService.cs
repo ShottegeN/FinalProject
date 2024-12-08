@@ -94,7 +94,7 @@ namespace ToyShop.Core.Services
             {
                 throw new ArgumentNullException("Невалидна операция");
             }
-           
+
             bool isParsable = int.TryParse(p.Promotion, out int promotionId);
 
             if (isParsable) // promotion selected
@@ -118,7 +118,7 @@ namespace ToyShop.Core.Services
                 else
                 {
                     throw new ArgumentNullException("Невалидна операция");
-                }                               
+                }
             }
 
             int categoryId = await GetCategoryId(p, newCategoryName);
@@ -159,7 +159,7 @@ namespace ToyShop.Core.Services
                 Quantity = p.Quantity,
                 Price = p.Price,
                 Size = p.Size,
-                Promotion = p.Promotion?.Name,
+                Promotion = p.Promotion != null ? p.Promotion?.Name : "none",
                 Category = p.Category.Id.ToString(),
                 GlobalCategory = p.GlobalCategory.ToString(),
                 ShortDescription = p.ShortDescription,
@@ -554,7 +554,7 @@ namespace ToyShop.Core.Services
             {
                 return productsQuery;
             }
-            var filterArray = filter.Split('-').ToArray();
+            var filterArray = filter.Split("-").ToArray();
 
             var filteringType = filterArray[0];
             var filteringValue = filterArray[1];
@@ -574,20 +574,19 @@ namespace ToyShop.Core.Services
             }
             else if (filteringType == "globalCategory")
             {
-                if (filterArray.Length >= 2 && filteringValue != "")
+                bool hasValue = int.TryParse(filteringValue, out int value);
+
+                if (hasValue)
                 {
                     productsQuery = productsQuery.Where(p => (int)p.GlobalCategory == int.Parse(filteringValue));
+                }
 
-                    if (filterArray.Length > 2 && filterArray[2] != "")
-                    {
-                        var searchQuery = filterArray[2];
+                if (filterArray.Length > 2)
+                {
+                    var searchQuery = filterArray[2];
 
-                        productsQuery = productsQuery
-                            .Where(p =>
-                            (int)p.GlobalCategory == int.Parse(filteringValue) &&
-                            EF.Functions.Like(p.Name, "%" + searchQuery + "%"));
-                    }
-
+                    productsQuery = productsQuery
+                        .Where(p => EF.Functions.Like(p.Name, "%" + searchQuery + "%"));
                 }
             }
 

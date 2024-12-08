@@ -1,10 +1,7 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using ToyShop.Common;
 using ToyShop.Core.Contracts;
-using ToyShop.Core.Services;
 using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
