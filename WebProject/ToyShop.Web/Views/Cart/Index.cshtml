@@ -37,10 +37,10 @@
                         <img src="/img/no_img.png" class="img-fluid" style="max-width: 100%; height: auto;" alt="No Image Available" />
                     }
                 </div>
-                <div class="col-md-2 text-start">
+                <div class="col-md-2 text-center" style="margin-top: 2em;">
                     <h5 class="mb-0">@product.ProductName</h5>
-                </div>               
-                <div class="col-md-2 text">
+                </div>
+                <div class="col-md-2 text-center" style="margin-top: 2em;">
                     <h5 class="mb-0">
                         @if (product.DiscountPercentage > 0)
                         {
@@ -59,19 +59,19 @@
                         }
                     </h5>
                 </div>
-                <div class="col-md-2 text-start">
+                <div class="col-12 col-md-2 text-center" style="margin-top: 2em;">
                     <h5 class="mb-0">
                         <!-- Set default quantity value to 1 -->
-                        <input type="number" value="@product.BoughtQuantity" min="1" max="@product.Quantity" class="form-control quantity-input" data-price="@currentPrice" data-product-id="@product.Id" style="width: 80px;" />
+                        <input type="number" value="@product.BoughtQuantity" min="1" max="@product.Quantity" class="form-control quantity-input" data-price="@currentPrice" data-product-id="@product.Id" style="width: 80px; margin: 0 auto; display: block;" />
                     </h5>
                 </div>
-                <div class="col-md-2 text-start">
+                <div class="col-md-2 text-center" style="margin-top: 2em;">
                     <form asp-action="Details" asp-controller="Product" method="get" style="display:inline;">
                         <input type="hidden" name="productId" value="@product.Id" />
                         <button type="submit" class="btn btn-info">Детайли</button>
                     </form>
                 </div>
-                <div class="col-md-2 text-end">
+                <div class="col-md-2 text-center" style="margin-top: 2em;">
                     <form asp-controller="Cart" asp-action="RemoveFromCart" asp-route-productId="@product.Id" method="post" style="display:inline;">
                         <button type="submit" class="btn btn-danger">Премахни</button>
                     </form>
@@ -80,20 +80,20 @@
         }
 
         <!-- Total Price Row -->
-        <div class="row align-items-center mb-4 py-3" style="margin-top: 2em;">
-            <div class="col-md-2 text-center">
+        <div class="row align-items-center mb-4 py-3">
+            <div class="col-md-2 text-center" style="margin-top: 2em;">
                 <img src="https://media.istockphoto.com/id/1206806317/vector/shopping-cart-icon-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=1RRQJs5NDhcB67necQn1WCpJX2YMfWZ4rYi1DFKlkNA=" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="Няма налично изображение" />
             </div>            
-            <div class="col-md-2 text-start">
+            <div class="col-md-2 text-center" style="margin-top: 2em;">
                 <h5 class="mb-0">Обща сума:</h5>
             </div>
-            <div class="col-md-2 text-start">
+            <div class="col-md-2 text-center" style="margin-top: 2em;">
                 <h5 class="mb-0" id="total-price">@totalPrice.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</h5>
             </div>
-            <div class="col-md-2 text-center">
+            <div class="col-md-2 text-center" style="margin-top: 2em;">
                 <a href="javascript:window.history.back();" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Назад</a>
             </div>
-            <div class="col-md-4 text-start">                
+            <div class="col-md-2 text-center" style="margin-top: 2em;">
                 <form asp-controller="Order" asp-action="Check" method="get">
                 @for (int i = 0; i < Model.Count(); i++)
                 {

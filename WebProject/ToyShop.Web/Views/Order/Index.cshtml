@@ -1,42 +1,112 @@
-﻿@model ToyShop.ViewModels.OrderViewModel
+﻿@model OrderDisplayViewModel
 
-@{
-    ViewData["Title"] = "Провери поръчка";
-}
-<!-- SECTION -->
-<div class="section">
-    <!-- container -->
-    <div class="container py-4">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card shadow-sm">
-                        <div class="card-header text-center">
-                            <h3 class="mb-0">Провери поръчка</h3>
-                        </div>
-                        <div class="card-body">
-                            <!-- Form for order search -->
-                            <form asp-controller="Order" asp-action="Details" method="get">
-                                <div class="mb-4">
-                                    <label for="orderNumber" class="form-label">
-                                        <strong>Номер на поръчката</strong>
-                                    </label>
-                                    <input type="text" id="orderNumber" name="orderNumber"
-                                           class="form-control"
-                                           placeholder="Въведи номера на желаната поръчка"
-                                           required />
-                                    <!-- Validation span for orderNumber -->
-                                    <span asp-validation-for="@Model.Number" class="text-danger"></span>
-                                </div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary" style="margin-top: 1em;">
-                                        Провери
-                                    </button>
-                                </div>
-                            </form>
+
+@if (!User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
+{
+    <div class="section">
+        <!-- container -->
+        <div class="container py-4">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card shadow-sm">
+                            <div class="card-header text-center">
+                                <h3 class="mb-0">Провери поръчка</h3>
+                            </div>
+                            <div class="card-body">
+                                <form asp-controller="Order" asp-action="Details" method="get">
+                                    <div class="mb-4">
+                                        <label for="orderNumber" class="form-label">
+                                            <strong>Номер на поръчката</strong>
+                                        </label>
+                                        <input type="text" id="orderNumber" name="orderNumber"
+                                               class="form-control"
+                                               required />
+                                    </div>
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary" style="margin-top: 1em;">
+                                            Провери
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- SECTION - Display user orders -->
+<div class="section">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header text-center">
+                        <h4>Всички поръчки</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Номер на поръчката</th>
+                                    <th>Дата на поръчката</th>
+                                    <th>Дата на изпращане</th>
+                                    <th>Статус</th>
+                                    <th>Обща сума</th>
+                                    <th></th> <!-- For "Детайли" button -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in Model.Orders)
+                                {
+                                    <tr>
+                                        <td>@order.Number</td>
+                                        <td>@order.OrderDate.ToString("dd.MM.yyyy")</td>
+                                        <td>@(order.SendingDate.HasValue ? order.SendingDate.Value.ToString("dd.MM.yyyy") : "Не е изпратена")</td>
+                                        <td>@order.OrderStatus</td>
+                                        <td>@order.TotalPrice.ToString("F2") лв.</td>
+                                        <td>
+                                            <a href="@Url.Action("Details", "Order", new { orderNumber = order.Number })" class="btn btn-info">
+                                                Детайли
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination Section -->
+        <div class="row mt-4">
+            <div class="col-md-12 text-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        @if (Model.PageNumber > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", "Order", new { pageNumber = Model.PageNumber - 1, startDate = Model.StartDate, endDate = Model.EndDate })">Предишна</a>
+                            </li>
+                        }
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", "Order", new { pageNumber = i, startDate = Model.StartDate, endDate = Model.EndDate })">@i</a>
+                            </li>
+                        }
+                        @if (Model.PageNumber < Model.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", "Order", new { pageNumber = Model.PageNumber + 1, startDate = Model.StartDate, endDate = Model.EndDate })">Следваща</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

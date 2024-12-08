@@ -17,10 +17,20 @@
 
         <!-- Order Information -->
         <div class="row mb-4" style="padding-bottom: 2em;">
-            <div class="col-md-12">               
-                <p><strong>Номер:</strong> @Model.Number</p>
-                <p><strong>Дата:</strong> @Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</p>
-                <p><strong>Статус:</strong> @Model.OrderSatus</p>
+            <div class="col-md-12">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <p><strong>Номер:</strong> @Model.Number</p>
+                        <p><strong>Дата:</strong> @Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</p>
+                        <p><strong>Статус:</strong> @Model.OrderStatus</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Получател:</strong> @Model.UserFullName</p>
+                        <p><strong>Телефон:</strong> @Model.UserPhone</p>
+                        <p><strong>Имейл:</strong> @Model.UserEmail</p>
+
+                    </div>
+                </div>
                 <hr />
                 <h5>Продукти</h5>
 
@@ -47,10 +57,10 @@
                                 <img src="/img/no_img.png" class="img-fluid" style="max-width: 80%; height: auto;" alt="No Image Available" />
                             }
                         </div>
-                        <div class="col-md-3 text-start">
+                        <div class="col-md-3 text-center" style="margin-top: 2em;">
                             <h5 class="mb-0">@product.ProductName</h5>
                         </div>
-                        <div class="col-md-2 text">
+                        <div class="col-md-2 text-center" style="margin-top: 2em;">
                             <h5 class="mb-0">
                                 @if (product.DiscountPercentage > 0)
                                 {
@@ -69,11 +79,11 @@
                                 }
                             </h5>
                         </div>
-                        <div class="col-md-2 text-start">
+                        <div class="col-md-3 text-center" style="margin-top: 2em;">
                             <h5 class="mb-0">
-                                <input type="text" value="@product.BoughtQuantity" class="form-control" style="width: 50px;" readonly />
+                                <input type="text" value="@product.BoughtQuantity" class="text-center" style="width: 50px;" readonly />
                             </h5>
-                        </div>
+                        </div>                        
                     </div>
 
                     <!-- Hidden inputs for posting ProductInfoViewModel -->
