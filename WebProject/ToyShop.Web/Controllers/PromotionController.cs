@@ -93,14 +93,16 @@ namespace ToyShop.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Remove(int id)
         {
-            var promotion = await promotionService.GetPromotionByIdAsync(id);
-
-            if (promotion == null)
+            try
             {
-                return NotFound();
+                var promotion = await promotionService.GetPromotionByIdAsync(id);
+                return View(promotion);
             }
-
-            return View(promotion);
+            catch (ArgumentNullException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]

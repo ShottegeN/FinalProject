@@ -103,7 +103,26 @@ namespace ToyShop.Core.Services
 
         public async Task RemovePromotionAsync(int id)
         {
-            throw new NotImplementedException();
+            var promotion = await repo.AllReadonlyAsync<Promotion>()
+                .Where(p => p.Id == id)
+                .Include(p => p.Products)
+                .FirstOrDefaultAsync();
+
+            if (promotion == null)
+            {
+                throw new ArgumentNullException("Ресурсът не е намерен!");
+            }
+
+            if (promotion.Products.Any())
+            {
+                foreach (var product in promotion.Products)
+                {
+                    product.PromotionId = null;
+                    await repo.UpdateAsync(product);
+                }
+            }
+            await repo.RemoveAsync(promotion);
+            await repo.SaveChangesAsync();
         }
         public async Task<IEnumerable<PromotionViewModel>> GetAllPromotionsAsync()
         {
