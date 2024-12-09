@@ -14,8 +14,8 @@
         public const byte LastNameMinLength = 2;
         public const byte LastNameMaxLength = 20;
 
-        public const byte AgeMin = 1;
-        public const byte AgeMax = 110;
+        public const string AgeMin = "1";
+        public const string AgeMax = "110";
 
         public const byte PhoneNumberMinLength = 6;
         public const byte PhoneNumberMaxLength = 10;

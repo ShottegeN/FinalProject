@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ToyShop.Core.Contracts;
+using ToyShop.Data.Common;
 using ToyShop.Data.Models;
+using ToyShop.ViewModels.UserProfile;
 using ToyShop.Web.Areas.Admin.ViewModels;
 
 namespace ToyShop.Core.Services
@@ -10,11 +12,13 @@ namespace ToyShop.Core.Services
     {
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole<Guid>> roleManager;
+        private readonly IRepository repo;
 
-        public UserService(UserManager<User> _userManager, RoleManager<IdentityRole<Guid>> _roleManager)
+        public UserService(UserManager<User> _userManager, RoleManager<IdentityRole<Guid>> _roleManager, IRepository _repo)
         {
             userManager = _userManager;
             roleManager = _roleManager;
+            repo = _repo;
         }
 
         public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
@@ -116,6 +120,43 @@ namespace ToyShop.Core.Services
             }
 
             return true;
+        }
+
+        public async Task<UserProfileViewModel> GetUserProfileAsync(Guid userId)
+        {
+            var user = await userManager.Users
+                .Include(u => u.Address)
+                    .ThenInclude(a => a.City)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Невалидна операция!");
+            }                                          
+
+            var userProfile = new UserProfileViewModel
+            {
+                Id = userId,
+                FirstName = user.FirstName!,
+                LastName = user.LastName!,
+                Email = user.Email!,
+                PhoneNumber = user.PhoneNumber!,
+                Age = user.Age.ToString()!,
+                Address = new ViewModels.AddressViewModel
+                {
+                    Id = user.Address.Id ,
+                    StreetName = user.Address.StreetName,
+                    Number = user.Address.Number,
+                    CityId = user.Address.CityId,
+                    CityName = user.Address.City.Name,
+                    PostCode = user.Address.City.PostCode,
+                    BuildingNumber = user.Address.BuildingNumber,
+                    Entrance = user.Address.Entrance,
+                    OtherAddressInformation = user.Address.OtherAddressInformation,
+                }
+            };
+
+            return userProfile;
         }
     }
 }

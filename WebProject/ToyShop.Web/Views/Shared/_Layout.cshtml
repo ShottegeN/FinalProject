@@ -1,6 +1,5 @@
 ﻿@using static ToyShop.Common.SiteData
 
-
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -150,10 +149,13 @@
                 <li><a asp-area="" asp-controller="Store" asp-action="Index">Продукти</a></li>
                 <li><a href="@Url.Action("Index", "Store", new { filter = "promotion-all" })">Промоции</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Contacts">Контакти</a></li>
-                <li><a asp-area="" asp-controller="Order" asp-action="Index">Моите поръчки</a></li>
+                @if (User?.Identity.IsAuthenticated == true)
+                {
+                    <li><a asp-area="" asp-controller="Order" asp-action="Index">Моите поръчки</a></li>
+                }
                 <!-- Admin/Moderator only -->
                 @if (User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
-                {                                  
+                {
                     <li class="dropdown">
                         <a href="#" id="admin-dropdown-link">Админ <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown-menu" id="admin-dropdown-menu" style="display: none;">

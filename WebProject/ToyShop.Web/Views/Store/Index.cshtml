@@ -59,6 +59,10 @@
                             <span class="store-qty">
                                 Показани @Model.AllProducts.Count() от @Model.TotalProductsCount артикула
                             </span>
+                            @if (User.IsInRole("Administrator") || User.IsInRole("Moderator"))
+                            {
+                                <a asp-action="Add" asp-controller="Product" class="btn btn-primary">Добави нов продукт</a>
+                            }
                         </div>
                     </div>
 

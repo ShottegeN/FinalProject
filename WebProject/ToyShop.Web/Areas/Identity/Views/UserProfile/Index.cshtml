@@ -1,0 +1,119 @@
+﻿@model ToyShop.ViewModels.UserProfile.UserProfileViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Редактиране на профил";
+}
+
+<form asp-area="Identity" asp-controller="UserProfile" asp-action="SaveProfile" method="post">
+    <div class="section">
+        <!-- container -->
+        <div class="container py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>@ViewData["Title"]</h2>
+                <button type="submit" class="btn btn-primary btn-sm">Запази промените</button>
+            </div>
+            <hr />
+            <div class="row">
+                <!-- Left Side Section: User Details -->
+                <div class="col-md-6">
+                    <h5>Данни на потребителя</h5>
+
+                    <!-- First Name -->
+                    <div class="form-group mb-3">
+                        <label asp-for="FirstName">Име</label>
+                        <input asp-for="FirstName" value="@Model.FirstName" class="form-control form-control-sm" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="form-group mb-3">
+                        <label asp-for="LastName">Фамилия</label>
+                        <input asp-for="LastName" value="@Model.LastName" class="form-control form-control-sm" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Age -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Age">Години</label>
+                        <input asp-for="Age" value="@Model.Age" class="form-control form-control-sm" />
+                        <span asp-validation-for="Age" class="text-danger"></span>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group mb-3">
+                        <label asp-for="PhoneNumber">Телефон</label>
+                        <input asp-for="PhoneNumber" value="@Model.PhoneNumber" class="form-control form-control-sm" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Email">Имейл</label>
+                        <input asp-for="Email" value="@Model.Email" class="form-control form-control-sm" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>                    
+                </div>
+
+                <!-- Right Side Section: Address Details -->
+                <div class="col-md-6">
+                    <h5>Данни за адрес</h5>
+
+                    <!-- Street Name -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Address.StreetName">Улица</label>
+                        <input asp-for="Address.StreetName" value="@Model.Address.StreetName" class="form-control form-control-sm" />
+                        <span asp-validation-for="Address.StreetName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Number -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Address.Number">Номер</label>
+                        <input asp-for="Address.Number" value="@Model.Address.Number" class="form-control form-control-sm" />
+                        <span asp-validation-for="Address.Number" class="text-danger"></span>
+                    </div>
+
+                    <!-- Building Number -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Address.BuildingNumber">Блок</label>
+                        <input asp-for="Address.BuildingNumber value=" @Model.Address.BuildingNumber"" class="form-control form-control-sm" />
+                        <span asp-validation-for="Address.BuildingNumber" class="text-danger"></span>
+                    </div>
+
+                    <!-- Entrance -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Address.Entrance">Вход</label>
+                        <input asp-for="Address.Entrance" value="@Model.Address.Entrance" class="form-control form-control-sm" />
+                        <span asp-validation-for="Address.Entrance" class="text-danger"></span>
+                    </div>
+
+                    <!-- Other Address Information -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Address.OtherAddressInformation">Допълнителна информация</label>
+                        <textarea asp-for="Address.OtherAddressInformation" value="@Model.Address.OtherAddressInformation" class="form-control form-control-sm"></textarea>
+                        <span asp-validation-for="Address.OtherAddressInformation" class="text-danger"></span>
+                    </div>
+
+                    <!-- City Name -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Address.CityName">Град</label>
+                        <input asp-for="Address.CityName" value="@Model.Address.CityName" class="form-control form-control-sm" />
+                        <span asp-validation-for="Address.CityName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Post Code -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Address.PostCode">Пощенски код</label>
+                        <input asp-for="Address.PostCode" value="@Model.Address.PostCode" class="form-control form-control-sm" />
+                        <span asp-validation-for="Address.PostCode" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
