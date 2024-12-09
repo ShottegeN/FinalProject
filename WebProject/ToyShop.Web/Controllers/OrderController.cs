@@ -115,6 +115,7 @@ namespace ToyShop.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<ActionResult> Edit(Guid orderId)
         {
             Guid? userId = GetCurrentUserId();
@@ -137,6 +138,7 @@ namespace ToyShop.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<ActionResult> Edit(OrderViewModel order)
         {
             Guid? userId = GetCurrentUserId();
@@ -164,6 +166,7 @@ namespace ToyShop.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Delete(Guid orderId)
         {
             Guid? userId = GetCurrentUserId();

@@ -4,6 +4,7 @@ using ToyShop.Core.Contracts;
 using ToyShop.Core.Services;
 using ToyShop.Data;
 using ToyShop.Data.Common;
+using ToyShop.Data.Configurations;
 using ToyShop.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<ToyShopDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IRepository, Repository>()
+    .AddScoped<IUserService, UserService>()
     .AddScoped<IProductService, ProductService>()
     .AddScoped<IPromotionService, PromotionService>()
     .AddScoped<ICategoryService, CategoryService>()
@@ -35,7 +37,7 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Identity/Account/Login";  // Customize the login path
-    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Customize the access denied path
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Customize the access denied path    
 });
 
 // NOT IMPLEMENTED!
@@ -56,6 +58,13 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    DatabaseSeeder.SeedRoles(services);
+    DatabaseSeeder.AssignAdminRole(services);
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -74,7 +83,26 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+
+app.Use((context, next) =>
+{
+    if (context.User.Identity?.IsAuthenticated == true && context.Request.Path == "/")
+    {
+        if (context.User.IsInRole("Administrator"))
+        {
+            context.Response.Redirect("/Admin/Home/Index");
+            return Task.CompletedTask;
+        }
+    }
+
+    return next();
+});
+
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");    
 
 app.MapControllerRoute(
     name: "default",

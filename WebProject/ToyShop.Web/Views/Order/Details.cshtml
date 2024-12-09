@@ -179,7 +179,7 @@
                 </form>
             </div>
 
-            @if (!(User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true))
+            @if ((User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true))
             {
                 <div>
                     <form asp-controller="Order" asp-action="Edit" method="get" class="mb-0">

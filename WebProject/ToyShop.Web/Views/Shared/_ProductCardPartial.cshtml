@@ -86,7 +86,7 @@
                     </button>
                 </form>
 
-                @if (!User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
+                @if (User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
                 {
                     <!-- Edit Product Form -->
                     <form asp-action="Edit" asp-controller="Product" method="get" style="display:inline;">

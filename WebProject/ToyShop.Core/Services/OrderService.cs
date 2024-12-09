@@ -399,7 +399,6 @@ namespace ToyShop.Core.Services
 
         //private
 
-        //change for admin and moderator!!!
         private async Task<IQueryable<Order>> GetAllOrdersQuery(Guid userId)
         {
             var ordersQuery = repo.AllReadonlyAsync<Order>();
@@ -410,12 +409,15 @@ namespace ToyShop.Core.Services
             {
                 var roles = await userManager.GetRolesAsync(user);
 
-                if (roles.Contains("Administrator") && !roles.Contains("Moderator"))
+                if (roles.Contains("Administrator") || roles.Contains("Moderator"))
+                {
+                    ordersQuery = repo.AllReadonlyAsync<Order>();                        
+                }
+                else
                 {
                     ordersQuery = repo.AllReadonlyAsync<Order>()
                         .Where(o => o.UserId == userId);
                 }
-
             }
 
             return ordersQuery;

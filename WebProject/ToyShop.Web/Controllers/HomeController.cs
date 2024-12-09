@@ -70,8 +70,6 @@ namespace ToyShop.Web.Controllers
             };
 
             return View(model);
-        }
-
-
+        }       
     }
 }

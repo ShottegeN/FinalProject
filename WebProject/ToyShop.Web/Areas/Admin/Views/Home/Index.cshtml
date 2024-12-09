@@ -1,0 +1,73 @@
+﻿<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="container mt-5">
+                <div class="text-center">
+                    <h1 class="display-4 mb-4 text-primary">Добре дошли в Администраторския панел</h1>
+                    <p class="lead mb-5 text-muted">Управлявайте вашето приложение, използвайки секциите по-долу:</p>
+                </div>
+
+                <div class="row g-4" style="margin-top: 5em;">
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <!-- Manage Users -->
+                        <div class="col-md-3">
+                            <div class="card shadow h-100 border-0">
+                                <div class="card-body d-flex flex-column align-items-center text-center">
+                                    <i class="fas fa-users fa-3x text-primary mb-3" style="margin-bottom: 0.3em;"></i>
+                                    <h5 class="card-title">Управление на потребители</h5>
+                                    <p class="card-text text-muted">От тук можете да редактирате и премахвате потребители, както и да задавате права за определени функции.</p>
+                                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Index" class="btn btn-primary mt-auto w-100">
+                                        Потребители
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Manage Orders -->
+                    <div class="col-md-3">
+                        <div class="card shadow h-100 border-0">
+                            <div class="card-body d-flex flex-column align-items-center text-center">
+                                <i class="fas fa-box fa-3x text-secondary mb-3" style="margin-bottom: 0.3em;"></i>
+                                <h5 class="card-title">Управление на поръчки</h5>
+                                <p class="card-text text-muted">От тук можете да преглеждате, редактирате и премахвате поръчките на всички потребители.</p>
+                                <a asp-area="" asp-controller="Order" asp-action="Index" class="btn btn-warning mt-auto w-100">
+                                    Поръчки
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manage Products -->
+                    <div class="col-md-3">
+                        <div class="card shadow h-100 border-0">
+                            <div class="card-body d-flex flex-column align-items-center text-center">
+                                <i class="fas fa-tag fa-3x text-info mb-3" style="margin-bottom: 0.3em;"></i>
+                                <h5 class="card-title">Управление на продукти</h5>
+                                <p class="card-text text-muted">От тук можете да добавяте нови продукти, както и да редактирате или премахвате съществуващи.</p>
+                                <a asp-area="" asp-controller="Store" asp-action="Index" class="btn btn-info mt-auto w-100">
+                                    Продукти
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manage Promotions -->
+                    <div class="col-md-3">
+                        <div class="card shadow h-100 border-0">
+                            <div class="card-body d-flex flex-column align-items-center text-center">
+                                <i class="fas fa-percentage fa-3x text-success mb-3" style="margin-bottom: 0.3em;"></i>
+                                <h5 class="card-title">Управление на промоции</h5>
+                                <p class="card-text text-muted">От тук можете да добавяте нови промоции, както и да редактирате или премахвате съществуващи..</p>
+                                <a asp-area="" asp-controller="Promotion" asp-action="Index" class="btn btn-success mt-auto w-100">
+                                    Промоции
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

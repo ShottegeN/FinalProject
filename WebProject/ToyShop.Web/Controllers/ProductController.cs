@@ -6,8 +6,8 @@ using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
 {
-    //[Authorize(Roles = "Administrator, Moderator")]
     [Authorize]
+    [Authorize(Roles = "Administrator, Moderator")]
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> logger;

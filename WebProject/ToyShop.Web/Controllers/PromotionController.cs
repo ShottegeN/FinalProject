@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Common;
 using ToyShop.Core.Contracts;
@@ -7,6 +8,7 @@ using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
 {
+    [Authorize(Roles = "Administrator, Moderator")]
     public class PromotionController : Controller
     {
         private readonly IPromotionService promotionService;

@@ -1,7 +1,7 @@
 ﻿@model OrderDisplayViewModel
 
 
-@if (!User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
+@if (User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
 {
     <div class="section">
         <!-- container -->
