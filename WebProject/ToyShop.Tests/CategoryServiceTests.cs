@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToyShop.Core.Contracts;
+﻿using ToyShop.Core.Contracts;
 using Moq;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using ToyShop.ViewModels; // For IAsyncQueryProvider
 
 namespace Toyshop.Tests
 {

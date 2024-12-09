@@ -55,15 +55,25 @@ namespace Toyshop.Tests
 
         public TResult ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken)
         {
+            var executeMethod = typeof(IQueryProvider).GetMethods().FirstOrDefault(m => m.Name == nameof(IQueryProvider.Execute)
+                && m.IsGenericMethod
+                && m.GetParameters().Length == 1
+                && m.GetParameters()[0].ParameterType == typeof(Expression));
+
+            if (executeMethod == null)
+            {
+                throw new InvalidOperationException("Could not find the generic Execute method.");
+            }
             var resultType = typeof(TResult).GetGenericArguments()[0];
-            var executionResult = typeof(IQueryProvider)
-                .GetMethod(nameof(IQueryProvider.Execute))
+            var executionResult = executeMethod
                 .MakeGenericMethod(resultType)
                 .Invoke(_inner, new[] { expression });
 
             return (TResult)typeof(Task).GetMethod(nameof(Task.FromResult))?
                 .MakeGenericMethod(resultType)
                 .Invoke(null, new[] { executionResult });
+
+
         }
     }
 }
