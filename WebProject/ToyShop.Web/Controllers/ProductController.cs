@@ -26,14 +26,29 @@ namespace ToyShop.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var addProductViewModel = new AddOrEditProductViewModel
-            {
-                Product = new UIProductViewModel(),
-                Categories = await categoryService.GetAllCategoriesAsync(),
-                Promotions = await promotionService.GetAllPromotionsAsync(),
-            };
+            Guid? userId = GetCurrentUserId();
 
-            return View(addProductViewModel);
+            if (!userId.HasValue)
+            {
+                return RedirectToAction("/Identity/Account/Login");
+            }
+
+            try
+            {
+                var addProductViewModel = new AddOrEditProductViewModel
+                {
+                    Product = new UIProductViewModel(),
+                    Categories = await categoryService.GetAllCategoriesAsync(),
+                    Promotions = await promotionService.GetAllPromotionsAsync(),
+                };
+
+                return View(addProductViewModel);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
@@ -60,14 +75,13 @@ namespace ToyShop.Web.Controllers
 
                 return View(productViewModel);
             }
-            
+
             return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-
             try
             {
                 var addProductViewModel = new AddOrEditProductViewModel
@@ -79,7 +93,7 @@ namespace ToyShop.Web.Controllers
 
                 return View(addProductViewModel);
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");
@@ -123,7 +137,7 @@ namespace ToyShop.Web.Controllers
 
                 return View(product);
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");
@@ -144,7 +158,7 @@ namespace ToyShop.Web.Controllers
 
                 return RedirectToAction("Details", "Product", new { productId });
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");
@@ -162,7 +176,7 @@ namespace ToyShop.Web.Controllers
                 return View(product);
 
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");
@@ -177,7 +191,7 @@ namespace ToyShop.Web.Controllers
                 await productService.DeleteProductAsync(product.Id);
                 return RedirectToAction("Index", "Home");
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");
@@ -194,9 +208,16 @@ namespace ToyShop.Web.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            var products = await productService.GetUsersWhishlistAsync(userId.Value);
-
-            return View(products);
+            try
+            {
+                var products = await productService.GetUsersWhishlistAsync(userId.Value);
+                return View(products);
+            }
+            catch (ArgumentNullException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
@@ -210,9 +231,17 @@ namespace ToyShop.Web.Controllers
 
             }
 
-            await productService.AddToWishlistAsync(userId.Value, productId);
+            try
+            {
+                await productService.AddToWishlistAsync(userId.Value, productId);
+                return RedirectToAction("Whishlist", "Product");
+            }
+            catch (ArgumentNullException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
 
-            return RedirectToAction("Whishlist", "Product");
         }
 
         [HttpPost]
@@ -225,9 +254,16 @@ namespace ToyShop.Web.Controllers
                 return RedirectToAction("/Identity/Account/Login");
             }
 
-            await productService.RemoveFromWhishlistAsync(userId.Value, productId);
-
-            return RedirectToAction("Whishlist", "Product");
+            try
+            {
+                await productService.RemoveFromWhishlistAsync(userId.Value, productId);
+                return RedirectToAction("Whishlist", "Product");
+            }
+            catch (ArgumentNullException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpGet]
@@ -240,10 +276,18 @@ namespace ToyShop.Web.Controllers
                 return Json(0);
             }
 
-            var products = await productService.GetUsersWhishlistAsync(userId.Value);
-            int cartItemCount = products.Count();
+            try
+            {
+                var products = await productService.GetUsersWhishlistAsync(userId.Value);
+                int cartItemCount = products.Count();
 
-            return Json(cartItemCount);
+                return Json(cartItemCount);
+            }
+            catch (ArgumentNullException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         //private

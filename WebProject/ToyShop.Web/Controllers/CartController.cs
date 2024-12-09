@@ -30,9 +30,17 @@ namespace ToyShop.Web.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            var products = await productService.GetUsersCartProductsAsync(userId);
+            try
+            {
+                var products = await productService.GetUsersCartProductsAsync(userId);
 
-            return View(products);
+                return View(products);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
@@ -45,9 +53,16 @@ namespace ToyShop.Web.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            await productService.AddToCartAsync(userId.Value, productId);
-
-            return RedirectToAction("Details", "Product", new { productId });
+            try
+            {
+                await productService.AddToCartAsync(userId.Value, productId);
+                return RedirectToAction("Details", "Product", new { productId });
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
@@ -60,9 +75,16 @@ namespace ToyShop.Web.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            await productService.RemoveFromCartAsync(userId.Value, productId);
-
-            return RedirectToAction("Index", "Cart");
+            try
+            {
+                await productService.RemoveFromCartAsync(userId.Value, productId);
+                return RedirectToAction("Index", "Cart");
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
@@ -74,10 +96,17 @@ namespace ToyShop.Web.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
-            await productService.UpdateProductQuantityAsync(userId.Value, productId, quantity);
-
-            return RedirectToAction("Index", "Cart");
+            
+            try
+            {
+                await productService.UpdateProductQuantityAsync(userId.Value, productId, quantity);
+                return RedirectToAction("Index", "Cart");
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpGet]
@@ -90,13 +119,19 @@ namespace ToyShop.Web.Controllers
                 return Json(0);  
             }
 
-            var products = await productService.GetUsersCartProductsAsync(userId.Value);
-            int cartItemCount = products.Count();
+            try
+            {
+                var products = await productService.GetUsersCartProductsAsync(userId.Value);
+                int cartItemCount = products.Count();
 
-            return Json(cartItemCount);
+                return Json(cartItemCount);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Error", "Home");
+            }
         }
-
-
 
         //private
         private Guid? GetCurrentUserId()

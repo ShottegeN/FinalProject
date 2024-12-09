@@ -24,6 +24,11 @@ namespace ToyShop.Core.Contracts
                 })
                 .ToListAsync();
 
+            if (categories == null)
+            {
+                throw new ArgumentException("Невалидна операция!");
+            }
+
             return categories;
         }
 

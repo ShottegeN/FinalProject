@@ -43,7 +43,7 @@ namespace ToyShop.Web.Controllers
                 ModelState.AddModelError(ex.FieldName, ex.Message);
                 return View(promotion);
             }
-            catch (ArgumentNullException argEx)
+            catch (ArgumentException argEx)
             {
                 TempData["ErrorMessage"] = argEx.Message;
                 return RedirectToAction("Error", "Home");
@@ -58,7 +58,7 @@ namespace ToyShop.Web.Controllers
                 var promotion = await promotionService.GetPromotionByIdAsync(id);
                 return View(promotion);
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");
@@ -83,7 +83,7 @@ namespace ToyShop.Web.Controllers
                 ModelState.AddModelError(ex.FieldName, ex.Message);
                 return View(model);
             }
-            catch (ArgumentNullException argEx)
+            catch (ArgumentException argEx)
             {
                 TempData["ErrorMessage"] = argEx.Message;
                 return RedirectToAction("Error", "Home");
@@ -98,7 +98,7 @@ namespace ToyShop.Web.Controllers
                 var promotion = await promotionService.GetPromotionByIdAsync(id);
                 return View(promotion);
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");

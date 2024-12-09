@@ -92,7 +92,7 @@ namespace ToyShop.Core.Services
 
             if (product == null)
             {
-                throw new ArgumentNullException("Невалидна операция");
+                throw new ArgumentException("Невалидна операция");
             }
 
             bool isParsable = int.TryParse(p.Promotion, out int promotionId);
@@ -117,7 +117,7 @@ namespace ToyShop.Core.Services
                 }
                 else
                 {
-                    throw new ArgumentNullException("Невалидна операция");
+                    throw new ArgumentException("Невалидна операция");
                 }
             }
 
@@ -148,7 +148,7 @@ namespace ToyShop.Core.Services
 
             if (p == null)
             {
-                throw new ArgumentNullException("Невалидна операция");
+                throw new ArgumentException("Невалидна операция");
             }
 
             var product = new UIProductViewModel
@@ -193,6 +193,11 @@ namespace ToyShop.Core.Services
                 })
                 .ToListAsync();
 
+            if (products == null)
+            {
+                throw new ArgumentException("Невалидна операция");
+            }
+
             CalculatePromotionalPrice(products);
 
             return products;
@@ -209,7 +214,7 @@ namespace ToyShop.Core.Services
 
             if (p == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentException();
             }
 
             List<ReviewViewModel> reviews = new List<ReviewViewModel>();
@@ -265,7 +270,7 @@ namespace ToyShop.Core.Services
 
             if (user == null || product == null)
             {
-                throw new ArgumentNullException("Невалидна операция!");
+                throw new ArgumentException("Невалидна операция!");
             }
 
             var review = new Review
@@ -287,7 +292,7 @@ namespace ToyShop.Core.Services
 
             if (p == null)
             {
-                throw new ArgumentNullException("Невалидна операция!");
+                throw new ArgumentException("Невалидна операция!");
             }
 
             var product = new ProductInfoViewModel
@@ -307,7 +312,7 @@ namespace ToyShop.Core.Services
 
             if (product == null)
             {
-                throw new ArgumentNullException("Невалидна операция!");
+                throw new ArgumentException("Невалидна операция!");
             }
 
             product.IsAvailable = false;
@@ -333,6 +338,11 @@ namespace ToyShop.Core.Services
                 })
                 .ToListAsync();
 
+            if (products == null)
+            {
+                throw new ArgumentException("Невалидна операция");
+            }
+
             CalculatePromotionalPrice(products);
 
             return products;
@@ -344,33 +354,36 @@ namespace ToyShop.Core.Services
 
             var product = await repo.GetByIdAsync<Product>(productId);
 
-            if (user != null && product != null)
+            if (user == null || product == null)
             {
-                var existingUserProduct = await repo.AllReadonlyAsync<UserProductShoppingCart>()
+                throw new ArgumentException("Невалидна операция!");
+            }
+
+            var existingUserProduct = await repo.AllReadonlyAsync<UserProductShoppingCart>()
                     .Where(up => up.UserId == userId && up.ProductId == productId)
                     .FirstOrDefaultAsync();
 
-                if (existingUserProduct != null)
-                {
-                    existingUserProduct.BoughtQuantity++;
+            if (existingUserProduct != null)
+            {
+                existingUserProduct.BoughtQuantity++;
 
-                    await repo.UpdateAsync(existingUserProduct);
-                    await repo.SaveChangesAsync();
-                }
-                else
-                {
-                    var userProduct = new UserProductShoppingCart
-                    {
-                        UserId = userId,
-                        ProductId = productId,
-                        BoughtQuantity = 1
-                    };
-
-                    await repo.AddAsync(userProduct);
-                    await repo.SaveChangesAsync();
-
-                }
+                await repo.UpdateAsync(existingUserProduct);
+                await repo.SaveChangesAsync();
             }
+            else
+            {
+                var userProduct = new UserProductShoppingCart
+                {
+                    UserId = userId,
+                    ProductId = productId,
+                    BoughtQuantity = 1
+                };
+
+                await repo.AddAsync(userProduct);
+                await repo.SaveChangesAsync();
+
+            }
+
         }
 
         public async Task RemoveFromCartAsync(Guid userId, Guid productId)
@@ -379,11 +392,13 @@ namespace ToyShop.Core.Services
                     .Where(up => up.UserId == userId && up.ProductId == productId)
                     .FirstOrDefaultAsync();
 
-            if (existingUserProduct != null)
+            if (existingUserProduct == null)
             {
-                await repo.RemoveAsync(existingUserProduct);
-                await repo.SaveChangesAsync();
+                throw new ArgumentException("Невалидна операция!");
             }
+
+            await repo.RemoveAsync(existingUserProduct);
+            await repo.SaveChangesAsync();
         }
 
         public async Task UpdateProductQuantityAsync(Guid userId, Guid productId, int quantity)
@@ -392,13 +407,16 @@ namespace ToyShop.Core.Services
                     .Where(up => up.UserId == userId && up.ProductId == productId)
                     .FirstOrDefaultAsync();
 
-            if (existingUserProduct != null)
+            if (existingUserProduct == null)
             {
-                existingUserProduct.BoughtQuantity = quantity;
-
-                await repo.UpdateAsync(existingUserProduct);
-                await repo.SaveChangesAsync();
+                throw new ArgumentException("Невалидна операция!");
             }
+
+            existingUserProduct.BoughtQuantity = quantity;
+
+            await repo.UpdateAsync(existingUserProduct);
+            await repo.SaveChangesAsync();
+
         }
 
         public async Task<IEnumerable<ProductInfoViewModel>> GetUsersWhishlistAsync(Guid? userId)
@@ -417,6 +435,11 @@ namespace ToyShop.Core.Services
                 })
                 .ToListAsync();
 
+            if (!products.Any())
+            {
+                throw new ArgumentException("Невалидна операция!");
+            }
+
             CalculatePromotionalPrice(products);
 
             return products;
@@ -428,23 +451,25 @@ namespace ToyShop.Core.Services
 
             var product = await repo.GetByIdAsync<Product>(productId);
 
-            if (user != null && product != null)
+            if (user == null || product == null)
             {
-                var existingUserProduct = await repo.AllReadonlyAsync<UserProductWhishlist>()
-                    .Where(up => up.UserId == userId && up.ProductId == productId)
-                    .FirstOrDefaultAsync();
+                throw new ArgumentException("Невалидна операция!");
+            }
 
-                if (existingUserProduct == null)
+            var existingUserProduct = await repo.AllReadonlyAsync<UserProductWhishlist>()
+                .Where(up => up.UserId == userId && up.ProductId == productId)
+                .FirstOrDefaultAsync();
+
+            if (existingUserProduct == null)
+            {
+                var userProduct = new UserProductWhishlist
                 {
-                    var userProduct = new UserProductWhishlist
-                    {
-                        UserId = userId,
-                        ProductId = productId,
-                    };
+                    UserId = userId,
+                    ProductId = productId,
+                };
 
-                    await repo.AddAsync(userProduct);
-                    await repo.SaveChangesAsync();
-                }
+                await repo.AddAsync(userProduct);
+                await repo.SaveChangesAsync();
             }
         }
 
@@ -454,11 +479,12 @@ namespace ToyShop.Core.Services
                     .Where(up => up.UserId == userId && up.ProductId == productId)
                     .FirstOrDefaultAsync();
 
-            if (existingUserProduct != null)
+            if (existingUserProduct == null)
             {
-                await repo.RemoveAsync(existingUserProduct);
-                await repo.SaveChangesAsync();
+                throw new ArgumentException("Невалидна операция!");
             }
+            await repo.RemoveAsync(existingUserProduct);
+            await repo.SaveChangesAsync();
         }
 
 

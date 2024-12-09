@@ -45,7 +45,7 @@ namespace ToyShop.Core.Services
 
             if (promotion == null)
             {
-                throw new ArgumentNullException("Ресурсът не е намерен!");
+                throw new ArgumentException("Ресурсът не е намерен!");
             }
 
             return new PromotionViewModel
@@ -61,7 +61,7 @@ namespace ToyShop.Core.Services
 
         public async Task AddPromotionAsync(PromotionViewModel p)
         {
-            if (p == null) throw new ArgumentNullException("Невалидна операция");
+            if (p == null) throw new ArgumentException("Невалидна операция");
 
             if (p.StartDate > p.EndDate) throw new CustomException("Началната дата не може да е след крайната дата!", "StartDate");
 
@@ -80,7 +80,7 @@ namespace ToyShop.Core.Services
 
         public async Task EditPromotionAsync(PromotionViewModel p)
         {
-            if (p == null) throw new ArgumentNullException("Невалидна операция");
+            if (p == null) throw new ArgumentException("Невалидна операция");
 
             if (p.StartDate > p.EndDate) throw new CustomException("Началната дата не може да е след крайната дата!", "StartDate");
 
@@ -88,7 +88,7 @@ namespace ToyShop.Core.Services
 
             if (promotion == null)
             {
-                throw new ArgumentNullException("Ресурсът не е намерен!");
+                throw new ArgumentException("Ресурсът не е намерен!");
             }
 
             promotion.Name = p.Name;
@@ -110,7 +110,7 @@ namespace ToyShop.Core.Services
 
             if (promotion == null)
             {
-                throw new ArgumentNullException("Ресурсът не е намерен!");
+                throw new ArgumentException("Ресурсът не е намерен!");
             }
 
             if (promotion.Products.Any())
@@ -137,6 +137,11 @@ namespace ToyShop.Core.Services
                     EndDate = p.EndDate,
                 })
                 .ToListAsync();
+
+            if (!promotions.Any())
+            {
+                throw new ArgumentException("Невалидна операция!");
+            }
 
             return promotions;
         }
