@@ -24,7 +24,7 @@ namespace ToyShop.Core.Services
         public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
         {
             var allUsers = await userManager.Users.ToArrayAsync();
-                
+
             ICollection<UserViewModel> userViewModels = new List<UserViewModel>();
 
             foreach (User user in allUsers)
@@ -132,7 +132,7 @@ namespace ToyShop.Core.Services
             if (user == null)
             {
                 throw new ArgumentException("Невалидна операция!");
-            }                                          
+            }
 
             var userProfile = new UserProfileViewModel
             {
@@ -141,10 +141,14 @@ namespace ToyShop.Core.Services
                 LastName = user.LastName!,
                 Email = user.Email!,
                 PhoneNumber = user.PhoneNumber!,
-                Age = user.Age.ToString()!,
-                Address = new ViewModels.AddressViewModel
+                Age = user.Age.ToString()!
+            };
+
+            if (user.Address != null)
+            {
+                userProfile.Address = new ViewModels.AddressViewModel
                 {
-                    Id = user.Address.Id ,
+                    Id = user.Address.Id,
                     StreetName = user.Address.StreetName,
                     Number = user.Address.Number,
                     CityId = user.Address.CityId,
@@ -153,8 +157,8 @@ namespace ToyShop.Core.Services
                     BuildingNumber = user.Address.BuildingNumber,
                     Entrance = user.Address.Entrance,
                     OtherAddressInformation = user.Address.OtherAddressInformation,
-                }
-            };
+                };
+            }
 
             return userProfile;
         }

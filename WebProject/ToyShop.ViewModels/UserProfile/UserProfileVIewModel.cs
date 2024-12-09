@@ -32,6 +32,6 @@ namespace ToyShop.ViewModels.UserProfile
 
         [Display(Name = "Адрес")]
         [MaxLength(200, ErrorMessage = "Адресът не трябва да надвишава 200 символа.")]
-        public AddressViewModel Address { get; set; } = new AddressViewModel();
+        public AddressViewModel? Address { get; set; } = new AddressViewModel();
     }
 }

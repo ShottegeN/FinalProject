@@ -148,7 +148,7 @@ namespace ToyShop.Core.Services
 
             if (p == null)
             {
-                throw new ArgumentException("Невалидна операция");
+                throw new ArgumentException("Невалидна операция!");
             }
 
             var product = new UIProductViewModel
@@ -184,6 +184,8 @@ namespace ToyShop.Core.Services
                     ImageUrl = p.ImageUrl,
                     Quantity = p.Quantity,
                     Price = p.Price,
+                    Size = p.Size,
+                    ReleasedOn = p.ReleasedOn.ToString(),
                     GlobalCategory = p.GlobalCategory.ToString(),
                     Category = p.Category.Name,
                     DiscountPercentage = p.Promotion != null && p.Promotion.StartDate < DateTime.Now && p.Promotion.EndDate > DateTime.Now ? p.Promotion.DiscountPercentage : 0,
