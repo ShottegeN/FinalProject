@@ -27,7 +27,7 @@ namespace Toyshop.Tests
         }
 
         [Test]
-        public async Task TestCategories()
+        public async Task TestGetAllCategories()
         {
             int totalCategories = random.Next(20);
             int totalProduts = 0;

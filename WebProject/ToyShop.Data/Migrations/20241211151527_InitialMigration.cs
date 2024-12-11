@@ -41,38 +41,17 @@ namespace ToyShop.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Countries",
+                name: "Cities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key for the Country entity")
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key for the City entity")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Name of the country with a maximum length constraint"),
-                    ISOCode = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false, comment: "ISO code of the country with a maximum length constraint"),
-                    Currency = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Currency used in the country with a maximum length constraint"),
-                    PhoneCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true, comment: "Optional phone code of the country with a maximum length constraint"),
-                    Continent = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, comment: "Optional continent of the country with a maximum length constraint"),
-                    Region = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true, comment: "Optional region of the country with a maximum length constraint"),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: false, comment: "Indicates if the country is active")
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Name of the city with a maximum length constraint"),
+                    PostCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Post code of the city with a maximum length constraint")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Countries", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Coupons",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key for the Coupon entity")
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false, comment: "Unique code for the coupon with a maximum length constraint"),
-                    DiscountPercentage = table.Column<int>(type: "int", nullable: true, comment: "Optional discount percentage for the coupon"),
-                    DiscountValue = table.Column<decimal>(type: "money", nullable: true, comment: "Optional discount value for the coupon in monetary terms"),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: false, comment: "Indicates if the coupon is currently active")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Coupons", x => x.Id);
+                    table.PrimaryKey("PK_Cities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,61 +93,6 @@ namespace ToyShop.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false, comment: "Primary Key for the City entity")
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Name of the city with a maximum length constraint"),
-                    PostCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Post code of the city with a maximum length constraint"),
-                    CountryId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Country entity")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cities_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary Key for the Product entity"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Name of the product with a maximum length constraint"),
-                    Quantity = table.Column<int>(type: "int", nullable: false, comment: "Quantity of the product available in stock"),
-                    Price = table.Column<decimal>(type: "money", nullable: false, comment: "Price of the product in monetary terms"),
-                    Size = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Size of the product with a maximum length constraint"),
-                    ReleasedOn = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "The date when the product was released"),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Url of the product image"),
-                    GlobalCategory = table.Column<int>(type: "int", nullable: false, comment: "Global category of the product"),
-                    CategoryId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Category entity"),
-                    ShortDescription = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Short description of the product with a maximum length constraint"),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true, comment: "Optional detailed description of the product with a maximum length constraint"),
-                    PromotionId = table.Column<int>(type: "int", nullable: true, comment: "Optional foreign Key reference to the Promotion entity"),
-                    IsAvailable = table.Column<bool>(type: "bit", nullable: false, defaultValue: true, comment: "Indicates if the product is currently available for purchase")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Products_Promotions_PromotionId",
-                        column: x => x.PromotionId,
-                        principalTable: "Promotions",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Addresses",
                 columns: table => new
                 {
@@ -190,6 +114,40 @@ namespace ToyShop.Data.Migrations
                         principalTable: "Cities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary Key for the Product entity"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Name of the product with a maximum length constraint"),
+                    Quantity = table.Column<int>(type: "int", nullable: false, comment: "Quantity of the product available in stock"),
+                    Price = table.Column<decimal>(type: "money", nullable: false, comment: "Price of the product in monetary terms"),
+                    Size = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Size of the product with a maximum length constraint"),
+                    ReleasedOn = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "The date when the product was released"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true, comment: "Url of the product image"),
+                    GlobalCategory = table.Column<int>(type: "int", nullable: false, comment: "Global category of the product"),
+                    CategoryId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Category entity"),
+                    ShortDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false, comment: "Short description of the product with a maximum length constraint"),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true, comment: "Optional detailed description of the product with a maximum length constraint"),
+                    PromotionId = table.Column<int>(type: "int", nullable: true, comment: "Optional foreign Key reference to the Promotion entity"),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false, defaultValue: true, comment: "Indicates if the product is currently available for purchase")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_Promotions_PromotionId",
+                        column: x => x.PromotionId,
+                        principalTable: "Promotions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -318,14 +276,14 @@ namespace ToyShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary Key for the Order entity"),
-                    Number = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false, comment: "Unique order number with a maximum length constraint"),
+                    Number = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false, comment: "Unique order number with a maximum length constraint"),
                     Price = table.Column<decimal>(type: "money", nullable: false, comment: "Total price of the order in monetary terms"),
                     DeliveryPrice = table.Column<decimal>(type: "money", nullable: false, comment: "Delivery price associated with the order"),
+                    TotalPrice = table.Column<decimal>(type: "money", nullable: false, comment: "Total price including delivery price"),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Date when the order was placed"),
                     SendingDate = table.Column<DateTime>(type: "datetime2", nullable: true, comment: "Optional date when the order was sent"),
                     Status = table.Column<int>(type: "int", nullable: false, comment: "Current status of the order"),
                     AddressId = table.Column<int>(type: "int", nullable: false, comment: "Foreign Key reference to the Address entity for delivery"),
-                    CouponId = table.Column<int>(type: "int", nullable: true, comment: "Optional foreign Key reference to the Coupon entity"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the User entity who placed the order")
                 },
                 constraints: table =>
@@ -341,12 +299,6 @@ namespace ToyShop.Data.Migrations
                         name: "FK_Orders_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Orders_Coupons_CouponId",
-                        column: x => x.CouponId,
-                        principalTable: "Coupons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -379,19 +331,26 @@ namespace ToyShop.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShoppingCarts",
+                name: "UserProductShoppingCart",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary Key for the ShoppingCart entity"),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the User who owns the shopping cart")
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the User who owns the wishlist"),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Product in the wishlist"),
+                    BoughtQuantity = table.Column<int>(type: "int", nullable: false, comment: "Quantity of the bought products of same type")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
+                    table.PrimaryKey("PK_UserProductShoppingCart", x => new { x.UserId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_ShoppingCarts_AspNetUsers_UserId",
+                        name: "FK_UserProductShoppingCart_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserProductShoppingCart_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -424,9 +383,9 @@ namespace ToyShop.Data.Migrations
                 name: "OrderProduct",
                 columns: table => new
                 {
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Order entity"),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Product entity"),
-                    Quantity = table.Column<int>(type: "int", nullable: false, comment: "Quantity of the product in the order")
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Order"),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Product in the order"),
+                    BoughtQuantity = table.Column<int>(type: "int", nullable: false, comment: "Quantity of the bought products of same type")
                 },
                 constraints: table =>
                 {
@@ -441,30 +400,6 @@ namespace ToyShop.Data.Migrations
                         name: "FK_OrderProduct_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ShoppingCartProduct",
-                columns: table => new
-                {
-                    ShoppingCartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the ShoppingCart"),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign Key reference to the Product in the shopping cart")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ShoppingCartProduct", x => new { x.ShoppingCartId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_ShoppingCartProduct_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ShoppingCartProduct_ShoppingCarts_ShoppingCartId",
-                        column: x => x.ShoppingCartId,
-                        principalTable: "ShoppingCarts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -490,20 +425,20 @@ namespace ToyShop.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Countries",
-                columns: new[] { "Id", "Continent", "Currency", "ISOCode", "IsActive", "Name", "PhoneCode", "Region" },
-                values: new object[] { 1, "Европа", "BGN", "BG", true, "България", "+359", "Източна Европа" });
-
-            migrationBuilder.InsertData(
-                table: "Coupons",
-                columns: new[] { "Id", "Code", "DiscountPercentage", "DiscountValue" },
+                table: "Cities",
+                columns: new[] { "Id", "Name", "PostCode" },
                 values: new object[,]
                 {
-                    { 1, "XJ7K2H", 10, null },
-                    { 2, "YF8L3R", 0, 5m },
-                    { 3, "ZQ4M1T", 20, null },
-                    { 4, "PR9D7J", null, 10m },
-                    { 5, "BX3W5F", 50, null }
+                    { 1, "София", "1000" },
+                    { 2, "Пловдив", "4000" },
+                    { 3, "Варна", "9000" },
+                    { 4, "Бургас", "8000" },
+                    { 5, "Русе", "7000" },
+                    { 6, "Стара Загора", "6000" },
+                    { 7, "Плевен", "5800" },
+                    { 8, "Велико Търново", "5000" },
+                    { 9, "Благоевград", "2700" },
+                    { 10, "Шумен", "9700" }
                 });
 
             migrationBuilder.InsertData(
@@ -519,57 +454,11 @@ namespace ToyShop.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Cities",
-                columns: new[] { "Id", "CountryId", "Name", "PostCode" },
-                values: new object[,]
-                {
-                    { 1, 1, "София", "1000" },
-                    { 2, 1, "Пловдив", "4000" },
-                    { 3, 1, "Варна", "9000" },
-                    { 4, 1, "Бургас", "8000" },
-                    { 5, 1, "Русе", "7000" },
-                    { 6, 1, "Стара Загора", "6000" },
-                    { 7, 1, "Плевен", "5800" },
-                    { 8, 1, "Велико Търново", "5000" },
-                    { 9, 1, "Благоевград", "2700" },
-                    { 10, 1, "Шумен", "9700" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "CategoryId", "Description", "GlobalCategory", "ImageUrl", "IsAvailable", "Name", "Price", "PromotionId", "Quantity", "ReleasedOn", "ShortDescription", "Size" },
-                values: new object[,]
-                {
-                    { new Guid("0b37a7e1-a0f6-4779-b940-9ca7a66ca4d2"), 11, "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_04.jpg", true, "Средна кошница ", 40m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8368), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 30см в диаметър." },
-                    { new Guid("0c986610-ee4a-41b3-8592-3873b2a50df0"), 11, "Всяка кошница се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_02.jpg", true, "Малка кошница", 25m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8241), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 20см в диаметър." },
-                    { new Guid("288f13e3-beeb-4820-a186-779aedac7833"), 6, "Изработена е от плюшена хипоалергенна прежда, има си обезопасени очички и пълнеж на гранули.", 0, "img/products/unicorn_Polly.jpg", true, "Еднорог Поли", 45m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(7931), "Поли е сладък, шарен еднорог готов за игри и много гушкане!", "Височината е около 35см" },
-                    { new Guid("2be19dae-672c-413f-8fc8-57a35b5b64a8"), 10, "Всяка торта се изработва изцяло по желание на малкия рожденик и може да бъде използвана като част от празника в детската градина.", 3, "img/products/cake_Safari.jpg", true, "Торта Сафари", 15m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8150), "Тортата за всяко дете, любител на животни. Минималният брой парчета е 15.", "Размерът зависи от броят на парчетата." },
-                    { new Guid("3021a656-6a1c-4af2-84da-7277bd1749bc"), 12, "Времето навън все по-често ни напомня, че наближава зима, ❄️а какво по-хубаво от това през студените дни да се завиеш с пухкаво, меко и топло одеалце, а защо не и да подариш едно такова на малко сладурче?", 1, "img/products/blanket_01.jpg", true, "Плетено Одеало", 30m, 1, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(7792), "Одеалцето е изработено от пухкава плюшена прежда.", "Размер 90х90." },
-                    { new Guid("309e92b7-2f27-4d20-9cd9-8e8e019b40e4"), 11, "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_06.jpg", true, "Малка кошница", 25m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8278), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 20см в диаметър." },
-                    { new Guid("35ec4c02-db0e-4d97-a57c-c807a489f8a8"), 4, "Цялата декорация е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички. Вклюва ръчно изработено панерче, седем сладки яйчица и естествено едно пухкаво зайче.", 0, "img/products/rabbit_Easter.jpg", true, "Великденски Заек", 25m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8069), "Ето една сладка идея за подарък изненада за ваш близък, а защо не и за самите вас.", "Височината на цялата декорация е около 18см." },
-                    { new Guid("3d9754d7-1c13-4076-b8d1-95a8f890068a"), 4, "Лоли е ръчноизработена, като рокличката, обувчиците и лентата се свалят. Изработена е от плюшена прежда и пълна със силиконов гранулиран пух.", 0, "img/products/rabbit_Lollie.jpg", true, "Зайче Лоли", 40m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(7967), "Ето я и сладката Лоли, която е готова за щури игри.", "Лоли е висока около 35см." },
-                    { new Guid("58f1202a-c5a9-47b6-896c-56385ffc01e8"), 3, "Емблемата е бродирана и се заплаща допълнително спрямо размерите.", 0, "img/products/giraffe_Sammie.jpg", true, "Жирафче Сами", 45m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(7678), "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж.", "Висок е малко над 35см." },
-                    { new Guid("61bef995-40d8-43d0-a487-d0a9cb8d44c7"), 2, "Тези сладки мечета вече се радват на много гушкане и игри.", 0, "img/products/bear_Emma.jpg", true, "Мече Ема", 50m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(7836), "Това е мечето Ема, готово за предстоящите хладни дни.", "Височината е около 35см" },
-                    { new Guid("63323cf2-ce12-446f-a97d-d30c42860403"), 2, "Това сладко мече Дани вече се радва на много гушкане и игри.", 0, "img/products/bear_Danny.jpg", true, "Мече Дани", 55m, 1, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(7633), "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. ", "Височината е около 35см, без шапчицата." },
-                    { new Guid("8fb76896-ea67-4924-8e72-c5c75028fdaa"), 10, "Всяка торта се изработва изцяло по желание на малкия рожденик и може да бъде използвана като част от празника в детската градина.", 3, "img/products/cake_HarryPotter.jpg", true, "Торта Хари Потър", 15m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8110), "Само за истински, малки фенове на Хари Потър! Минималният брой парчета е 15.", "Размерът зависи от броят на парчетата." },
-                    { new Guid("91c9bc55-7c4f-4f1f-beb0-b337def3ede3"), 2, "Мечето Теди е изработено от плюшена прежда, обезапасени очички, носле и гранулиран пълнеж.", 0, "img/products/bear_Teddy.jpg", true, "Мече Теди", 30m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(7870), "Толкова е сладък, че ти идва да не спираш да го гушкаш.", "Височината е около 25см" },
-                    { new Guid("9c172912-0e71-40a5-928a-bb7bbbb8c3bf"), 1, "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.", 0, "img/products/deer_Ronnie.jpg", true, "Еленче Рони", 35m, 1, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(7452), "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж.", "Височината е около 35см." },
-                    { new Guid("a98960d0-b267-4f00-89d6-f4dd538ea2ff"), 11, "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_01.jpg", true, "Средна кошница ", 40m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8338), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 30см в диаметър." },
-                    { new Guid("b212fda7-b4ab-45a3-9b1a-833d8a9d10b9"), 10, "Всяка торта се изработва изцяло по желание на малкия рожденик и може да бъде използвана като част от празника в детската градина.", 3, "img/products/cake_Frozen.jpg", true, "Торта Фроузън", 15m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8182), "Тортата за малките госпожици, които харесват Елза и Анна . Минималният брой парчета е 15.", "Размерът зависи от броят на парчетата." },
-                    { new Guid("b5dbf3d9-30a4-41a7-b19f-a31994ff02e1"), 13, "Изработено е от плюшена прежда и е пълно със силиконов гранулиран пух.", 0, "img/products/avocado_1.jpg", true, "Плюшено Авокадо", 20m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8039), "Малко, симпатично авокадо.", "Височината е около 15см" },
-                    { new Guid("b669a264-0406-4953-b9ec-d7bbce7633a2"), 5, "Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!", 0, "img/products/dog_Bailey.jpg", true, "Кученце Бейли", 35m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(7750), "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички.", "Височината му е около 30см." },
-                    { new Guid("c4a2d615-a42b-4c0d-aba0-ab0ba84b208f"), 4, "Идеална е за игри и гушкане.", 0, "img/products/rabbit_Sophie.jpg", true, "Зайче Софи", 25m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(7716), "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички.", "Софи е висока около 24см." },
-                    { new Guid("d4e6beca-c6a0-41f5-a24b-6abc711ceb13"), 7, "Всеки от тях е изключително сладък, пухкав и гушлив. Изработени са от плюшена прежда и са пълни със силиконов гранулиран пух.", 0, "img/products/mouse_Jerry.jpg", true, "Мишле Джери", 35m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8003), "Това са малките мишоци, които изработваме съвсем отскоро.", "Височината им е около 25см" },
-                    { new Guid("e15ffdab-5401-42eb-aff6-c0c20455a65e"), 11, "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_05.jpg", true, "Малко панерче", 20m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8398), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 18см в диаметър." },
-                    { new Guid("e50adc6b-163a-4ba0-b9ad-a29402490a24"), 11, "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_03.jpg", true, "Малко панерче", 30m, null, 5, new DateTime(2024, 11, 26, 20, 56, 7, 548, DateTimeKind.Local).AddTicks(8309), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 18см в диаметър." }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Addresses",
                 columns: new[] { "Id", "BuildingNumber", "CityId", "Entrance", "Number", "OtherAddressInformation", "StreetName" },
                 values: new object[,]
                 {
-                    { 1, null, 1, "А", 12, "До НДК", "бул. Витоша" },
+                    { 1, null, 4, null, 23, "Адрес за лично вземане на поръчката.", "бул. Тракия" },
                     { 2, 2, 1, null, 45, "Срещу книжарницата", "ул. Цар Иван Асен II" },
                     { 3, 5, 2, "Б", 89, "До аптеката", "бул. Сливница" },
                     { 4, null, 3, "В", 7, "Близо до парка", "ул. Александровска" },
@@ -578,7 +467,37 @@ namespace ToyShop.Data.Migrations
                     { 7, 3, 1, null, 18, "Близо до пазара", "ул. Граф Игнатиев" },
                     { 8, null, 5, "Д", 33, "Срещу банката", "ул. Дунав" },
                     { 9, 4, 3, null, 50, "До търговския център", "бул. Левски" },
-                    { 10, null, 4, "Е", 99, "Близо до музея", "ул. Шипка" }
+                    { 10, null, 1, "А", 12, "До НДК", "бул. Витоша" },
+                    { 11, null, 4, "Е", 99, "Близо до музея", "ул. Шипка" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "CategoryId", "Description", "GlobalCategory", "ImageUrl", "IsAvailable", "Name", "Price", "PromotionId", "Quantity", "ReleasedOn", "ShortDescription", "Size" },
+                values: new object[,]
+                {
+                    { new Guid("0055c584-a113-427b-8048-e6efe22f4024"), 11, "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_05.jpg", true, "Малко панерче", 20m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(9150), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 18см в диаметър." },
+                    { new Guid("0f980264-c988-4034-9023-100d21468419"), 2, "Тези сладки мечета вече се радват на много гушкане и игри.", 0, "img/products/bear_Emma.jpg", true, "Мече Ема", 50m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8453), "Това е мечето Ема, готово за предстоящите хладни дни.", "Височината е около 35см" },
+                    { new Guid("17b8c22a-e415-4beb-be4d-91df8e3a52bc"), 1, "Това еленче Рони, все още е налично и участва в каузата на бебе Божидар в групата PavelAndreev.BG. Всеки, който иска да го притежава може да се включи в каузата и да помогне на малкия Божидар.", 0, "img/products/deer_Ronnie.jpg", true, "Еленче Рони", 35m, 1, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8111), "Изработено от плюшена прежда, обезопасени очички на винт и гранулиран пълнеж.", "Височината е около 35см." },
+                    { new Guid("1be45cb7-ed75-40a0-94c5-af2a94af3374"), 11, "Всяка кошница се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_02.jpg", true, "Малка кошница", 25m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8975), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 20см в диаметър." },
+                    { new Guid("2a364f25-3342-451b-95e6-2555d2f4cfb0"), 11, "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_01.jpg", true, "Средна кошница ", 40m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(9101), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 30см в диаметър." },
+                    { new Guid("2dfdb12c-9707-4b33-b4ab-c7daf533b527"), 10, "Всяка торта се изработва изцяло по желание на малкия рожденик и може да бъде използвана като част от празника в детската градина.", 3, "img/products/cake_Safari.jpg", true, "Торта Сафари", 15m, 5, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8918), "Тортата за всяко дете, любител на животни. Минималният брой парчета е 15.", "Размерът зависи от броят на парчетата." },
+                    { new Guid("303a1ac7-dbf8-4115-88d0-aa0c1b0b54ff"), 13, "Изработено е от плюшена прежда и е пълно със силиконов гранулиран пух.", 0, "img/products/avocado_1.jpg", true, "Плюшено Авокадо", 20m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8827), "Малко, симпатично авокадо.", "Височината е около 15см" },
+                    { new Guid("32d50802-baba-4797-ae5b-0c6dcb884f4d"), 11, "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_06.jpg", true, "Малка кошница", 25m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(9052), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 20см в диаметър." },
+                    { new Guid("3b47eb5e-38c1-4042-8e3b-7bd461c955ed"), 4, "Лоли е ръчноизработена, като рокличката, обувчиците и лентата се свалят. Изработена е от плюшена прежда и пълна със силиконов гранулиран пух.", 0, "img/products/rabbit_Lollie.jpg", true, "Зайче Лоли", 40m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8713), "Ето я и сладката Лоли, която е готова за щури игри.", "Лоли е висока около 35см." },
+                    { new Guid("4110351f-4391-4be3-a54b-4c8c66cd82ea"), 4, "Цялата декорация е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички. Вклюва ръчно изработено панерче, седем сладки яйчица и естествено едно пухкаво зайче.", 0, "img/products/rabbit_Easter.jpg", true, "Великденски Заек", 25m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8854), "Ето една сладка идея за подарък изненада за ваш близък, а защо не и за самите вас.", "Височината на цялата декорация е около 18см." },
+                    { new Guid("4aa9173d-2aad-4dd1-8b00-93ac451dee1b"), 5, "Ако си търсите четириног приятел, който да няма нужда от разходки в горещите летни дни, храна, водичка и редовни прегледи при чичо доктор- ето го вашето решение!", 0, "img/products/dog_Bailey.jpg", true, "Кученце Бейли", 35m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8384), "Бейли е изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички.", "Височината му е около 30см." },
+                    { new Guid("4ccb63fc-ed23-4c59-aa81-0ccfdb712c27"), 12, "Времето навън все по-често ни напомня, че наближава зима, ❄️а какво по-хубаво от това през студените дни да се завиеш с пухкаво, меко и топло одеалце, а защо не и да подариш едно такова на малко сладурче?", 1, "img/products/blanket_01.jpg", true, "Плетено Одеало", 30m, 1, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8419), "Одеалцето е изработено от пухкава плюшена прежда.", "Размер 90х90." },
+                    { new Guid("586f733e-8184-466f-974b-44df87cd613f"), 7, "Всеки от тях е изключително сладък, пухкав и гушлив. Изработени са от плюшена прежда и са пълни със силиконов гранулиран пух.", 0, "img/products/mouse_Jerry.jpg", true, "Мишле Джери", 35m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8786), "Това са малките мишоци, които изработваме съвсем отскоро.", "Височината им е около 25см" },
+                    { new Guid("63640081-9ec6-41e0-9bef-6de901d39964"), 10, "Всяка торта се изработва изцяло по желание на малкия рожденик и може да бъде използвана като част от празника в детската градина.", 3, "img/products/cake_Frozen.jpg", true, "Торта Фроузън", 15m, 5, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8945), "Тортата за малките госпожици, които харесват Елза и Анна . Минималният брой парчета е 15.", "Размерът зависи от броят на парчетата." },
+                    { new Guid("a83d21cc-f98b-4dda-96a9-253295f13685"), 6, "Изработена е от плюшена хипоалергенна прежда, има си обезопасени очички и пълнеж на гранули.", 0, "img/products/unicorn_Polly.jpg", true, "Еднорог Поли", 45m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8509), "Поли е сладък, шарен еднорог готов за игри и много гушкане!", "Височината е около 35см" },
+                    { new Guid("b609497f-bcc2-465a-8530-d2e113930088"), 10, "Всяка торта се изработва изцяло по желание на малкия рожденик и може да бъде използвана като част от празника в детската градина.", 3, "img/products/cake_HarryPotter.jpg", true, "Торта Хари Потър", 15m, 5, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8886), "Само за истински, малки фенове на Хари Потър! Минималният брой парчета е 15.", "Размерът зависи от броят на парчетата." },
+                    { new Guid("c071e3a8-24a4-41e9-8839-a3f2ca89d8ec"), 2, "Мечето Теди е изработено от плюшена прежда, обезапасени очички, носле и гранулиран пълнеж.", 0, "img/products/bear_Teddy.jpg", true, "Мече Теди", 30m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8480), "Толкова е сладък, че ти идва да не спираш да го гушкаш.", "Височината е около 25см" },
+                    { new Guid("c69a81dd-fe54-4370-b2ca-bd8bafc5cf4e"), 11, "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_04.jpg", true, "Средна кошница ", 40m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(9126), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 30см в диаметър." },
+                    { new Guid("c7cb7e9c-dfd1-40b1-9538-6dfb1bdaef3b"), 3, "Емблемата е бродирана и се заплаща допълнително спрямо размерите.", 0, "img/products/giraffe_Sammie.jpg", true, "Жирафче Сами", 45m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8326), "Сами е изработен е от плюшена прежда, обезопасени очички и гранулиран пълнеж.", "Висок е малко над 35см." },
+                    { new Guid("d22296b1-0f2e-4b05-9b3e-9289c2e9ff7c"), 11, "Всяка декорация се изработва изцяло по желание на клиента и може да бъде се използвана като декорация в дома или офиса.", 2, "img/products/decoration_03.jpg", true, "Малко панерче", 30m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(9077), "Красив и стилен подарък, дори с ограничен бюджет.", "Размерът e около 18см в диаметър." },
+                    { new Guid("dabce1d5-5228-4bdd-ab93-a5d420abce10"), 4, "Идеална е за игри и гушкане.", 0, "img/products/rabbit_Sophie.jpg", true, "Зайче Софи", 25m, null, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8357), "Софи изработена от плюшена прежда, гранулиран пълнеж и обезопасени носле и очички.", "Софи е висока около 24см." },
+                    { new Guid("fd1794e6-8df7-4cbf-9598-a60167eeceda"), 2, "Това сладко мече Дани вече се радва на много гушкане и игри.", 0, "img/products/bear_Danny.jpg", true, "Мече Дани", 55m, 1, 5, new DateTime(2024, 12, 11, 17, 15, 26, 595, DateTimeKind.Local).AddTicks(8291), "Това е мечето Дани, готово за предстоящите хладни дни с пухкава шапчица. ", "Височината е около 35см, без шапчицата." }
                 });
 
             migrationBuilder.CreateIndex(
@@ -638,11 +557,6 @@ namespace ToyShop.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cities_CountryId",
-                table: "Cities",
-                column: "CountryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OrderProduct_ProductId",
                 table: "OrderProduct",
                 column: "ProductId");
@@ -651,11 +565,6 @@ namespace ToyShop.Data.Migrations
                 name: "IX_Orders_AddressId",
                 table: "Orders",
                 column: "AddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_CouponId",
-                table: "Orders",
-                column: "CouponId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -683,14 +592,9 @@ namespace ToyShop.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCartProduct_ProductId",
-                table: "ShoppingCartProduct",
+                name: "IX_UserProductShoppingCart_ProductId",
+                table: "UserProductShoppingCart",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCarts_UserId",
-                table: "ShoppingCarts",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserProductWhishlist_ProductId",
@@ -723,7 +627,7 @@ namespace ToyShop.Data.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "ShoppingCartProduct");
+                name: "UserProductShoppingCart");
 
             migrationBuilder.DropTable(
                 name: "UserProductWhishlist");
@@ -735,13 +639,7 @@ namespace ToyShop.Data.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "ShoppingCarts");
-
-            migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "Coupons");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
@@ -757,9 +655,6 @@ namespace ToyShop.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cities");
-
-            migrationBuilder.DropTable(
-                name: "Countries");
         }
     }
 }

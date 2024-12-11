@@ -234,7 +234,15 @@ namespace ToyShop.Core.Services
 
         public async Task<User> GetUserAsync(Guid userId)
         {
-            return await userManager.FindByIdAsync(userId.ToString());
+
+            var user = await userManager.FindByIdAsync(userId.ToString());
+
+            if (user == null)
+            {
+                throw new ArgumentException("Невалидна операция!");
+            }
+
+            return user;
         }
 
     }
