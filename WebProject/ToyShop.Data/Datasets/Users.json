@@ -10,7 +10,8 @@
     "Age": 26,
     "AddressId": 2,
     "RegistrationDate": "2024-12-11T00:00:00",
-    "IsActive": true
+    "IsActive": true,
+    "PhoneNumber": "+359888123456"
   },
   {
     "Id": "ee0c4c57-4a1d-43b1-98ea-c9873f345613",
@@ -23,7 +24,8 @@
     "Age": 25,
     "AddressId": 4,
     "RegistrationDate": "2024-12-11T00:00:00",
-    "IsActive": true
+    "IsActive": true,
+    "PhoneNumber": "+359889234567"
   },
   {
     "Id": "d2b5a7cc-29d1-48d5-a8a7-0e854b9f31fc",
@@ -36,7 +38,8 @@
     "Age": 28,
     "AddressId": 5,
     "RegistrationDate": "2024-12-11T00:00:00",
-    "IsActive": true
+    "IsActive": true,
+    "PhoneNumber": "+359882345678"
   },
   {
     "Id": "32f4cc79-92a5-44b7-98f4-9c29534c2235",
@@ -49,7 +52,8 @@
     "Age": 22,
     "AddressId": 6,
     "RegistrationDate": "2024-12-11T00:00:00",
-    "IsActive": true
+    "IsActive": true,
+    "PhoneNumber": "+359883456789"
   },
   {
     "Id": "44a89fa3-94f0-4a27-8db4-0b4928f799fa",
@@ -62,7 +66,8 @@
     "Age": 29,
     "AddressId": 7,
     "RegistrationDate": "2024-12-11T00:00:00",
-    "IsActive": true
+    "IsActive": true,
+    "PhoneNumber": "+359884567890"
   },
   {
     "Id": "7bde34d8-1e3c-4a5b-8079-3f452c678423",
@@ -75,7 +80,8 @@
     "Age": 27,
     "AddressId": 8,
     "RegistrationDate": "2024-12-11T00:00:00",
-    "IsActive": true
+    "IsActive": true,
+    "PhoneNumber": "+359885678901"
   },
   {
     "Id": "0c7a2f58-3c94-49c8-a072-54f98a80b11e",
@@ -88,7 +94,8 @@
     "Age": 24,
     "AddressId": 9,
     "RegistrationDate": "2024-12-11T00:00:00",
-    "IsActive": true
+    "IsActive": true,
+    "PhoneNumber": "+359886789012"
   },
   {
     "Id": "ba912c69-f8e4-41c6-82a4-5e29d9a7cfe1",
@@ -101,6 +108,7 @@
     "Age": 26,
     "AddressId": 10,
     "RegistrationDate": "2024-12-11T00:00:00",
-    "IsActive": true
+    "IsActive": true,
+    "PhoneNumber": "+359887890123"
   }
 ]

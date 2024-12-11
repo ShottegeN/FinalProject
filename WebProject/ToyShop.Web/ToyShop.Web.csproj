@@ -52,7 +52,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Controllers\" />
-    <Folder Include="Areas\Identity\Pages\Account\Manage\" />
     <Folder Include="Areas\Identity\Views\" />
   </ItemGroup>
 

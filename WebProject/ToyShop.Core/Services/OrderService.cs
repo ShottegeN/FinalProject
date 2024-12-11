@@ -87,9 +87,20 @@ namespace ToyShop.Core.Services
                 .Include(a => a.City)
                 .FirstOrDefaultAsync();
 
+            List<ProductInfoViewModel> _products = new List<ProductInfoViewModel>();
+            foreach(var prod in products)
+            {
+                foreach(var usrpr in usersProducts)
+                {
+                    if (prod.Id == usrpr.ProductId)
+                        _products.Add(prod);
+                }
+            }
+
+
             var order = new OrderViewModel
             {
-                Products = products,
+                Products = _products,
                 DeliveryAddress = new AddressViewModel
                 {
                     StreetName = defaultAddress!.StreetName,

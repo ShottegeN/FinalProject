@@ -608,6 +608,13 @@ namespace ToyShop.Core.Services
                 {
                     productsQuery = productsQuery.Where(p => (int)p.GlobalCategory == int.Parse(filteringValue));
                 }
+                else
+                {
+                    var searchQuery = filterArray[1];
+
+                    productsQuery = productsQuery
+                        .Where(p => EF.Functions.Like(p.Name, "%" + searchQuery + "%"));
+                }
 
                 if (filterArray.Length > 2)
                 {

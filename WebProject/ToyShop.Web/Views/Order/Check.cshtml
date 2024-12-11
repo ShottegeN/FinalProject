@@ -2,103 +2,104 @@
     ViewData["Title"] = "Преглед на поръчката";
 }
 @model ToyShop.ViewModels.OrderViewModel
+@if (Model.Products.Any())
+{
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container py-4">
 
-<!-- SECTION -->
-<div class="section">
-    <!-- container -->
-    <div class="container py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>@ViewData["Title"]</h2>
+            </div>
+            <hr />
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>@ViewData["Title"]</h2>
-        </div>
-        <hr />
+            <form asp-controller="Order" asp-action="Finish" method="post" onsubmit="return confirmOrder();">
 
-        <form asp-controller="Order" asp-action="Finish" method="post" onsubmit="return confirmOrder();">
+                <!-- Order Details -->
+                <div class="row mb-4" style="margin-bottom: 3em;">
+                    <div class="col-md-12">
+                        <h5>Продукти</h5>
 
-            <!-- Order Details -->
-            <div class="row mb-4" style="margin-bottom: 3em;">
-                <div class="col-md-12">
-                    <h5>Продукти</h5>
+                        @for (int i = 0; i < Model.Products.Count(); i++)
+                        {
+                            var product = Model.Products[i];
+                            decimal currentPrice = product.DiscountPercentage > 0 ? product.PromotionalPrice : product.Price;
 
-                    @for (int i = 0; i < Model.Products.Count(); i++)
-                    {
-                        var product = Model.Products[i];
-                        decimal currentPrice = product.DiscountPercentage > 0 ? product.PromotionalPrice : product.Price;
-
-                        <div class="row align-items-center mb-4 py-3" style="border-bottom: 1px solid #ccc; padding: 1em;">
-                            <div class="col-md-2 text-center">
-                                @if (!string.IsNullOrEmpty(product.ImageUrl))
-                                {
-                                    if (product.ImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                            <div class="row align-items-center mb-4 py-3" style="border-bottom: 1px solid #ccc; padding: 1em;">
+                                <div class="col-md-2 text-center">
+                                    @if (!string.IsNullOrEmpty(product.ImageUrl))
                                     {
-                                        <img src="@product.ImageUrl" class="img-fluid" style="max-width: 80%; height: auto;" alt="@product.ProductName" />
+                                        if (product.ImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <img src="@product.ImageUrl" class="img-fluid" style="max-width: 80%; height: auto;" alt="@product.ProductName" />
+                                        }
+                                        else
+                                        {
+                                            <img src="/@product.ImageUrl" class="img-fluid" style="max-width: 80%; height: auto;" alt="@product.ProductName" />
+                                        }
                                     }
                                     else
                                     {
-                                        <img src="/@product.ImageUrl" class="img-fluid" style="max-width: 80%; height: auto;" alt="@product.ProductName" />
+                                        <img src="/img/no_img.png" class="img-fluid" style="max-width: 80%; height: auto;" alt="No Image Available" />
                                     }
-                                }
-                                else
-                                {
-                                    <img src="/img/no_img.png" class="img-fluid" style="max-width: 80%; height: auto;" alt="No Image Available" />
-                                }
+                                </div>
+                                <div class="col-md-2 text-start">
+                                    <h5 class="mb-0">@product.ProductName</h5>
+                                </div>
+                                <div class="col-md-2 text">
+                                    <h5 class="mb-0">
+                                        @if (product.DiscountPercentage > 0)
+                                        {
+                                            var cultureInfo = System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG");
+                                            <span class="product-old-price" style="text-decoration: line-through; color: #888;">
+                                                @String.Format(cultureInfo, "{0:C}", product.Price)
+                                            </span>
+                                            <br />
+                                            <span class="product-promotional-price" style="color: red;">
+                                                @String.Format(cultureInfo, "{0:C}", product.PromotionalPrice)
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>@product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span>
+                                        }
+                                    </h5>
+                                </div>
+                                <div class="col-md-2 text-start">
+                                    <h5 class="mb-0">
+                                        <input type="text" value="@product.BoughtQuantity" class="form-control" style="width: 50px;" readonly />
+                                    </h5>
+                                </div>
                             </div>
-                            <div class="col-md-2 text-start">
-                                <h5 class="mb-0">@product.ProductName</h5>
-                            </div>
-                            <div class="col-md-2 text">
-                                <h5 class="mb-0">
-                                    @if (product.DiscountPercentage > 0)
-                                    {
-                                        var cultureInfo = System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG");
-                                        <span class="product-old-price" style="text-decoration: line-through; color: #888;">
-                                            @String.Format(cultureInfo, "{0:C}", product.Price)
-                                        </span>
-                                        <br />
-                                        <span class="product-promotional-price" style="color: red;">
-                                            @String.Format(cultureInfo, "{0:C}", product.PromotionalPrice)
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span>@product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span>
-                                    }
-                                </h5>
-                            </div>
-                            <div class="col-md-2 text-start">
-                                <h5 class="mb-0">
-                                    <input type="text" value="@product.BoughtQuantity" class="form-control" style="width: 50px;" readonly />
-                                </h5>
-                            </div>
+
+                            <!-- Hidden inputs for posting ProductInfoViewModel -->
+                            <input type="hidden" asp-for="Products[@i].Id" />
+                            <input type="hidden" asp-for="Products[@i].ProductName" />
+                            <input type="hidden" asp-for="Products[@i].Price" />
+                            <input type="hidden" asp-for="Products[@i].PromotionalPrice" />
+                            <input type="hidden" asp-for="Products[@i].DiscountPercentage" />
+                            <input type="hidden" asp-for="Products[@i].Quantity" />
+                            <input type="hidden" asp-for="Products[@i].BoughtQuantity" />
+                            <input type="hidden" asp-for="Products[@i].ImageUrl" />
+                        }
+                    </div>
+                </div>
+
+                <!-- Delivery Address Section -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-group mt-2">
+                            <label for="deliveryType">Тип на доставка</label>
+                            <select id="deliveryType" name="DeliveryType" class="form-control" asp-for="DeliveryType">
+                                <option value="Лично вземане" selected>Лично вземане</option>
+                                <option value="До адрес">До адрес</option>
+                                <option value="До офис на куриер">До офис на куриер</option>
+                            </select>
+                            <span asp-validation-for="DeliveryType" class="text-danger"></span>
                         </div>
 
-                        <!-- Hidden inputs for posting ProductInfoViewModel -->
-                        <input type="hidden" asp-for="Products[@i].Id" />
-                        <input type="hidden" asp-for="Products[@i].ProductName" />
-                        <input type="hidden" asp-for="Products[@i].Price" />
-                        <input type="hidden" asp-for="Products[@i].PromotionalPrice" />
-                        <input type="hidden" asp-for="Products[@i].DiscountPercentage" />
-                        <input type="hidden" asp-for="Products[@i].Quantity" />
-                        <input type="hidden" asp-for="Products[@i].BoughtQuantity" />
-                        <input type="hidden" asp-for="Products[@i].ImageUrl" />
-                    }
-                </div>
-            </div>
 
-            <!-- Delivery Address Section -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="form-group mt-2">
-                        <label for="deliveryType">Тип на доставка</label>
-                        <select id="deliveryType" name="DeliveryType" class="form-control" asp-for="DeliveryType">
-                            <option value="Лично вземане" selected>Лично вземане</option>
-                            <option value="До адрес">До адрес</option>
-                            <option value="До офис на куриер">До офис на куриер</option>
-                        </select>
-                        <span asp-validation-for="DeliveryType" class="text-danger"></span>
-                    </div>
-
-                   
                         <div class="delivery-address">
                             <h5>Адрес за доставка</h5>
 
@@ -144,37 +145,39 @@
                                 <span asp-validation-for="DeliveryAddress.OtherAddressInformation" class="text-danger"></span>
                             </div>
                         </div>
-                    
-                </div>
 
-                <div class="col-md-6">
-                    <h3>Общо</h3>
-                    <p><strong>Цена на поръчката:</strong> <span id="price">@Model.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span></p>
-                    <p><strong>Доставка:</strong> <span id="deliveryCost">Безплатна</span></p>
-                    <p>
-                        <strong>Крайна цена:</strong>
-                        <span id="finalPrice">@Model.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span>
-                    </p>
+                    </div>
 
-                    <!-- Hidden inputs for Price, DeliveryPrice, and TotalPrice -->
-                    <input type="hidden" id="hiddenPrice" name="Price" value="@Model.Price" />
-                    <input type="hidden" id="hiddenDeliveryPrice" name="DeliveryPrice" value="0.00" />
-                    <input type="hidden" id="hiddenTotalPrice" name="TotalPrice" value="@Model.TotalPrice" />
+                    <div class="col-md-6">
+                        <h3>Общо</h3>
+                        <p><strong>Цена на поръчката:</strong> <span id="price">@Model.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span></p>
+                        <p><strong>Доставка:</strong> <span id="deliveryCost">Безплатна</span></p>
+                        <p>
+                            <strong>Крайна цена:</strong>
+                            <span id="finalPrice">@Model.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</span>
+                        </p>
 
-                    <!-- Buttons -->
-                    <div class="d-flex justify-content-between">
-                        <a href="javascript:window.history.back();" class="btn btn-warning">Назад</a>
-                        <button type="submit" class="btn btn-danger">Финализирай поръчка</button>
+                        <!-- Hidden inputs for Price, DeliveryPrice, and TotalPrice -->
+                        <input type="hidden" id="hiddenPrice" name="Price" value="@Model.Price" />
+                        <input type="hidden" id="hiddenDeliveryPrice" name="DeliveryPrice" value="0.00" />
+                        <input type="hidden" id="hiddenTotalPrice" name="TotalPrice" value="@Model.TotalPrice" />
+
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a href="javascript:window.history.back();" class="btn btn-warning">Назад</a>
+                            <button type="submit" class="btn btn-danger">Финализирай поръчка</button>
+                        </div>
+
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
+        </div>
+        <!-- container -->
     </div>
-    <!-- container -->
-</div>
-<!-- SECTION -->
-
+    <!-- SECTION -->
+}
 <script src="~/js/check-order.js"></script>
 <script src="~/js/default-addres.js"></script>
 <script>

@@ -35,29 +35,7 @@
                     </div>
                     <button id="registerSubmit" type="submit" class="w-100 btn btn-primary" style="margin-top: 1em;"> Регистрация</button>
                 </form>
-            </div>
-            <div class="col-md-6 offset-md-1">
-                <section class="p-4 border rounded shadow-sm">
-                    <h3 class="mb-4">Използвайте друга услуга за регистрация.</h3>
-                    @if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                    {
-                        <div class="alert alert-warning">
-                            <p>
-                                Няма конфигурирани външни услуги за удостоверяване. Вижте тази <a href="https://go.microsoft.com/fwlink/?LinkID=532715">статия</a> за това как да настроите това ASP.NET приложение за поддръжка на влизане чрез външни услуги.
-                            </p>
-                        </div>
-                    }
-                    else
-                    {
-                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="d-grid gap-3">
-                            @foreach (var provider in Model.ExternalLogins!)
-                            {
-                                <button type="submit" class="btn btn-outline-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                            }
-                        </form>
-                    }
-                </section>
-            </div>
+            </div>            
         </div>
     </div>
     <!-- /container -->

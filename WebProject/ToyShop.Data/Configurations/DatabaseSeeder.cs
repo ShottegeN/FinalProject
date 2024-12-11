@@ -52,6 +52,7 @@ public static class DatabaseSeeder
                         FirstName = userData.FirstName,
                         LastName = userData.LastName,
                         Age = userData.Age,
+                        PhoneNumber = userData.PhoneNumber,
                         AddressId = userData.AddressId,
                         EmailConfirmed = true,
                         RegistrationDate = DateTime.Now,  // Set the registration date to now or as per your requirement
@@ -98,5 +99,8 @@ public static class DatabaseSeeder
         public string LastName { get; set; } = null!;
         public int Age { get; set; }
         public int AddressId { get; set; }
+        public string PhoneNumber { get; set; } = null!;  // Add this line
+        public DateTime RegistrationDate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

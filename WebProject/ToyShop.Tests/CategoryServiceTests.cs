@@ -1,5 +1,6 @@
 ﻿using ToyShop.Core.Contracts;
 using Moq;
+using MockQueryable;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
 
@@ -11,7 +12,7 @@ namespace Toyshop.Tests
 
         Mock<IRepository> mockRepo;
         CategoryService categoryServiceTest;
-        List<Category> categories;
+        IList<Category> categories;
 
         void AddTestCategory(int id, string name, int productsCnt) 
         {
@@ -40,10 +41,9 @@ namespace Toyshop.Tests
 
                 AddTestCategory(groupId, "Group_" + groupId, products);
             }
-            
 
-            var asyncCategories = new TestAsyncEnumerable<Category>(categories.AsQueryable());
-            mockRepo.Setup(r => r.AllReadonlyAsync<Category>()).Returns(asyncCategories.AsQueryable());
+            IQueryable<Category> mockCategories = categories.BuildMock();
+            mockRepo.Setup(r => r.AllReadonlyAsync<Category>()).Returns(mockCategories.AsQueryable());
             var result = await categoryServiceTest.GetAllCategoriesAsync();
 
             Assert.NotNull(result);
