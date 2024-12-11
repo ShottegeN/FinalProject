@@ -7,7 +7,7 @@ using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class OrderController : Controller
     {
         private readonly IOrderService orderService;

@@ -28,10 +28,10 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
     ConfigureIdentity(builder, options);
 })
     .AddRoles<IdentityRole<Guid>>()
-    .AddEntityFrameworkStores<ToyShopDbContext>()
     .AddSignInManager<SignInManager<User>>()
     .AddUserManager<UserManager<User>>()
     .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ToyShopDbContext>()
     .AddTokenProvider<DataProtectorTokenProvider<User>>("Default");
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -88,7 +88,7 @@ app.Use((context, next) =>
 {
     if (context.User.Identity?.IsAuthenticated == true && context.Request.Path == "/")
     {
-        if (context.User.IsInRole("Administrator"))
+        if (context.User.IsInRole("Administrator") || context.User.IsInRole("Moderator"))
         {
             context.Response.Redirect("/Admin/Home/Index");
             return Task.CompletedTask;

@@ -1,14 +1,11 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Core.Contracts;
-using ToyShop.Core.Services;
-using ToyShop.Data.Common;
-using ToyShop.ViewModels;
+using ToyShop.Data.Models;
 
 namespace ToyShop.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class CartController : Controller
     {
         private readonly ILogger<CartController> logger;
@@ -25,10 +22,10 @@ namespace ToyShop.Web.Controllers
         {
             Guid? userId = GetCurrentUserId();
 
-            if (!userId.HasValue)
-            {
-                return Redirect("/Identity/Account/Login");
-            }
+            //if (!userId.HasValue)
+            //{
+            //    return Redirect("/Identity/Account/Login");
+            //}           
 
             try
             {
@@ -96,7 +93,7 @@ namespace ToyShop.Web.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            
+
             try
             {
                 await productService.UpdateProductQuantityAsync(userId.Value, productId, quantity);
@@ -112,11 +109,11 @@ namespace ToyShop.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCartItemCount()
         {
-            Guid? userId = GetCurrentUserId();  
+            Guid? userId = GetCurrentUserId();
 
             if (!userId.HasValue)
             {
-                return Json(0);  
+                return Json(0);
             }
 
             try

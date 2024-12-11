@@ -6,7 +6,6 @@ using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
 {
-    [Authorize]
     public class StoreController : Controller
     {
         private readonly ILogger<StoreController> logger;

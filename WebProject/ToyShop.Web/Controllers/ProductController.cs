@@ -6,8 +6,7 @@ using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
 {
-    [Authorize]
-    [Authorize(Roles = "Administrator, Moderator")]
+    [Authorize(Roles = "User")]    
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> logger;
@@ -23,6 +22,7 @@ namespace ToyShop.Web.Controllers
             promotionService = _promotionService;
         }
 
+        [Authorize(Roles = "Administrator, Moderator")]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -51,6 +51,7 @@ namespace ToyShop.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator, Moderator")]
         [HttpPost]
         public async Task<IActionResult> Add(AddOrEditProductViewModel productViewModel, string? newCategoryName)
         {
@@ -79,6 +80,7 @@ namespace ToyShop.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles = "Administrator, Moderator")]
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -100,6 +102,7 @@ namespace ToyShop.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator, Moderator")]
         [HttpPost]
         public async Task<IActionResult> Edit(AddOrEditProductViewModel productViewModel, string? newCategoryName)
         {
@@ -165,7 +168,7 @@ namespace ToyShop.Web.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Administrator, Moderator")]
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -183,6 +186,7 @@ namespace ToyShop.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator, Moderator")]
         [HttpPost]
         public async Task<IActionResult> Delete(ProductInfoViewModel product)
         {

@@ -149,22 +149,11 @@
                 <li><a asp-area="" asp-controller="Store" asp-action="Index">Продукти</a></li>
                 <li><a href="@Url.Action("Index", "Store", new { filter = "promotion-all" })">Промоции</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Contacts">Контакти</a></li>
-                @if (User?.Identity.IsAuthenticated == true)
-                {
-                    <li><a asp-area="" asp-controller="Order" asp-action="Index">Моите поръчки</a></li>
-                }
+                <li><a asp-area="" asp-controller="Order" asp-action="Index">Поръчки</a></li>
                 <!-- Admin/Moderator only -->
                 @if (User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
                 {
-                    <li class="dropdown">
-                        <a href="#" id="admin-dropdown-link">Админ <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown-menu" id="admin-dropdown-menu" style="display: none;">
-                            <li><a href="Admin/Home/Index">Админ панел</a></li>
-                            <li><a href="/Product/Add"><i class="fas fa-plus-circle"></i> Продукт</a></li>
-                            <li><a href="/Promotion/Index">Промоции</a></li>
-                            <li><a href="/Order/Index">Поръчки</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="Admin/Home/Index">Админ</a></li>
                 }
             </ul>
 
@@ -254,7 +243,7 @@
                                 <li><a href="#">Моят профил</a></li>
                                 <li><a asp-action="Index" asp-controller="Cart">Количка</a></li>
                                 <li><a asp-action="Whishlist" asp-controller="Product">Любими</a></li>
-                                <li><a asp-action="Index" asp-controller="Order">Провери поръчка</a></li>
+                                <li><a asp-action="Index" asp-controller="Order">Поръчки</a></li>
                             </ul>
                         </div>
                     </div>
@@ -302,7 +291,6 @@
     <script src="~/js/main.js"></script>
     <script src="~/js/site.js"></script> <!-- Ensure your site.js is loaded after jQuery and plugins -->
     <script src="~/js/searchBar.js"></script>
-    <script src="~/js/admin-dropdown.js"></script>
     <!-- Optional: Countdown Script if you want to render countdowns on the page -->
     <!-- Section for additional scripts -->
     @await RenderSectionAsync("Scripts", required: false)

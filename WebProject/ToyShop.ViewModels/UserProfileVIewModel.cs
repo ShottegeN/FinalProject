@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static ToyShop.Common.EntityConstraints.UserConstraints;
 
-namespace ToyShop.ViewModels.UserProfile
+namespace ToyShop.ViewModels
 {
     public class UserProfileViewModel
     {
@@ -31,7 +31,6 @@ namespace ToyShop.ViewModels.UserProfile
         public string Email { get; set; } = string.Empty;
 
         [Display(Name = "Адрес")]
-        [MaxLength(200, ErrorMessage = "Адресът не трябва да надвишава 200 символа.")]
         public AddressViewModel? Address { get; set; } = new AddressViewModel();
     }
 }

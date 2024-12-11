@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
-using ToyShop.ViewModels.UserProfile;
+using ToyShop.ViewModels;
 using ToyShop.Web.Areas.Admin.ViewModels;
 
 namespace ToyShop.Core.Services
@@ -161,6 +161,74 @@ namespace ToyShop.Core.Services
             }
 
             return userProfile;
+        }
+
+        public async Task SaveUserProfileAsync(UserProfileViewModel userProfile)
+        {
+            var user = await userManager.FindByIdAsync(userProfile.Id.ToString());
+
+            if (user == null)
+            {
+                throw new ArgumentException("Невалидна операция!");
+            }
+
+            user.FirstName = userProfile.FirstName;
+            user.LastName = userProfile.LastName;
+            user.Age = int.Parse(userProfile.Age);
+            user.Email = userProfile.Email;
+            user.NormalizedEmail = userProfile.Email.ToUpperInvariant();
+            user.UserName = userProfile.Email;
+            user.NormalizedUserName = user.Email.ToUpperInvariant();
+            user.PhoneNumber = userProfile.PhoneNumber;            
+
+            if (userProfile.Address == null)
+            {
+                throw new ArgumentException("Невалидна операция!");
+            }
+
+            var address = await repo.AllReadonlyAsync<Address>()
+                .Include(a => a.City)
+                .Where(a => a.City.Name.ToLower() == userProfile.Address.CityName.ToLower())
+                .Where(a => a.City.PostCode == userProfile.Address.PostCode)
+                .Where(a => a.StreetName.ToLower() == userProfile.Address.StreetName.ToLower())
+                .Where(a => a.Number == userProfile.Address.Number)
+                .FirstOrDefaultAsync();
+
+            if (address == null)
+            {
+                var city = await repo.AllReadonlyAsync<City>()
+                    .Where(c => c.Name.ToLower() == userProfile.Address.CityName.ToLower())
+                    .Where(a => a.PostCode == userProfile.Address.PostCode)
+                    .FirstOrDefaultAsync();
+
+                if (city == null)
+                {
+                    city = new City
+                    {
+                        Name = userProfile.Address.CityName,
+                        PostCode = userProfile.Address.PostCode,
+                    };
+
+                    await repo.AddAsync(city);
+                    await repo.SaveChangesAsync();
+                }
+                address = new Address
+                {
+                    StreetName = userProfile.Address.StreetName,
+                    Number = userProfile.Address.Number,
+                    City = city,
+                    BuildingNumber = userProfile.Address.BuildingNumber,
+                    Entrance = userProfile.Address.Entrance,
+                    OtherAddressInformation = userProfile.Address.OtherAddressInformation,
+                };
+
+                await repo.AddAsync(address);
+                await repo.SaveChangesAsync();
+            }
+
+            user.Address = address;
+
+            await userManager.UpdateAsync(user);
         }
     }
 }
