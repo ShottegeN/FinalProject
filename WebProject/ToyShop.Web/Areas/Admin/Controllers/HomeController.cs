@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ToyShop.Web.Areas.Admin
+namespace ToyShop.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Administrator, Moderator")]
@@ -11,6 +11,6 @@ namespace ToyShop.Web.Areas.Admin
         public IActionResult Index()
         {
             return View();
-        }       
+        }
     }
 }

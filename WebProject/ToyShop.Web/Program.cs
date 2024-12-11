@@ -28,16 +28,16 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
     ConfigureIdentity(builder, options);
 })
     .AddRoles<IdentityRole<Guid>>()
+    .AddEntityFrameworkStores<ToyShopDbContext>()
     .AddSignInManager<SignInManager<User>>()
     .AddUserManager<UserManager<User>>()
     .AddDefaultTokenProviders()
-    .AddEntityFrameworkStores<ToyShopDbContext>()
     .AddTokenProvider<DataProtectorTokenProvider<User>>("Default");
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Identity/Account/Login";  // Customize the login path
-    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Customize the access denied path    
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
 
 // NOT IMPLEMENTED!

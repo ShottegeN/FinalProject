@@ -70,7 +70,7 @@
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form method="get" action="@Url.Action("Index", "Store")">
+                            <form asp-area="" asp-controller="Store" asp-action="Index" method="get">
                                 <!-- Category Select -->
                                 <select class="input-select" name="globalCategory">
                                     <option value="all">Всички</option>
@@ -100,7 +100,7 @@
                             {
                                 <!-- Wishlist (only visible for logged-in users) -->
                                 <div>
-                                    <a asp-controller="Product" asp-action="Whishlist">
+                                    <a asp-area="" asp-controller="Product" asp-action="Whishlist">
                                         <i class="fa fa-heart" style="color: black;"></i>
                                         <span style="color: black;">Любими</span>
                                         <div class="qty fav">0</div>
@@ -109,7 +109,7 @@
                                 <!-- /Wishlist -->
                                 <!-- Cart (only visible for logged-in users) -->
                                 <div>
-                                    <a asp-controller="Cart" asp-action="Index">
+                                    <a asp-area="" asp-controller="Cart" asp-action="Index">
                                         <i class="fa fa-shopping-cart" style="color: black;"></i>
                                         <span style="color: black;">Количка</span>
                                         <div class="qty cart">0</div>
@@ -147,13 +147,13 @@
             <ul class="main-nav nav navbar-nav">
                 <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
                 <li><a asp-area="" asp-controller="Store" asp-action="Index">Продукти</a></li>
-                <li><a href="@Url.Action("Index", "Store", new { filter = "promotion-all" })">Промоции</a></li>
+                <li><a asp-area="" asp-controller="Store" asp-action="Index" asp-route-filter="promotion-all">Промоции</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Contacts">Контакти</a></li>
                 <li><a asp-area="" asp-controller="Order" asp-action="Index">Поръчки</a></li>
                 <!-- Admin/Moderator only -->
                 @if (User?.IsInRole("Administrator") == true || User?.IsInRole("Moderator") == true)
                 {
-                    <li><a href="Admin/Home/Index">Админ</a></li>
+                    <li><a asp-area="Admin" asp-controller="Home" asp-action="Index">Админ</a></li>
                 }
             </ul>
 
@@ -290,7 +290,7 @@
     <!-- Your custom scripts -->
     <script src="~/js/main.js"></script>
     <script src="~/js/site.js"></script> <!-- Ensure your site.js is loaded after jQuery and plugins -->
-    <script src="~/js/searchBar.js"></script>
+    <script src="~/js/search-bar.js"></script>
     <!-- Optional: Countdown Script if you want to render countdowns on the page -->
     <!-- Section for additional scripts -->
     @await RenderSectionAsync("Scripts", required: false)

@@ -437,12 +437,12 @@ namespace ToyShop.Core.Services
                 })
                 .ToListAsync();
 
-            if (!products.Any())
+            if (products.Any())
             {
-                throw new ArgumentException("Невалидна операция!");
+                CalculatePromotionalPrice(products);
             }
 
-            CalculatePromotionalPrice(products);
+            
 
             return products;
         }

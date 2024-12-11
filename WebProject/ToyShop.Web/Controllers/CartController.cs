@@ -22,10 +22,10 @@ namespace ToyShop.Web.Controllers
         {
             Guid? userId = GetCurrentUserId();
 
-            //if (!userId.HasValue)
-            //{
-            //    return Redirect("/Identity/Account/Login");
-            //}           
+            if (!userId.HasValue)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
 
             try
             {
@@ -106,6 +106,7 @@ namespace ToyShop.Web.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCartItemCount()
         {

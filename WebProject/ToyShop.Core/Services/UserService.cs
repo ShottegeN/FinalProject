@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ToyShop.Common;
 using ToyShop.Core.Contracts;
 using ToyShop.Data.Common;
 using ToyShop.Data.Models;
@@ -10,7 +11,7 @@ namespace ToyShop.Core.Services
 {
     public class UserService : IUserService
     {
-        private readonly UserManager<User> userManager;
+        private readonly UserManager<User> userManager;       
         private readonly RoleManager<IdentityRole<Guid>> roleManager;
         private readonly IRepository repo;
 
@@ -169,7 +170,7 @@ namespace ToyShop.Core.Services
 
             if (user == null)
             {
-                throw new ArgumentException("Невалидна операция!");
+                throw new CustomException("Невалидна операция!", String.Empty);
             }
 
             user.FirstName = userProfile.FirstName;
@@ -216,7 +217,7 @@ namespace ToyShop.Core.Services
                 {
                     StreetName = userProfile.Address.StreetName,
                     Number = userProfile.Address.Number,
-                    City = city,
+                    CityId = city.Id,
                     BuildingNumber = userProfile.Address.BuildingNumber,
                     Entrance = userProfile.Address.Entrance,
                     OtherAddressInformation = userProfile.Address.OtherAddressInformation,
@@ -230,5 +231,11 @@ namespace ToyShop.Core.Services
 
             await userManager.UpdateAsync(user);
         }
+
+        public async Task<User> GetUserAsync(Guid userId)
+        {
+            return await userManager.FindByIdAsync(userId.ToString());
+        }
+
     }
 }

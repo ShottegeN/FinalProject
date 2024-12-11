@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using ToyShop.Core.Contracts;
 
-namespace ToyShop.Web.Areas.Admin
+namespace ToyShop.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Administrator")]
     public class UserManagementController : Controller
     {
-        private readonly IUserService userService;        
+        private readonly IUserService userService;
 
         public UserManagementController(IUserService _userService)
         {
@@ -26,7 +26,7 @@ namespace ToyShop.Web.Areas.Admin
             {
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Error", "Home");
-            }            
+            }
         }
 
         [HttpPost]
@@ -111,7 +111,7 @@ namespace ToyShop.Web.Areas.Admin
         private bool IsGuidValid(string? id, ref Guid parsedGuid)
         {
             // Non-existing parameter in the URL
-            if (String.IsNullOrWhiteSpace(id))
+            if (string.IsNullOrWhiteSpace(id))
             {
                 return false;
             }

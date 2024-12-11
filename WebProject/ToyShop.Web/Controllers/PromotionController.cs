@@ -8,7 +8,7 @@ using ToyShop.ViewModels;
 
 namespace ToyShop.Web.Controllers
 {
-    [Authorize(Roles = "Administrator, Moderator")]
+    //[Authorize(Roles = "Administrator, Moderator")]
     public class PromotionController : Controller
     {
         private readonly IPromotionService promotionService;

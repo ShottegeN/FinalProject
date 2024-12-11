@@ -5,8 +5,7 @@
     ViewData["Title"] = "Редактиране на профил";
 }
 
-<form asp-area="Identity" asp-controller="UserProfile" asp-action="SaveProfile" method="post">
-    @Html.AntiForgeryToken()
+<form asp-area="" asp-controller="UserProfile" asp-action="SaveProfile" method="post">
     <div class="section">
         <!-- container -->
         <div class="container py-4">
