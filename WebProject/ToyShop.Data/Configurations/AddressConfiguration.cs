@@ -12,12 +12,12 @@ namespace ToyShop.Data.Configurations
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Datasets", "Addresses.json");
 
             string data = File.ReadAllText(path);
-            var cinemas = JsonSerializer.Deserialize<List<Address>>(data);
+            var addresses = JsonSerializer.Deserialize<List<Address>>(data);
 
-            if (cinemas != null)
+            if (addresses != null)
             {
                 builder
-                .HasData(cinemas);
+                .HasData(addresses);
             }
         }
     }
