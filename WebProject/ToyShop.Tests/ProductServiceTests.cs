@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moq;
+using MockQueryable;
 using Toyshop.Tests;
 using ToyShop.Core.Services;
 using ToyShop.Data.Common;
@@ -16,20 +17,17 @@ namespace ToyShop.Tests
 
         Mock<IRepository> mockRepo;
         ProductService productServiceTest;
-        List<Product> products;
+        IList<Product> products;
 
         List<Category> SetupCategories(int cnt)
         {
             return Enumerable.Range(0, cnt).Select(i => new Category { Id = i, Name = $"Category_{i}" }).ToList();
         }
-        List<User> SetupUsers(int cnt)
+
+        IList<User> SetupUsers(int cnt)
         {
             return Enumerable.Range(0, cnt) .Select(i => new User()) .ToList();
         }
-        //Enumerable<User> SetupUsers(Guid userID, Product product)
-        //{
-        //    return Enumerable.Range(0, cnt).Select(i => new User());
-        //}
 
         [SetUp]
         public void Setup()
@@ -50,8 +48,8 @@ namespace ToyShop.Tests
                 products.Add(prod);
             }
 
-            var asyncProducts = new TestAsyncEnumerable<Product>(products.AsQueryable());
-            mockRepo.Setup(r => r.AllReadonlyAsync<Product>()).Returns(asyncProducts.AsQueryable());
+            IQueryable<Product> mockCategories = products.BuildMock();
+            mockRepo.Setup(r => r.AllReadonlyAsync<Product>()).Returns(mockCategories);
 
             foreach (var prod in products)
             {
@@ -73,8 +71,8 @@ namespace ToyShop.Tests
                 products.Add(new Product() { Name = "Product_" + i, GlobalCategory = category });
             }
 
-            var asyncProducts = new TestAsyncEnumerable<Product>(products.AsQueryable());
-            mockRepo.Setup(r => r.GetByIdAsync<Product>(It.IsAny<Guid>())).Returns<Guid>(id => { return Task.FromResult(asyncProducts.Where(x => x.Id == id).FirstOrDefault()); });
+            IQueryable<Product> mockProducts = products.BuildMock();
+            mockRepo.Setup(r => r.GetByIdAsync<Product>(It.IsAny<Guid>())).Returns<Guid>(id => { return Task.FromResult(mockProducts.Where(x => x.Id == id).FirstOrDefault()); });
 
             foreach (var prod in products)
             {
@@ -101,8 +99,8 @@ namespace ToyShop.Tests
                 products.Add(new Product() { Name = "Product_" + i, ReleasedOn = dateRelasedOn, IsAvailable = true, Category = new Category() { Id = categoriesCnt, Name = "Category_" + categoriesCnt }, });
             }
 
-            var asyncProducts = new TestAsyncEnumerable<Product>(products.AsQueryable());
-            mockRepo.Setup(r => r.AllReadonlyAsync<Product>()).Returns(asyncProducts.AsQueryable());
+            IQueryable<Product> mockProducts = products.BuildMock();
+            mockRepo.Setup(r => r.AllReadonlyAsync<Product>()).Returns(mockProducts.AsQueryable());
 
             var result = await productServiceTest.GetNewest10ProductsAsync();
             Assert.NotNull(result);
@@ -112,7 +110,8 @@ namespace ToyShop.Tests
             {
                 var prod = products.OrderByDescending(p => p.ReleasedOn).Skip(skipCnt++).FirstOrDefault();
                 Assert.That(prod.Name, Is.EqualTo(prodRes.ProductName));
-                Assert.That(prod.ReleasedOn.ToString(), Is.EqualTo(prodRes.ReleasedOn));                
+                Assert.That(prod.ReleasedOn.ToString(), Is.EqualTo(prodRes.ReleasedOn));
+                //TODO: Assign ReleasedOn prop on ProductInfoViewModel creation
             }
         }
 
@@ -141,21 +140,21 @@ namespace ToyShop.Tests
                 allProducts.Add(newProduct);
             }
 
-            var asyncProducts = new TestAsyncEnumerable<Product>(products.AsQueryable());
-            mockRepo.Setup(r => r.AllReadonlyAsync<Product>()).Returns(asyncProducts.AsQueryable());
+            IQueryable<Product> mockProducts = products.BuildMock();
+            mockRepo.Setup(r => r.AllReadonlyAsync<Product>()).Returns(mockProducts.AsQueryable());
 
-            var asyncCategories = new TestAsyncEnumerable<Category>(categories);
-            mockRepo.Setup(r => r.AllReadonlyAsync<Category>()).Returns(asyncCategories.AsQueryable());
+            IQueryable<Category> mockCategories = categories.BuildMock();
+            mockRepo.Setup(r => r.AllReadonlyAsync<Category>()).Returns(mockCategories.AsQueryable());
 
             mockRepo.Setup(r => r.AddAsync<Product>(It.IsAny<Product>())).Returns((Product product) =>
             {
-                asyncProducts = new TestAsyncEnumerable<Product>(asyncProducts.Concat(new[] { product }));
+                mockProducts = mockProducts.Append(product );
                 return Task.CompletedTask;
             });
 
             foreach (var prod in allProducts)
             {
-                if (products.Find(x => x.Id == prod.Id) != null)
+                if (products.Where(x => x.Id == prod.Id) != null)
                 {
                     await productServiceTest.AddProductAsync(new UIProductViewModel()
                     {
@@ -179,8 +178,8 @@ namespace ToyShop.Tests
                 }
             }
 
-            Assert.That(allProducts.Count, Is.EqualTo(asyncProducts.Count()));
-            foreach (var prodRes in asyncProducts)
+            Assert.That(allProducts.Count, Is.EqualTo(mockProducts.Count()));
+            foreach (var prodRes in mockProducts)
             {
                 Assert.That(prodRes.IsAvailable, Is.True);
             }
@@ -205,11 +204,11 @@ namespace ToyShop.Tests
                 products.Add(new Product() { Name = "Product_" + i, Category = category, CategoryId = category.Id, IsAvailable = false, Price = initalPrice, Quantity = initialQuantity });
             }
 
-            var asyncProducts = new TestAsyncEnumerable<Product>(products.AsQueryable());
-            mockRepo.Setup(r => r.GetByIdAsync<Product>(It.IsAny<Guid>())).Returns<Guid>(id => { return Task.FromResult(asyncProducts.Where(x => x.Id == id).FirstOrDefault()); });
+            IQueryable<Product> mockProducts = products.BuildMock();
+            mockRepo.Setup(r => r.GetByIdAsync<Product>(It.IsAny<Guid>())).Returns<Guid>(id => { return Task.FromResult(mockProducts.Where(x => x.Id == id).FirstOrDefault()); });
 
-            var asyncCategories = new TestAsyncEnumerable<Category>(categories);
-            mockRepo.Setup(r => r.AllReadonlyAsync<Category>()).Returns(asyncCategories.AsQueryable());
+            IQueryable<Category> mockCategories = categories.BuildMock();
+            mockRepo.Setup(r => r.AllReadonlyAsync<Category>()).Returns(mockCategories.AsQueryable());
 
             foreach (var prod in products)
             {
@@ -223,7 +222,7 @@ namespace ToyShop.Tests
                 }, prod.CategoryId.ToString());
             }
 
-            foreach (var prod in asyncProducts)
+            foreach (var prod in mockProducts)
             {
                 Assert.That(prod.Price, Is.EqualTo(newPrice));
                 Assert.That(prod.Quantity, Is.EqualTo(newQuantity));
@@ -239,8 +238,8 @@ namespace ToyShop.Tests
                 products.Add(new Product() { Name = "Product_" + i, IsAvailable = true });
             }
 
-            var asyncProducts = new TestAsyncEnumerable<Product>(products.AsQueryable());
-            mockRepo.Setup(r => r.GetByIdAsync<Product>(It.IsAny<Guid>())).Returns<Guid>(id => { return Task.FromResult(asyncProducts.Where(x => x.Id == id).FirstOrDefault()); });
+            IQueryable<Product> mockProducts = products.BuildMock();
+            mockRepo.Setup(r => r.GetByIdAsync<Product>(It.IsAny<Guid>())).Returns<Guid>(id => { return Task.FromResult(mockProducts.Where(x => x.Id == id).FirstOrDefault()); });
 
             foreach(var prod in products)
             {
@@ -252,15 +251,15 @@ namespace ToyShop.Tests
         [Test]
         public async Task TestAddToCartAsync()
         {
-            int productsCnt = random.Next(1, 30);
+            int productsCnt = random.Next(1, 10);
+            int userCount = random.Next(1, 5);
 
-            int userCount = random.Next(1, 10);
-            List<User> users = SetupUsers(userCount);
+            IList<User> users = SetupUsers(userCount);
             List<UserProductShoppingCart> usersProducts = new List<UserProductShoppingCart>();
 
             for (int i = 0; i < productsCnt; i++)
             {
-                var product = new Product() { Name = "Product_" + i };
+                products.Add(new Product() { Name = "Product_" + i });
             }
 
             for (int i = 0; i < users.Count; i++)
@@ -270,32 +269,227 @@ namespace ToyShop.Tests
                     bool addExistingProduct = random.Next(1, 10) % 2 == 0;
                     if (addExistingProduct)
                     {
-                        usersProducts.Add(new UserProductShoppingCart() { User = users[i], Product = products[i], BoughtQuantity = 1 });
+                        usersProducts.Add(new UserProductShoppingCart()
+                        {
+                            User = users[i],
+                            UserId = users[i].Id,
+                            Product = products[j],
+                            ProductId = products[j].Id,
+                            BoughtQuantity = 0
+                        });
                     }
                 }
             }
 
-            var asyncProducts = new TestAsyncEnumerable<Product>(products.AsQueryable());
-            mockRepo.Setup(r => r.GetByIdAsync<Product>(It.IsAny<Guid>())).Returns<Guid>(id => { return Task.FromResult(asyncProducts.Where(x => x.Id == id).FirstOrDefault()); });
+            IQueryable<Product> mockProducts = products.BuildMock();
+            mockRepo.Setup(r => r.GetByIdAsync<Product>(It.IsAny<Guid>())).Returns<Guid>(id =>
+            {
+                return Task.FromResult(mockProducts.Where(x => x.Id == id).FirstOrDefault());
+            });
 
-            var asyncUsers = new TestAsyncEnumerable<User>(users.AsQueryable());
-            mockRepo.Setup(r => r.GetByIdAsync<User>(It.IsAny<Guid>())).Returns<Guid>(id => { return Task.FromResult(asyncUsers.Where(x => x.Id == id).FirstOrDefault()); });
+            IQueryable<User> mockUsers = users.BuildMock();
+            mockRepo.Setup(r => r.GetByIdAsync<User>(It.IsAny<Guid>())).Returns<Guid>(id =>
+            {
+                return Task.FromResult(mockUsers.Where(x => x.Id == id).FirstOrDefault());
+            });
 
-            //var asyncUsers = new TestAsyncEnumerable<User>(users.AsQueryable());
-            //mockRepo.Setup(r => r.AddAsync(It.IsAny<UserProductShoppingCart>())).Callback(id => { return id; });
+            IQueryable<UserProductShoppingCart> mockUsersProduct = usersProducts.BuildMock();
+            mockRepo.Setup(r => r.AllReadonlyAsync<UserProductShoppingCart>()).Returns(mockUsersProduct.AsQueryable());
+            mockRepo.Setup(r => r.AddAsync(It.IsAny<UserProductShoppingCart>())).Returns((UserProductShoppingCart prd) =>
+            {
+                mockUsersProduct = mockUsersProduct.Append(prd);
+                return Task.CompletedTask;
+            });
 
             for (int i = 0; i < users.Count; i++)
             {
                 for (int j = 0; j < productsCnt; j++)
                 {
-                    await productServiceTest.AddToCartAsync(users[i].Id, products[i].Id);
+                    await productServiceTest.AddToCartAsync(users[i].Id, products[j].Id);
                 }
             }
 
-            foreach (var prod in products)
+            foreach(var userProduct in mockUsersProduct)
             {
-                await productServiceTest.DeleteProductAsync(prod.Id);
-                Assert.That(prod.IsAvailable, Is.EqualTo(false));
+                Assert.That(userProduct.BoughtQuantity, Is.GreaterThan(0));
+            }
+            Assert.That(mockUsersProduct.Count(), Is.EqualTo(productsCnt * users.Count));
+        }
+
+        [Test]
+        public async Task TestRemoveFromCartAsync()
+        {
+            int productsCnt = random.Next(1, 10);
+
+            int userCnt = random.Next(1, 5);
+            IList<User> users = SetupUsers(userCnt);
+            List<UserProductShoppingCart> usersProducts = new List<UserProductShoppingCart>();
+            List<UserProductShoppingCart> removedusersProducts = new List<UserProductShoppingCart>();
+
+            for (int i = 0; i < productsCnt; i++)
+            {
+                products.Add(new Product() { Name = "Product_" + i });
+            }
+
+            foreach(var user in users)
+            {
+                foreach (var product in products)
+                {
+                    usersProducts.Add(new UserProductShoppingCart()
+                    {
+                        User = user,
+                        UserId = user.Id,
+                        Product = product,
+                        ProductId = product.Id,
+                        BoughtQuantity = 0
+                    });
+                }
+            }
+
+            IQueryable<UserProductShoppingCart> mockUsersProduct = usersProducts.BuildMock();
+            mockRepo.Setup(r => r.AllReadonlyAsync<UserProductShoppingCart>()).Returns(mockUsersProduct.AsQueryable());
+            mockRepo.Setup(r => r.RemoveAsync(It.IsAny<UserProductShoppingCart>())).Returns((UserProductShoppingCart prd) =>
+            {
+                mockUsersProduct = mockUsersProduct.Except(new[] { prd });
+                removedusersProducts.Add(prd);
+                return Task.CompletedTask;
+            });
+
+            bool atLeastOneRemoved = false;
+            foreach (var user in users)
+            {
+                foreach (var product in products)
+                {
+                    if (random.Next(0, 10) % 2 == 0 && !atLeastOneRemoved)
+                    {
+                        atLeastOneRemoved = true;
+                        await productServiceTest.RemoveFromCartAsync(user.Id, product.Id);
+                    }
+                }
+            }
+
+            Assert.That(removedusersProducts.Count + mockUsersProduct.Count(), Is.EqualTo(userCnt * productsCnt));
+            foreach (var removed in removedusersProducts)
+            {
+                Assert.That(removed, !Is.AnyOf(mockUsersProduct));
+            }
+        }
+
+        [Test]
+        public async Task TestAddToWishlistAsync()
+        {
+            int productsCnt = random.Next(1, 10);
+            int userCnt = random.Next(1, 5);
+            IList<User> users = SetupUsers(userCnt);
+            IList<UserProductWhishlist> usersProducts = new List<UserProductWhishlist>();
+
+            for (int i = 0; i < productsCnt; i++)
+            {
+                products.Add(new Product() { Name = "Product_" + i });
+            }
+
+            foreach (var user in users)
+            {
+                foreach (var product in products)
+                {
+                    if (random.Next(0, 10) % 2 == 0)
+                    {
+                        usersProducts.Add(new UserProductWhishlist()
+                        {
+                            User = user,
+                            UserId = user.Id,
+                            Product = product,
+                            ProductId = product.Id,
+                        });
+                    }
+                }
+            }
+            IQueryable<Product> mockProducts = products.BuildMock();
+            mockRepo.Setup(r => r.GetByIdAsync<Product>(It.IsAny<Guid>())).Returns<Guid>(id =>
+            {
+                return Task.FromResult(mockProducts.Where(x => x.Id == id).FirstOrDefault());
+            });
+
+            IQueryable<User> mockUsers = users.BuildMock();
+            mockRepo.Setup(r => r.GetByIdAsync<User>(It.IsAny<Guid>())).Returns<Guid>(id =>
+            {
+                return Task.FromResult(mockUsers.Where(x => x.Id == id).FirstOrDefault());
+            });
+
+            IQueryable<UserProductWhishlist> mockUsersProduct = usersProducts.BuildMock();
+            mockRepo.Setup(r => r.AllReadonlyAsync<UserProductWhishlist>()).Returns(mockUsersProduct.AsQueryable());
+            mockRepo.Setup(r => r.AddAsync(It.IsAny<UserProductWhishlist>())).Returns((UserProductWhishlist prd) =>
+            {
+                mockUsersProduct = mockUsersProduct.Concat(new[] { prd });
+                return Task.CompletedTask;
+            });
+
+            foreach (var user in users)
+            {
+                foreach (var product in products)
+                {
+                    await productServiceTest.AddToWishlistAsync(user.Id, product.Id);
+                }
+            }
+
+            Assert.That(mockUsersProduct.Count(), Is.EqualTo(userCnt * productsCnt));
+        }
+
+        [Test]
+        public async Task TestRemoveFromWhishlistAsync()
+        {
+            int productsCnt = random.Next(1, 10);
+            int userCnt = random.Next(1, 5);
+
+            IList<User> users = SetupUsers(userCnt);
+            IList<UserProductWhishlist> usersProducts = new List<UserProductWhishlist>();
+            IList<UserProductWhishlist> removedusersProducts = new List<UserProductWhishlist>();
+
+            for (int i = 0; i < productsCnt; i++)
+            {
+                products.Add(new Product() { Name = "Product_" + i });
+            }
+
+            foreach (var user in users)
+            {
+                foreach (var product in products)
+                {
+                    usersProducts.Add(new UserProductWhishlist()
+                    {
+                        User = user,
+                        UserId = user.Id,
+                        Product = product,
+                        ProductId = product.Id,
+                    });
+                }
+            }
+
+            IQueryable<UserProductWhishlist> mockUsersProduct = usersProducts.BuildMock();
+            mockRepo.Setup(r => r.AllReadonlyAsync<UserProductWhishlist>()).Returns(mockUsersProduct.AsQueryable());
+            mockRepo.Setup(r => r.RemoveAsync(It.IsAny<UserProductWhishlist>())).Returns((UserProductWhishlist prd) =>
+            {
+                mockUsersProduct = mockUsersProduct.Except(new[] { prd });
+                removedusersProducts.Add(prd);
+                return Task.CompletedTask;
+            });
+
+            bool atLeastOneRemoved = false;
+            foreach (var user in users)
+            {
+                foreach (var product in products)
+                {
+                    if (random.Next(0, 10) % 2 == 0 && !atLeastOneRemoved)
+                    {
+                        atLeastOneRemoved = true;
+                        await productServiceTest.RemoveFromWhishlistAsync(user.Id, product.Id);
+                    }
+                }
+            }
+
+            Assert.That(removedusersProducts.Count + mockUsersProduct.Count(), Is.EqualTo(userCnt * productsCnt));
+            foreach (var removed in removedusersProducts)
+            {
+                Assert.That(removed, !Is.AnyOf(mockUsersProduct));
             }
         }
     }
